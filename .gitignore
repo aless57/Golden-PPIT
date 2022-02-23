@@ -1,0 +1,14 @@
+.idea/
+
+img/
+/img
+
+config/
+/config
+
+img/
+vendor/
+/vendor
+
+composer.json
+composer.lock
