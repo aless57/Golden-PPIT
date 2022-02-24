@@ -26,7 +26,11 @@ class VueInscription
     public function render(int $select): string
     {
         switch ($select) {
-            case 0:
+            case 0: //L'utilisateur est connecté, on le renvoie sur l'accueil
+            {
+
+            }
+            case 1 : //L'utilisateur n'est pas connecté, on lui affiche le formulaire d'inscription
             {
 
             }
@@ -39,7 +43,7 @@ class VueInscription
 </head>
 
 <body>
-    <h1>Créer un copte et gérez vos événements en toute tranquilité !</h1>
+    <h1>Créer un compte et gérez vos événements en toute tranquilité !</h1>
 		<form method="post" action="#">
 			<fieldset>
 				Nom :
@@ -47,21 +51,21 @@ class VueInscription
 				Prénom :
 				<input type="text" name="prenom" placeholder="Votre prénom" pattern="[a-ZA-Z]+" required="required"/><br />
 				Date de naissance :
-				<input type="date" name="naissance" placeholder="//-//-////" /><br />
+				<input type="date" name="naissance" placeholder="XX-XX-XXXX" /><br />
 				Numéro de téléphone : 
-				<input type="text" name="tel" placeholder="0X XX XX XX XX" pattern="0[0-9]{9}"/><br />
+				<input type="tel" name="tel" placeholder="0X XX XX XX XX"/><br />
 				E-mail :
-				<input type="text" name="mail" placeholder="exemple@exemple.fr" required="required"/><br />
+				<input type="email" name="mail" placeholder="exemple@exemple.fr" required="required"/><br />
 				Mot de passe :
-				<input type="text" name="mdp" placeholder="**********" required="required"/><br />
+				<input type="password" name="mdp" placeholder="**********" required="required"/><br />
 				Confirmation de mot de passe : 
-				<input type="text" name="mdpconfirm" placeholder="**********" required="required"/><br />
+				<input type="password" name="mdpconfirm" placeholder="**********" required="required"/><br />
 				Adresse :
 				<input type="text" name="adr" placeholder="Votre adresse"/><br />
 				Code Postal :
-				<input type="text" name="cp" placeholder="Votre code postal"/><br />
+				<input type="text" name="cp" placeholder="Votre code postal" pattern="[0-9]{5}"/><br />
 				Département :
-				<input type="text" name="dep" placeholder="Votre département" required="required"/><br />
+				<input type="text" name="dep" placeholder="Votre département" pattern="[a-zA-z\-\']+" required="required"/><br />
 				
 				<input type="file" name="photo" placeholder="photo"
 				
