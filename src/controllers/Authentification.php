@@ -1,12 +1,12 @@
 <?php
 
 namespace goldenppit\controllers;
-use \goldenppit\models\Utilisateur;
+use \goldenppit\models\utilisateur;
+use \goldenppit\models\ville;
 
 /**
  * Class Authentication
- * @author Alessi
- * @package boissons\controls
+ * @package goldenppit\controllers
  */
 class Authentification {
     /**
@@ -17,21 +17,21 @@ class Authentification {
      * @param $password
      * @throws \Exception
      */
-    public static function createUser($mail, $password, $nom, $prenom, $sexe, $date_naissance, $tel, $photo, $notif_mail) {
+    public static function createUser($mail, $password, $nom, $prenom, $sexe, $date_naissance, $tel, $photo, $notif_mail, $ville) {
         $nb = Utilisateur::where('mail','=',$mail)->count();
         if ($nb == 0) {
             $u = new Utilisateur();
-            $u->mail = $mail;
-            $u->mdp = password_hash($password, PASSWORD_DEFAULT);
-            $u->nom = $nom;
-            $u->prenom = $prenom;
-            $u->sexe = $sexe;
-            $u->date_naissance = $date_naissance;
-            $u->tel = $tel;
-            $u->photo = $photo;
-            $u->notif_mail = $notif_mail;
-            $u->statut = "membre";
-            $u->id_ville = 1;//TODO
+            $u->u_mail = $mail;
+            $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
+            $u->u_nom = $nom;
+            $u->u_prenom = $prenom;
+            $u->u_sexe = $sexe;
+            $u->u_naissance = $date_naissance;
+            $u->u_tel = $tel;
+            $u->u_photo = $photo;
+            $u->u_notif_mail = $notif_mail;
+            $u->u_statut = "membre";
+            $u->u_ville = Ville::where('v_nom','LIKE',$ville)->first()->v_id;
             $u->save();
             return true;
         } else {
@@ -46,14 +46,14 @@ class Authentification {
      * @return bool
      */
     public static function authenticate($mail, $password) {
-        $u = Utilisateur::where('mail','LIKE',$mail)->first();
+        $u = Utilisateur::where('u_mail','LIKE',$mail)->first();
         if(gettype($u) != 'NULL'){
-            $res = password_verify($password, $u->mdp);
+            $res = password_verify($password, $u->u_mdp);
         }else{
             $res = false;
         }
         if ($res){
-            self::loadProfile($u->login);
+            self::loadProfile($u->u_mail);
         }
         return $res;
     }
@@ -67,7 +67,7 @@ class Authentification {
         $_SESSION = [];
         session_start();
         setcookie("mail", $mail, time() + 60*60*24*30, "/" );
-        $_SESSION['profile'] = array('user' => Utilisateur::where('mail','=',$mail)->first()->login, 'mail' => $mail);
+        $_SESSION['profile'] = array('user' => Utilisateur::where('u_mail','=',$mail)->first()->login, 'mail' => $mail);
     }
 
     public static function checkAccessRights($required) {}

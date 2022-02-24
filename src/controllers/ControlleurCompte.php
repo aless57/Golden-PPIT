@@ -4,6 +4,9 @@ namespace goldenppit\controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use \goldenppit\models\Utilisateur;
+use \goldenppit\models\Ville;
+
 class ControlleurCompte
 {
     private $container;
@@ -48,9 +51,14 @@ class ControlleurCompte
         $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
         $naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
         $ville = filter_var($post['id_ville'], FILTER_SANITIZE_STRING);
+        $notif_mail = filter_var($post['notif_mail'], FILTER_SANITIZE_NUMBER_INT);
         $tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
         $vue = new VueCompte( [ 'mail' => $mail ] , $this->container ) ;
-        if (Authentification::createUser($nom, $prenom, $pass, $sexe, $mail, $naissance, $ville, $tel)){
+        $notif = 0;
+        if($notif_mail){
+            $notif = 1;
+        }
+        if (Authentification::createUser($nom, $prenom, $pass, $sexe, $mail, $naissance, $ville, $tel, $notif, $ville)){
             Authentification::authenticate($mail, $pass);
             $_SESSION['inscriptionOK'] = true;
             $url_accueil = $this->container->router->pathFor("afficherCompte");
@@ -209,15 +217,14 @@ class ControlleurCompte
             $vue = new VueCompte($infoUser->toArray(), $this->container);
             $rs->getBody()->write($vue->render(9));
             return $rs;
-        }
-        else {
-            $infoUser->nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
-            $infoUser->prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING);
-            $infoUser->login = filter_var($post['login'], FILTER_SANITIZE_STRING);
-            $infoUser->mail = filter_var($post['mail'], FILTER_SANITIZE_STRING);
-            $infoUser->mail = filter_var($post['sexe'], FILTER_SANITIZE_STRING);
-            $infoUser->mail = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
-            $infoUser->mail = filter_var($post['tel'], FILTER_SANITIZE_STRING);
+        }else {
+            $infoUser->u_nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+            $infoUser->u_prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING);
+            $infoUser->u_login = filter_var($post['login'], FILTER_SANITIZE_STRING);
+            $infoUser->u_mail = filter_var($post['mail'], FILTER_SANITIZE_STRING);
+            $infoUser->u_sexe = filter_var($post['sexe'], FILTER_SANITIZE_STRING);
+            $infoUser->u_naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
+            $infoUser->u_tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
             $infoUser->save();
             $vue = new VueCompte( $infoUser->toArray(), $this->container ) ;
             $_SESSION['profile']['mail'] = $nouveauMail;
