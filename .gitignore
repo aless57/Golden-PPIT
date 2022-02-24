@@ -10,3 +10,5 @@ img/
 vendor/
 /vendor
 
+/config/config.ini
+/composer.phar

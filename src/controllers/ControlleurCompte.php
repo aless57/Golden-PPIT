@@ -2,6 +2,7 @@
 
 namespace goldenppit\controllers;
 
+use goldenppit\views\VueConnexion;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \goldenppit\models\Utilisateur;
@@ -30,7 +31,7 @@ class ControlleurCompte
      */
     public function inscription(Request $rq, Response $rs, $args) : Response {
         $vue = new VueCompte( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(3)) ;
+        $rs->getBody()->write( $vue->render(0)) ;
         return $rs;
     }
 
@@ -82,14 +83,18 @@ class ControlleurCompte
             if(!$_SESSION['connexionOK']){
                 session_destroy();
                 $_SESSION = [];
-                $vue = new VueCompte([] , $this->container) ;
+                $vue = new VueConnexion([] , $this->container) ;
+                $rs->getBody()->write( $vue->render(1));
+                return $rs;
+            }{
+                $vue = new VueConnexion([], $this->container);
                 $rs->getBody()->write( $vue->render(0));
                 return $rs;
             }
             //autre cas (avec les inscriptions)
         }else{
-            $vue = new VueCompte([], $this->container);
-            $rs->getBody()->write( $vue->render(1));
+            $vue = new VueConnexion([], $this->container);
+            $rs->getBody()->write( $vue->render(0));
             return $rs;
         }
     }

@@ -6,6 +6,7 @@ session_start();
 require 'vendor/autoload.php';
 
 use goldenppit\controllers\ControlleurAccueil;
+use goldenppit\controllers\ControlleurCompte;
 
 $config = ['settings' => [
     'displayErrorDetails' => true,
@@ -22,6 +23,6 @@ $app = new \Slim\App($container);
 
 //Chemin Accueil
 $app->get('/', ControlleurAccueil::class.':accueil')->setName('racine');
-
+$app->get('/connexion', ControlleurCompte::class.':connexion')->setName('formConnexion');
 
 $app->run();
