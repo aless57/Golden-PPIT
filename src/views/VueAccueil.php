@@ -26,11 +26,13 @@ class VueAccueil{
     public function render( int $select ) : string
     {
         $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
+        $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
         switch ($select){
             case 0:
             {
             $content = <<<FIN
 <a href="$url_formConnexion"> Form Connexion </a>
+<a href="$url_formInsription"> Form Inscription </a>
 FIN;
 
             }
@@ -39,11 +41,12 @@ FIN;
 <html>
 
 <head>
-    <title>Slat'Koktel</title>
+    <title>GoldenPPIT</title>
 </head>
 
 <body>
     $content
+    test
 </body>
 </html>
 FIN;

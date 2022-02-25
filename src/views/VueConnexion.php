@@ -30,7 +30,7 @@ class VueConnexion
         switch ($select) {
             case 0:
             {
-                $content += <<<FIN
+                $content = <<<FIN
         <h1>Connexion</h1>
     <form name="connexion" method="POST" action="">
         E-mail :<input type="text" name="u_mail" placeholder="exemple@exemple.fr">
@@ -43,20 +43,22 @@ FIN;
             }
             case 1:
             {
-                $content += "connexion ok";
+                $content = "connexion ok";
             }
+            default:
+                $content = $select;
         }
 
         $html = <<<FIN
 <html>
 
 <head>
-    <title>TODO</title>
+    <title>Connexion</title>
 </head>
 
 <body>
 $content
-    
+    test
 </body>
 </html>
 FIN;

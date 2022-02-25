@@ -25,6 +25,7 @@ class VueInscription
      */
     public function render(int $select): string
     {
+        $url_formConnexion = $this->container->router->pathFor( 'formInscription' ) ;
         switch ($select) {
             case 0: //L'utilisateur est connecté, on le renvoie sur l'accueil
             {

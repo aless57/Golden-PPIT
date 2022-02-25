@@ -3,6 +3,7 @@
 namespace goldenppit\controllers;
 
 use goldenppit\views\VueConnexion;
+use goldenppit\views\VueInscription;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \goldenppit\models\Utilisateur;
@@ -30,7 +31,7 @@ class ControlleurCompte
      * @return Response
      */
     public function inscription(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueCompte( [] , $this->container ) ;
+        $vue = new VueInscription( [] , $this->container ) ;
         $rs->getBody()->write( $vue->render(0)) ;
         return $rs;
     }
