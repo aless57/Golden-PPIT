@@ -25,12 +25,27 @@ class VueAccueil{
      */
     public function render( int $select ) : string
     {
+        $url_accueil = $this->container->router->pathFor('racine');
         $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
         $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
         switch ($select){
             case 0:
             {
             $content = <<<FIN
+<section>
+    <div class="logo-accueil" >            
+        <img src="images/logo-accueil.png" class="img-logo">
+    </div>
+        <div class="text-center">
+            <p class = "p-accueil"> Rejoignez notre communauté et devenez membre de notre association ! </p>
+            <button class="bouton-bleu" type="button" onclick="window.location.href='$url_formInsription'">Créer un compte</button>
+          
+            <p class = "p-accueil2"> Vous avez déjà un compte? <a href="$url_formConnexion"> Connectez-vous!</a> </p>
+
+        <div class="clearfix"></div>
+        </div>
+        
+    </section>
 FIN;
 
             }
@@ -44,25 +59,37 @@ FIN;
 </head>
 
 <body>
-    <section class="navbar">
+    <nav>
+        <div class ="container">
             <div class="logo">
-                <a href="racine" title="logo">
-                    <img src="images/logo.png" class="img-responsive">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png" >
                 </a>
             </div>
 
             <div class="menu text-right">
                 <ul>
-                        <a href="$url_formConnexion"> Se connecter </a>
-                    </li>
-                    <li>
-                        <a href="$url_formInsription"> S'inscrire </a>
-                    </li>                    
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>                    
                 </ul>
             </div>
 
             <div class="clearfix"></div>
-    </section>
+        </div>
+    </nav>
+    <div class = "content-wrap">
+        $content
+    </div>
+    
+    <footer>
+    <div class="clearfix"></div>
+        <div class="container text-center">
+                <a href="#"> Nous contacter </a>
+                <a href="#"> A propos de nous </a>
+                <p> © 2022 GoldenPPIT. Tous droits réservés </p>
+        </div>    
+    
+    </footer>
 </body>
 </html>
 FIN;

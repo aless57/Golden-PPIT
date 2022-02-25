@@ -1,34 +1,141 @@
-html, body {
+*{
     margin: 0;
     padding: 0;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    font-weight: bold;
+
+}
+html{
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+
 }
 body {
-    background-color: white;
-    font-family: Verdana, sans-serif;
+    position: relative;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
     font-size: 100%;
 }
-.navbar{
-    position: absolute;
-    width: 1441px;
-    height: 81px;
-    left: 0px;
-    top: -13px;
 
+.container{
+    width: 80%;
+    margin: 0 auto;
+    padding: 1%;
+}
+.clearfix{
+    text-align: center;
+    clear: both;
+    float: none;
+}
+/**Les liens**/
+a{
+    color: white;
+    text-decoration: none;
+    justify-content: space-around;
+}
+a:hover{
+    color: lightsteelblue;
+}
+.text-center{
+    text-align: center;
+}
+/**CSS pour la barre de navigation**/
+nav{
     /* Blue gradient */
     background: linear-gradient(180deg, #4FB3D9 0%, #4BABD4 15.63%, #4299C8 48.96%, #357EB7 100%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.menu ul li{
-    display:inline;
-    padding: 1%;
+.logo{
+    width: 5%;
+    float: left;
+}
+.menu{
+    line-height: 60px;
+}
+.menu ul{
     list-style-type: none;
 }
-
-.logo{
-    width: 1%;
+.menu ul li{
+    display:inline;
+    padding:1%;
 }
+
 
 .text-right{
     text-align: right;
+}
+
+
+/**Page principale**/
+.content-wrap{
+    padding-bottom: 4rem;
+}
+.logo-accueil{
+    padding-top:5% ;
+    width: auto;
+    height: auto;
+}
+.img-logo{
+    display: flex;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto ;
+}
+.bouton-bleu{
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width: 20%;
+    height: 40px;
+    font-size: 18px;
+    line-height: 29px;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor:pointer;
+}
+.bouton-bleu:hover{
+    color: lightsteelblue;
+}
+
+.p-accueil{
+    color: #4299C8;
+    font-weight: bolder;
+    padding-top: 4%;
+    padding-bottom: 1%;
+}
+.p-accueil2{
+    color: black;
+    font-weight: normal;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+.p-accueil2 a{
+    color: black;
+    font-weight: normal;
+
+}
+.p-accueil2 a:hover{
+    color:#4299C8;;
+    font-weight: normal;
+
+}
+
+/**Footer**/
+footer{
+    position: absolute;
+    bottom : 0;
+    width:100%;
+    height:4rem;
+    text-align: center;
+}
+footer a{
+    color:black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+footer a:hover{
+    color:#4299C8;
 }
