@@ -31,8 +31,6 @@ class VueAccueil{
             case 0:
             {
             $content = <<<FIN
-<a href="$url_formConnexion"> Form Connexion </a>
-<a href="$url_formInsription"> Form Inscription </a>
 FIN;
 
             }
@@ -42,11 +40,29 @@ FIN;
 
 <head>
     <title>GoldenPPIT</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    $content
-    test
+    <section class="navbar">
+            <div class="logo">
+                <a href="racine" title="logo">
+                    <img src="images/logo.png" class="img-responsive">
+                </a>
+            </div>
+
+            <div class="menu text-right">
+                <ul>
+                        <a href="$url_formConnexion"> Se connecter </a>
+                    </li>
+                    <li>
+                        <a href="$url_formInsription"> S'inscrire </a>
+                    </li>                    
+                </ul>
+            </div>
+
+            <div class="clearfix"></div>
+    </section>
 </body>
 </html>
 FIN;

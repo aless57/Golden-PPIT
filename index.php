@@ -24,7 +24,7 @@ $app = new \Slim\App($container);
 //Chemin Accueil
 $app->get('/', ControlleurAccueil::class.':accueil')->setName('racine');
 $app->get('/connexion', ControlleurCompte::class.':connexion')->setName('formConnexion');
-$app->get('/inscription', ControlleurCompte::class.':inscritpion')->setName('formInscription');
+$app->get('/inscription', ControlleurCompte::class.':inscription')->setName('formInscription');
 
 
 $app->run();

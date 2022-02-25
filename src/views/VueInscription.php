@@ -35,6 +35,7 @@ class VueInscription
             {
 
             }
+
         }
         $html = <<<FIN
 <html>
