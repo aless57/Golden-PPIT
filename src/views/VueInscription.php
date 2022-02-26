@@ -37,6 +37,7 @@ class VueInscription
             }
 
         }
+        $url_enregistrerInscription = $this->container->router->pathFor( 'enregistrerInscription' ) ;
         $html = <<<FIN
 <html>
 
@@ -46,7 +47,7 @@ class VueInscription
 
 <body>
     <h1>Créer un compte et gérez vos événements en toute tranquilité !</h1>
-		<form method="post" action="#">
+		<form method="post" action="$url_enregistrerInscription">
 			<fieldset>
 				Nom :
 				<input type="text" name="nom" placeholder="Votre nom" pattern="[a-ZA-Z]+" required="required"/><br />

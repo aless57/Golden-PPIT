@@ -2,6 +2,7 @@
 
 namespace goldenppit\controllers;
 
+use goldenppit\views\VueAccueil;
 use goldenppit\views\VueConnexion;
 use goldenppit\views\VueInscription;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -46,24 +47,24 @@ class ControlleurCompte
      */
     public function enregistrerInscription(Request $rq, Response $rs, $args) : Response {
         $post = $rq->getParsedBody();
-        $pass = filter_var($post['pass'] , FILTER_SANITIZE_STRING) ;
+
         $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
         $prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING);
-        $sexe = filter_var($post['sexe'], FILTER_SANITIZE_STRING);
-        $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
         $naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
-        $ville = filter_var($post['id_ville'], FILTER_SANITIZE_STRING);
-        $notif_mail = filter_var($post['notif_mail'], FILTER_SANITIZE_NUMBER_INT);
         $tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
-        $vue = new VueCompte( [ 'mail' => $mail ] , $this->container ) ;
-        $notif = 0;
-        if($notif_mail){
-            $notif = 1;
-        }
-        if (Authentification::createUser($nom, $prenom, $pass, $sexe, $mail, $naissance, $ville, $tel, $notif, $ville)){
-            Authentification::authenticate($mail, $pass);
+        $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
+        $mdp = filter_var($post['mdp'] , FILTER_SANITIZE_STRING) ;
+        $adr = filter_var($post['adr'] , FILTER_SANITIZE_STRING) ;
+        $cp = filter_var($post['cp'] , FILTER_SANITIZE_STRING) ;
+        $dep = filter_var($post['dep'] , FILTER_SANITIZE_STRING) ;
+        $photo = filter_var($post['mdp'] , FILTER_SANITIZE_STRING) ;
+        $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
+
+        $vue = new VueAccueil([], $this->container ) ;
+        if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr)){
+            Authentification::authenticate($mail, $mdp);
             $_SESSION['inscriptionOK'] = true;
-            $url_accueil = $this->container->router->pathFor("afficherCompte");
+            $url_accueil = $this->container->router->pathFor("accueil");
             return $rs->withRedirect($url_accueil);
         }else{
             $rs->getBody()->write( $vue->render(2));
@@ -110,8 +111,8 @@ class ControlleurCompte
      */
     public function testConnexion(Request $rq, Response $rs, $args) : Response {
         $post = $rq->getParsedBody() ;
-        $login = filter_var($post['mail']       , FILTER_SANITIZE_STRING) ;
-        $pass = filter_var($post['pass'] , FILTER_SANITIZE_STRING) ;
+        $login = filter_var($post['u_mail']       , FILTER_SANITIZE_STRING) ;
+        $pass = filter_var($post['u_mdp'] , FILTER_SANITIZE_STRING) ;
         $connexionOK = Authentification::authenticate($login, $pass);
         var_dump($connexionOK);
         if ($connexionOK){

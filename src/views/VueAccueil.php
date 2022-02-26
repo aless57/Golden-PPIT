@@ -28,10 +28,11 @@ class VueAccueil{
         $url_accueil = $this->container->router->pathFor('racine');
         $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
         $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
+        $content="";
         switch ($select){
             case 0:
             {
-            $content = <<<FIN
+            $content .= <<<FIN
 <section>
     <div class="logo-accueil" >            
         <img src="images/logo-accueil.png" class="img-logo">
@@ -47,7 +48,18 @@ class VueAccueil{
         
     </section>
 FIN;
+            break;
 
+            }
+            case 1:
+            {
+                $content .= "Connecté ^^";
+                break;
+            }
+            case 2:
+            {
+                $content .= "Probleme de connexion";
+                break;
             }
         }
         $html =<<<FIN
