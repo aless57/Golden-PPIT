@@ -3,7 +3,7 @@
     padding: 0;
     text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
     font-weight: bold;
-
+    list-style-type: none;
 }
 html{
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
@@ -120,6 +120,65 @@ nav{
     color:#4299C8;;
     font-weight: normal;
 
+}
+
+/** Connexion **/
+
+.droite{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 80vh;
+}
+
+.titre_connexion{
+
+    /* header text */
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 43px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.02em;
+
+
+    color: black;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.box-input{
+    background: #C4C4C4;
+    border: 2px solid #000000;
+    box-sizing: initial;
+    border-radius: 20px;
+}
+
+
+.bouton-bleu-connexion{
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width: 10%;
+    height: 20px;
+    font-size: 18px;
+    line-height: 29px;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+    border: 2px solid #000000;
+    border-radius: 20px;
+    cursor:pointer;
+}
+
+.alignement{
+    display: flex;
+    justify-content: space-around;
+    width: 450px;
+}
+
+.loginFemme{
+    width: 30%;
 }
 
 /**Footer**/
