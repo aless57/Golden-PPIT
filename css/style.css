@@ -1,19 +1,35 @@
-*{
+*{ /**CSS pour tout*/
     margin: 0;
     padding: 0;
     text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
     font-weight: bold;
     list-style-type: none;
+
 }
-html{
+html{ /**Fond de la page principale*/
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    position: relative;
 
 }
 body {
-    position: relative;
-    min-height: 100vh;
+    min-height: 100vh; /*Le body prend 100 % de la hauteur de la viewport */
     font-family: Arial, sans-serif;
     font-size: 100%;
+}
+body::-webkit-scrollbar{
+    width : 0.25rem;
+}
+body::-webkit-scrollbar-track{
+    background: #C4C4C4;
+}
+body::-webkit-scrollbar-thumb{
+    background: black;
+}
+h1{
+    padding-top : 2%;
+    padding-bottom: 2%;
+    text-shadow: 1px 2px rgba(0, 0, 0, 0.25);
+
 }
 
 .container{
@@ -28,12 +44,41 @@ body {
 }
 /**Les liens**/
 a{
-    color: white;
     text-decoration: none;
-    justify-content: space-around;
 }
-a:hover{
-    color: lightsteelblue;
+.menu a{
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    text-transform:uppercase;
+}
+.menu a:after{
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+.menu a:hover:after{
+    width: 100%;
+    left: 0;
+}
+
+footer a {
+    color:black;
+    background: linear-gradient(to right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
+
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.5s ease-out;
+}
+footer a:hover{
+    background-position: -100%;
 }
 .text-center{
     text-align: center;
@@ -153,7 +198,7 @@ nav{
     background: #C4C4C4;
     border: 2px solid #000000;
     box-sizing: initial;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 
@@ -181,18 +226,95 @@ nav{
     width: 30%;
 }
 
+
+/**inscription**/
+
+.fieldset{
+    float:left; /* add this */
+    padding:1% ;
+    width : 45%;
+    justify-content: space-between;
+    line-height: 25px;
+    border : none;
+    border-radius: 10px;
+    height: 500px;
+
+}
+
+.fieldset input{
+    border-radius:10px;
+    border: 2px solid #000000;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    padding-left: 10px;
+    font-size: 15px;
+    text-shadow:none;
+    width : 240px;
+    float : right;
+    height : 35px;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
+}
+
+.span {
+    text-align: right;
+    float: right;
+    align-items: center;
+    justify-content: space-between;
+}
+.req-img{
+    padding-top: 10px;
+    width :15px;
+    height: 15px;
+}
+
+.field{
+    padding-bottom:12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.field input[type= "checkbox"]  {
+    width :20px;
+    height : 20px;
+    border: 2px solid #000000;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
+    cursor : pointer;
+    padding: 10px;
+}
+.field input[type = "checkbox"]:checked{
+    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+}
+.cb-label{
+    padding-left: 10%;
+    width :400px;
+    display :flex;
+    float:left;
+    text-align:left;
+    padding-top : 1%;
+}
+
+input[type="file"]{
+    display: none;
+}
+.pp-img{
+    width : 150px;
+    height : 130px;
+    cursor: pointer;
+    padding-top: 20%;
+    padding-bottom: 100px;
+    padding-left : 200px;
+}
 /**Footer**/
 footer{
-    position: absolute;
+    position:relative;
     bottom : 0;
     width:100%;
     height:4rem;
     text-align: center;
-}
-footer a{
-    color:black;
-    text-decoration: none;
-    cursor: pointer;
+    align-content: center;
+    padding-top: 10%;
 }
 
 footer a:hover{

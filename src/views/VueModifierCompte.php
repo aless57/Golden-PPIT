@@ -64,7 +64,7 @@ FIN;
     <nav>  
         <div class ="container">
             <div class="logo">
-                <a herf="$url_accueil" title="logo">
+                <a href="$url_accueil" title="logo">
                     <img src="images/logo-white.png">
                 </a>
             </div>
@@ -72,7 +72,7 @@ FIN;
             
                 <ul>
                 
-                    <li> <a herf="$url_formConnexion"> gggg </a> </li>
+                    <li> <a href="$url_formConnexion"> gggg </a> </li>
                 
                 </ul>
             </div>

@@ -95,16 +95,14 @@ FIN;
         $content
     </div>
     
-    <footer>
-    <div class="clearfix"></div>
-        <div class="container text-center">
-                <a href="#"> Nous contacter </a>
-                <a href="#"> A propos de nous </a>
-                <p> © 2022 GoldenPPIT. Tous droits réservés </p>
-        </div>    
-    
-    </footer>
 </body>
+<footer>
+<div class="container">
+                <a href="#" class="text-center"> Nous contacter </a>
+                <a href="#" class="text-center"> A propos de nous </a>
+                <p class="text-center"> © 2022 GoldenPPIT. Tous droits réservés </p>
+    </div>
+    </footer>
 </html>
 FIN;
 
