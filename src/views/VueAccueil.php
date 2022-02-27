@@ -28,6 +28,7 @@ class VueAccueil{
         $url_accueil = $this->container->router->pathFor('racine');
         $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
         $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
+        $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
         $content="";
         switch ($select){
             case 0:
@@ -82,7 +83,8 @@ FIN;
             <div class="menu text-right">
                 <ul>
                     <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>                    
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
+                    <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>              
                 </ul>
             </div>
 

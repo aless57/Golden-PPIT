@@ -7,6 +7,7 @@ require 'vendor/autoload.php';
 
 use goldenppit\controllers\ControlleurAccueil;
 use goldenppit\controllers\ControlleurCompte;
+use goldenppit\controllers\ControlleurModifierCompte;
 
 $config = ['settings' => [
     'displayErrorDetails' => true,
@@ -29,6 +30,6 @@ $app->get('/accueil', ControlleurAccueil::class.':accueil')->setName('accueil');
 $app->get('/connexion', ControlleurCompte::class.':connexion')->setName('formConnexion');
 $app->get('/inscription', ControlleurCompte::class.':inscription')->setName('formInscription');
 $app->post('/inscription', ControlleurCompte::class.':enregistrerInscription')->setName('enregistrerInscription');
-
+$app->get('/ModifierCompte', ControlleurModifierCompte::class.':modifierCompte')->setName('formModifierCompte');
 
 $app->run();
