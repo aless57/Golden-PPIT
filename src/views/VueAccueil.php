@@ -54,7 +54,21 @@ FIN;
             }
             case 1:
             {
-                $content .= "Connecté ^^";
+                $content .= <<<FIN
+<body>
+        <h1 class="text-center"> MENU </h1>
+        
+        <div class = " container ">
+            <button class="bouton-blanc text-center">Créer un événement</button>
+            <button class="bouton-blanc text-center">Consulter la liste des événements</button>
+            <button class="bouton-blanc text-center">Gérer mon événement</button>
+            <button class="bouton-blanc text-center">Voir le calendrier de mes événements</button>
+        </div>
+
+
+
+</body>
+FIN;
                 break;
             }
             case 2:
