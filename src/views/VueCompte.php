@@ -18,48 +18,125 @@ class VueCompte
         $this->container = $container;
     }
 
-    public function formulaireConnexion() : string{
-        $html =<<<FIN
-    <body>
-    
-    <div class=droite>
-        <div>
-            <div class = "titre_connexion">
-            Connexion
+    /**
+     * RENDER
+     * @param int $select
+     * @return string
+     */
+    public function render(int $select): string
+    {
+        $url_accueil = $this->container->router->pathFor('racine');
+        $url_formInsription = $this->container->router->pathFor('formInscription');
+        $url_formConnexion = $this->container->router->pathFor('formConnexion');
+        $content = "";
+        switch ($select) {
+            case 0: //
+            {
+                $content .= $this->formulaireConnexion();
+                break;
+            }
+            case 1:
+            {
+                $content .= $this->formulaireInscription();
+                break;
+            }
+
+        }
+
+        $html = <<<FIN
+<html>
+
+<head>
+    <title>GoldenPPIT</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class ="container">
+            <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png" >
+                </a>
             </div>
-        <form name="connexion" method="POST" action="">
+
+            <div class="menu text-right">
                 <ul>
-                    <div class="alignement"> 
-                    <li> E-mail :<div class ="box-input">  <input type="text" name="u_mail" placeholder="exemple@exemple.fr"></div></li>
-                    </div>
-                    <div class="alignement">
-                    <li> Mot de passe :<div class ="box-input">  <input type="password" name="u_mdp" placeholder="**********"></div></li>
-                    </div>
-                    <li> Mot de passe oublié ? <a href="#">Cliquez ici !</a> </li>                    
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
                 </ul>
-        
-        <button class="bouton-bleu-connexion" type="button" onclick="#">Connexion</button>
-        </form>
+            </div>
 
+            <div class="clearfix"></div>
         </div>
-                
-
-                    <img src="images/femmeLogin.png" class="loginFemme">
-
+    </nav>
+    <div class = "content-wrap">
+        $content
     </div>
+    <footer>
+    <div class="clearfix"></div>
+        <div class="container text-center">
+                <a href="#"> Nous contacter </a>
+                <a href="#"> A propos de nous </a>
+                <p> © 2022 GoldenPPIT. Tous droits réservés </p>
+        </div>    
     
+    </footer>
+</body>
+</html>
+FIN;
 
+        return $html;
+    }
+
+    public function formulaireConnexion(): string
+    {
+        $html = <<<FIN
+    <body>
+    <h1 class="text-center">Connexion</h1>
+    <div class = "container droite">
+        <div class="remonte">
+            
+        <form name="connexion" method="POST" action="">
+            <div class="fieldset-connexion">
+            <div class ="espacement-degeu"></div>
+                <div class="field"> 
+				    Email : 
+				    <input type="text" name="u_mail" placeholder="exemple@exemple.fr"/>
+			    </div>
+			
+			    <div class="field"> 
+				    Mot de passe : 
+				    <input type="password" name="u_mdp" placeholder="e**********"/>
+			    </div>
+			    <div class="text-right">
+			    <p class = "p-accueil2">
+			    Mot de passe oublié ? <a class="test" href="#">Cliquez ici !</a>
+                </p>
+			          
+			          <div class="remonte"></div>
+			          <button class="bouton-bleu" type="button" onclick="#">Connexion</button>
+                </div>
+        </div>
+        </form>
+    
+        <img src="images/femmeLogin.png" class="loginFemme">
+        </div>
+        
+    
+</div>
+   
 </body>
 FIN;
         return $html;
 
     }
 
-
-    public function formulaireInscription():string{
+    public function formulaireInscription(): string
+    {
         $url_enregistrerInscription = $this->container->router->pathFor('enregistrerInscription');
 
-        $html=<<<FIN
+        $html = <<<FIN
 <h1 class="text-center">Créer un compte et gérez vos événements en toute tranquilité !</h1>
 		<div class = "container ">
 		
@@ -141,77 +218,6 @@ FIN;
     
 </body>
 FIN;
-    return $html;
-    }
-
-    /**
-     * RENDER
-     * @param int $select
-     * @return string
-     */
-    public function render(int $select): string
-    {
-        $url_accueil = $this->container->router->pathFor('racine');
-        $url_formInsription = $this->container->router->pathFor('formInscription');
-        $url_formConnexion = $this->container->router->pathFor('formConnexion');
-        $content = "";
-        switch ($select) {
-            case 0: //
-            {
-                $content .= $this->formulaireConnexion();
-                break;
-            }
-            case 1:
-            {
-                $content .= $this->formulaireInscription();
-                break;
-            }
-
-        }
-
-        $html = <<<FIN
-<html>
-
-<head>
-    <title>GoldenPPIT</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-    <nav>
-        <div class ="container">
-            <div class="logo">
-                <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png" >
-                </a>
-            </div>
-
-            <div class="menu text-right">
-                <ul>
-                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
-                </ul>
-            </div>
-
-            <div class="clearfix"></div>
-        </div>
-    </nav>
-    <div class = "content-wrap">
-        $content
-    </div>
-    <footer>
-    <div class="clearfix"></div>
-        <div class="container text-center">
-                <a href="#"> Nous contacter </a>
-                <a href="#"> A propos de nous </a>
-                <p> © 2022 GoldenPPIT. Tous droits réservés </p>
-        </div>    
-    
-    </footer>
-</body>
-</html>
-FIN;
-
         return $html;
     }
 }

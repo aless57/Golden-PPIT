@@ -26,8 +26,7 @@ body::-webkit-scrollbar-thumb{
     background: black;
 }
 h1{
-    padding-top : 2%;
-    padding-bottom: 2%;
+    padding-top : 5%;
     text-shadow: 1px 2px rgba(0, 0, 0, 0.25);
 
 }
@@ -173,7 +172,8 @@ nav{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 80vh;
+    height: 40vh;
+    padding-left: 150px;
 }
 
 .titre_connexion{
@@ -187,8 +187,6 @@ nav{
     align-items: center;
     text-align: center;
     letter-spacing: -0.02em;
-
-
     color: black;
 
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -202,28 +200,34 @@ nav{
 }
 
 
-.bouton-bleu-connexion{
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    font-style: normal;
-    width: 10%;
-    height: 20px;
-    font-size: 18px;
-    line-height: 29px;
-    color: #ECECF3;
-    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
-    border: 2px solid #000000;
-    border-radius: 20px;
-    cursor:pointer;
-}
-
-.alignement{
-    display: flex;
-    justify-content: space-around;
-    width: 450px;
-}
-
 .loginFemme{
-    width: 30%;
+    width: 40%;
+    padding-left: 30px;
+}
+
+.fieldset-connexion{
+    float:left; /* add this */
+    padding:1% ;
+    width : 45%;
+    justify-content: space-between;
+    line-height: 25px;
+    border : none;
+    border-radius: 10px;
+    height: 300px;
+
+}
+
+.fieldset-connexion input{
+    border-radius:10px;
+    border: 2px solid #000000;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    padding-left: 10px;
+    font-size: 15px;
+    text-shadow:none;
+    width : 240px;
+    float : right;
+    height : 40px;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
 }
 
 
@@ -293,6 +297,14 @@ nav{
     float:left;
     text-align:left;
     padding-top : 1%;
+}
+
+.espacement-degeu{
+    height: 100px;
+}
+
+.test:hover{
+    color:#4299C8;
 }
 
 input[type="file"]{
