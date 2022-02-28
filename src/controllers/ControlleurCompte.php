@@ -3,8 +3,7 @@
 namespace goldenppit\controllers;
 
 use goldenppit\views\VueAccueil;
-use goldenppit\views\VueConnexion;
-use goldenppit\views\VueInscription;
+use goldenppit\views\VueCompte;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \goldenppit\models\Utilisateur;
@@ -32,8 +31,8 @@ class ControlleurCompte
      * @return Response
      */
     public function inscription(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueInscription( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(0)) ;
+        $vue = new VueCompte( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render(1)) ;
         return $rs;
     }
 
@@ -59,7 +58,7 @@ class ControlleurCompte
         $dep = filter_var($post['dep'] , FILTER_SANITIZE_STRING) ;
         $photo = filter_var($post['mdp'] , FILTER_SANITIZE_STRING) ;
         $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
-
+        echo $post['notif'];
         $vue = new VueAccueil([], $this->container ) ;
         if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr)){
             Authentification::authenticate($mail, $mdp);
@@ -85,17 +84,17 @@ class ControlleurCompte
             if(!$_SESSION['connexionOK']){
                 session_destroy();
                 $_SESSION = [];
-                $vue = new VueConnexion([] , $this->container) ;
-                $rs->getBody()->write( $vue->render(1));
+                $vue = new VueCompte([] , $this->container) ;
+                $rs->getBody()->write( $vue->render(1)); //inscription
                 return $rs;
             }{
-                $vue = new VueConnexion([], $this->container);
+                $vue = new VueCompte([], $this->container);
                 $rs->getBody()->write( $vue->render(0));
                 return $rs;
             }
             //autre cas (avec les inscriptions)
         }else{
-            $vue = new VueConnexion([], $this->container);
+            $vue = new VueCompte([], $this->container);
             $rs->getBody()->write( $vue->render(0));
             return $rs;
         }
