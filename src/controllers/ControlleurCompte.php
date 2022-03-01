@@ -4,6 +4,7 @@ namespace goldenppit\controllers;
 
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueCompte;
+use goldenppit\views\VueModifierCompte;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \goldenppit\models\Utilisateur;
@@ -239,18 +240,18 @@ class ControlleurCompte
         }
     }
 
+
     /**
      * GET
-     * Affichage du formulaire de modification des informations du compte
+     * Affichage du formulaire pour la modification de compte
      * @param Request $rq
      * @param Response $rs
      * @param $args
      * @return Response
      */
-    public function modifierCompte(Request $rq, Response $rs, $args) : Response  {
-        $infosUser = Utilisateur::where('mail','=',$_SESSION['profile']['mail'])->first();
-        $vue = new VueCompte( $infosUser->toArray() , $this->container ) ;
-        $rs->getBody()->write( $vue->render(6)) ;
+    public function modifierCompte(Request $rq, Response $rs, $args) : Response {
+        $vue = new VueModifierCompte( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render(0)) ;
         return $rs;
     }
 
