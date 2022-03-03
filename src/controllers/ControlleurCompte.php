@@ -38,6 +38,34 @@ class ControlleurCompte
     }
 
     /**
+     * GET
+     * Affichage du formulaire pour envoyer un mail afin de recuperer son mot de passe
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function motDePasseOublie(Request $rq, Response $rs, $args) : Response {
+        $vue = new VueCompte( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render(3)) ;
+        return $rs;
+    }
+
+    /**
+     * GET
+     * Affichage du formulaire pour envoyer un mail afin de recuperer son mot de passe
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function reinitialiserMDP(Request $rq, Response $rs, $args) : Response {
+        $vue = new VueCompte( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render(4)) ;
+        return $rs;
+    }
+
+    /**
      * POST
      * Enregistrement des informations du nouveau compte dans la base de données
      * @param Request $rq
@@ -238,7 +266,6 @@ class ControlleurCompte
         }
     }
 
-
     /**
      * GET
      * Affichage du formulaire pour la modification de compte
@@ -267,8 +294,6 @@ class ControlleurCompte
         $rs->getBody()->write($vue->render(10));
         return $rs;
     }
-
-
 
     /**
      * GET

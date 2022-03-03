@@ -33,5 +33,7 @@ $app->get('/inscription', ControlleurCompte::class.':inscription')->setName('for
 $app->post('/inscription', ControlleurCompte::class.':enregistrerInscription')->setName('enregistrerInscription');
 $app->get('/modifierCompte', ControlleurCompte::class.':modifierCompte')->setName('formModifierCompte');
 $app->post('/modifierCompte', ControlleurCompte::class.':enregistrerModif')->setName('enregistrerModifierCompte');
+$app->get('/motDePasseOublie', ControlleurCompte::class.':motDePasseOublie')->setName('formMotDePasseOublie');
+$app->get('/reinitialiserMDP', ControlleurCompte::class.':reinitialiserMDP')->setName('formResetMDP');
 
 $app->run();

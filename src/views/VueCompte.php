@@ -70,6 +70,16 @@ FIN;
                 $content .= $this->formulaireModifierCompte();
                 break;
             }
+            case 3:
+            {
+                $content .= $this->formulaireMotDePasseOublie();
+                break;
+            }
+            case 4:
+            {
+                $content .= $this->formulaireResetMDP();
+                break;
+            }
         }
 
         return <<<FIN
@@ -114,6 +124,7 @@ FIN;
     public function formulaireConnexion(): string
     {
         $url_connexion = $this->container->router->pathFor('enregisterConnexion');
+        $url_motDePasseOublie = $this->container->router->pathFor( 'formMotDePasseOublie' ) ;
         return <<<FIN
     <body>
     <h1 class="text-center">Connexion</h1>
@@ -134,7 +145,7 @@ FIN;
 			    </div>
 			    <div class="text-right">
 			    <p class = "p-accueil2">
-			    Mot de passe oublié ? <a class="test" href="#">Cliquez ici !</a>
+			    Mot de passe oublié ? <a class="test" href="$url_motDePasseOublie">Cliquez ici !</a>
                 </p>
 			          
 			          <div class="remonte"></div>
@@ -291,5 +302,79 @@ FIN;
           </form>
         </div>
         FIN;
+    }
+
+    public function formulaireMotDePasseOublie(): string
+    {
+        return <<<FIN
+    <body>
+    <h1 class="text-center">Récupérez votre mot de passe</h1>
+    <div class = "container droite">
+        <div class="remonte">
+            
+        <form name="connexion" method="POST" action="#">
+            <div class="fieldset-connexion">
+            <div class ="espacement-degeu"></div>
+                <p class = "p-accueil2">
+			    Renseignez votre adresse mail ci-dessous. Un mail vous sera envoyé dans les plus brefs delais !
+                </p>
+                <div class="field"> 
+				    Email : 
+				    <input type="text" name="u_mail" placeholder="exemple@exemple.fr"/>
+			    </div>
+			    <div class="text-right">
+			    <p class = "p-accueil2">
+			    Si vous n'avez pas reçu de mail, il est possible qu'aucun compte ne soit lié a votre adresse mail ou bien que votre adresse soit bloqué.
+                </p>
+			          <div class="remonte"></div>
+			          <input class="bouton-bleu" type="submit" value="Envoyer" >
+                </div>
+        </div>
+        </form>
+    
+        <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
+        </div>
+        
+    
+</div>
+FIN;
+
+    }
+
+    public function formulaireResetMDP(): string
+    {
+        return <<<FIN
+    <body>
+    <h1 class="text-center">Réinitialisé votre mot de passe</h1>
+    <div class = "container droite">
+        <div class="remonte">
+            
+        <form name="connexion" method="POST" action="#">
+            <div class="fieldset-connexion">
+            <div class ="espacement-degeu"></div>
+                <p class = "p-accueil2">
+			    Renseignez votre nouveau mot de passe ci-dessous
+                </p>
+                <div class="field"> Mot de passe :
+				<input type="password" name="mdp" placeholder="**********" required="required"/>
+				</div>
+				
+				<div class="field"> Confirmation du mot de passe : 
+				<input type="password" name="mdpconfirm" placeholder="**********" required="required"/>
+				</div>
+			    <div class="text-right">
+			          <div class="remonte"></div>
+			          <input class="bouton-bleu" type="submit" value="Réinitialiser" >
+                </div>
+        </div>
+        </form>
+    
+        <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
+        </div>
+        
+    
+</div>
+FIN;
+
     }
 }
