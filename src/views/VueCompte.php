@@ -142,7 +142,7 @@ FIN;
 <h1 class="text-center">Créer un compte et gérez vos événements en toute tranquilité !</h1>
 		<div class = "container ">
 		
-		<form method="post" action="$url_enregistrerInscription">
+	    <form method="post" action="$url_enregistrerInscription">
 			<fieldset class="fieldset">
 				<div class="field"> 
 				    <label> Nom * :  </label>
