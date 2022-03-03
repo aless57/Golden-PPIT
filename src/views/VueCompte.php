@@ -138,7 +138,7 @@ FIN;
                 </p>
 			          
 			          <div class="remonte"></div>
-			          <input class="bouton-bleu" type="submit" >Connexion</input>
+			          <input class="bouton-bleu" type="submit" value="Connexion" >
                 </div>
         </div>
         </form>
