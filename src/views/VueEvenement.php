@@ -38,7 +38,7 @@ class VueEvenement
         }
 
         $html = <<<FIN
-<html>
+<html lang="french">
 
 <head>
     <title>GoldenPPIT</title>
@@ -104,18 +104,13 @@ FIN;
 				</div>
 				
 				<div class="field"> 
-				    <label> Date de fin * : </label>
-				    <input type="date" name="fin" placeholder="08-03-2022" required="required"/>
+				    <label> Date d'archivage * : </label>
+				    <input type="date" name="archiv" placeholder="24-04-2022" />
 				</div>
 				
 				<div class="field"> 
 				    <label> Date de suppression automatique : </label>
 				    <input type="date" name="supprauto" placeholder="24-04-2022" />
-				</div>
-				
-				<div class="field"> 
-				    <label> Date d'archivage: </label>
-				    <input type="date" name="achiv" placeholder="24-04-2022" />
 				</div>
 				
 				<div class="field"> 
