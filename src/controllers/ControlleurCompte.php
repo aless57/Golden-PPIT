@@ -250,8 +250,8 @@ class ControlleurCompte
      * @return Response
      */
     public function modifierCompte(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueModifierCompte( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(0)) ;
+        $vue = new VueCompte( [] , $this->container ) ;
+        $rs->getBody()->write( $vue->render(2)) ;
         return $rs;
     }
 
