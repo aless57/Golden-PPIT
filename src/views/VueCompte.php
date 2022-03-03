@@ -25,10 +25,34 @@ class VueCompte
      */
     public function render(int $select): string
     {
+        $bandeau = "";
         $url_accueil = $this->container->router->pathFor('racine');
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
+        $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
         $content = "";
+
+        if(isset($_SESSION['profile'])){
+            $bandeau .= <<<FIN
+        <div class="menu text-right">
+                <ul>  
+                <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>       
+                </ul>
+            </div>
+
+FIN;
+
+        }else{
+            $bandeau .= <<<FIN
+            <div class="menu text-right">
+                <ul>
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
+                </ul>
+            </div>
+FIN;
+
+        }
 
         switch ($select) {
             case 0: //
@@ -65,12 +89,7 @@ class VueCompte
                 </a>
             </div>
 
-            <div class="menu text-right">
-                <ul>
-                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
-                </ul>
-            </div>
+            $bandeau
 
             <div class="clearfix"></div>
         </div>
@@ -94,13 +113,14 @@ FIN;
 
     public function formulaireConnexion(): string
     {
+        $url_connexion = $this->container->router->pathFor('enregisterConnexion');
         return <<<FIN
     <body>
     <h1 class="text-center">Connexion</h1>
     <div class = "container droite">
         <div class="remonte">
             
-        <form name="connexion" method="POST" action="">
+        <form name="connexion" method="POST" action="$url_connexion">
             <div class="fieldset-connexion">
             <div class ="espacement-degeu"></div>
                 <div class="field"> 
@@ -118,7 +138,7 @@ FIN;
                 </p>
 			          
 			          <div class="remonte"></div>
-			          <button class="bouton-bleu" type="button" onclick="#">Connexion</button>
+			          <input class="bouton-bleu" type="submit" >Connexion</input>
                 </div>
         </div>
         </form>

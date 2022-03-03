@@ -28,6 +28,7 @@ $app->get('/accueil', ControlleurAccueil::class.':accueil')->setName('accueil');
 
 //Chemin Compte
 $app->get('/connexion', ControlleurCompte::class.':connexion')->setName('formConnexion');
+$app->post('/connexion', ControlleurCompte::class.':testConnexion')->setName('enregisterConnexion');
 $app->get('/inscription', ControlleurCompte::class.':inscription')->setName('formInscription');
 $app->post('/inscription', ControlleurCompte::class.':enregistrerInscription')->setName('enregistrerInscription');
 $app->get('/modifierCompte', ControlleurCompte::class.':modifierCompte')->setName('formModifierCompte');

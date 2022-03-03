@@ -25,11 +25,32 @@ class VueAccueil{
      */
     public function render( int $select ) : string
     {
+        $bandeau = "";
         $url_accueil = $this->container->router->pathFor('racine');
         $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
         $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
         $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
         $content="";
+        if(isset($_SESSION['profile'])){
+            $bandeau .= <<<FIN
+        <div class="menu text-right">
+                <ul>  
+                       <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>     
+                </ul>
+            </div>
+
+FIN;
+
+        }else {
+            $bandeau .= <<<FIN
+            <div class="menu text-right">
+                <ul>
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
+                </ul>
+            </div>
+FIN;
+        }
         switch ($select){
             case 0:
             {
@@ -93,14 +114,7 @@ FIN;
                     <img src="images/logo-white.png" >
                 </a>
             </div>
-
-            <div class="menu text-right">
-                <ul>
-                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
-                    <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>              
-                </ul>
-            </div>
+                $bandeau
 
             <div class="clearfix"></div>
         </div>

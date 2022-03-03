@@ -116,12 +116,10 @@ class ControlleurCompte
         $connexionOK = Authentification::authenticate($login, $pass);
         var_dump($connexionOK);
         if ($connexionOK){
-            $url_compte = $this->container->router->pathFor("racine");
-            //$_SESSION['profile'] = $mail;
-            return $rs->withRedirect($url_compte);
+            $url_accueil = $this->container->router->pathFor("accueil");
+            return $rs->withRedirect($url_accueil);
         }else{
-            $_SESSION['connexionOK']=false;
-            $url_connexion = $this->container->router->pathFor("connexion");
+            $url_connexion = $this->container->router->pathFor("formConnexion");
             return $rs->withRedirect($url_connexion);
         }
     }
