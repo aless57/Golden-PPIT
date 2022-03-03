@@ -31,5 +31,6 @@ $app->get('/connexion', ControlleurCompte::class.':connexion')->setName('formCon
 $app->get('/inscription', ControlleurCompte::class.':inscription')->setName('formInscription');
 $app->post('/inscription', ControlleurCompte::class.':enregistrerInscription')->setName('enregistrerInscription');
 $app->get('/modifierCompte', ControlleurCompte::class.':modifierCompte')->setName('formModifierCompte');
+$app->post('/modifierCompte', ControlleurCompte::class.':enregistrerModif')->setName('enregistrerModifierCompte');
 
 $app->run();

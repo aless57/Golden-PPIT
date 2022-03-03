@@ -29,6 +29,7 @@ class VueCompte
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
         $content = "";
+
         switch ($select) {
             case 0: //
             {
@@ -40,7 +41,6 @@ class VueCompte
                 $content .= $this->formulaireInscription();
                 break;
             }
-
         }
 
         $html = <<<FIN
@@ -107,7 +107,7 @@ FIN;
 			
 			    <div class="field"> 
 				    Mot de passe : 
-				    <input type="password" name="u_mdp" placeholder="e**********"/>
+				    <input type="password" name="u_mdp" placeholder="***********"/>
 			    </div>
 			    <div class="text-right">
 			    <p class = "p-accueil2">
