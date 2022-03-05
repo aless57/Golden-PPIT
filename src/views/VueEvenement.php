@@ -120,7 +120,7 @@ FIN;
 				
 				<div class="field"> 
 				    <label> Description : </label>
-				    <input type="textfield" name="lieu" placeholder="Décrivez votre événement en quelques mots !"/>
+				    <input type="textarea" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
 				</div>
 				
 				<span class="span text-right"> *  : Champ obligatoire !</span>
