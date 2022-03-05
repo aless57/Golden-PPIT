@@ -39,7 +39,7 @@ $app->get('/modifierCompte', ControlleurCompte::class . ':modifierCompte')->setN
 $app->post('/modifierCompte', ControlleurCompte::class . ':enregistrerModif')->setName('enregistrerModifierCompte');
 $app->get('/motDePasseOublie', ControlleurCompte::class . ':motDePasseOublie')->setName('formMotDePasseOublie');
 $app->get('/reinitialiserMDP', ControlleurCompte::class . ':reinitialiserMDP')->setName('formResetMDP');
-$app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('createEvent');
+$app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('creationEvenement');
 $app->get('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 
 $app->run();

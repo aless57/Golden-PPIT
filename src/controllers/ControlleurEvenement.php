@@ -94,4 +94,21 @@ class ControlleurEvenement
         $e->save();
         return true;
     }
+
+    /**
+     * POST
+     * Suppression de l'évenement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @param Id de l'event à supprimer $event_id
+     * @return Response
+     */
+    public function supprimerEvenement(Request $rq, Response $rs, $args, $event_id) : Response {
+        $event = Evenement::find($event_id);
+        $event->delete();
+        //TODO : remettre sur la page précedente
+        $url_accueil = $this->container->router->pathFor('racine');
+        return $rs->withRedirect($url_accueil);
+    }
 }
