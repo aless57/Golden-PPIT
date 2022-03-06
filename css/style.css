@@ -37,34 +37,35 @@ h1{
     padding: 1%;
 }
 
-.bouton-blanc{
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+button.bouton-blanc{
+    position: relative;
+    filter: drop-shadow(4px 8px 8px rgba(0, 0, 0, 0.25));
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-
-    font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 29px;
-    text-align: center;
+    font-size: 1rem;
     letter-spacing: -0.02em;
     width: 40%;
     height: 50px;
     box-sizing: border-box;
     cursor:pointer;
+    margin-left :30%;
+    margin-top: 2%;
+    border: none;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
 
-    margin: 40px;
-    margin-left: 335px;
 }
 
 .bouton-blanc:hover{
     transition: 1s ;
-    background: #4F95DA;
+    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+    border: none;
     color: white;
     font-size: 18px;
-    font-weight: 100;
+    font-weight: 600;
+    letter-spacing: 0.02em;
 }
 
 .clearfix{
@@ -76,13 +77,13 @@ h1{
 a{
     text-decoration: none;
 }
-.menu a{
+.menu ul a{
     color: #fff;
     display: inline-block;
     position: relative;
     text-transform:uppercase;
 }
-.menu a:after{
+.menu ul a:after{
     bottom: 0;
     content: "";
     display: block;
@@ -123,8 +124,12 @@ nav{
 }
 
 .logo{
+
     width: 5%;
     float: left;
+}
+.logo:hover{
+    text-decoration: none;
 }
 .menu{
     line-height: 60px;
@@ -158,13 +163,15 @@ nav{
     margin-left: auto;
     margin-right: auto ;
 }
-.bouton-bleu{
+.bouton-bleu {
+    position: relative;
+    margin-top:2%;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     font-style: normal;
-    width: 20%;
-    height: 40px;
-    font-size: 18px;
-    line-height: 29px;
+    width: auto;
+    height: auto;
+    font-size: 1rem;
+    padding: 1%;
     color: #ECECF3;
     background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
     border: 2px solid #000000;
@@ -173,14 +180,15 @@ nav{
     cursor:pointer;
 }
 .bouton-bleu:hover{
-    color: lightsteelblue;
+    color: #C4C4C4;
 }
 
 .p-accueil{
-    color: #4299C8;
+    color: #4BABD4;
     font-weight: bolder;
     padding-top: 4%;
     padding-bottom: 1%;
+    font-size: 1.5rem;
 }
 .p-accueil2{
     color: black;
@@ -196,7 +204,7 @@ nav{
 .p-accueil2 a:hover{
     color:#4299C8;;
     font-weight: normal;
-
+    text-decoration: underline;
 }
 
 /** Connexion **/
@@ -214,15 +222,14 @@ nav{
     /* header text */
     font-style: normal;
     font-weight: normal;
-    font-size: 30px;
-    line-height: 43px;
+    font-size: 3rem;
     display: flex;
     align-items: center;
     text-align: center;
     letter-spacing: -0.02em;
     color: black;
 
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .box-input{
@@ -235,60 +242,45 @@ nav{
 
 .loginFemme{
     width: 40%;
-    padding-left: 30px;
+    padding-left: 10%;
 }
 
-.fieldset-connexion{
-    float:left; /* add this */
-    padding:1% ;
-    width : 45%;
+
+
+/**inscription**/
+.fieldset-left{ float:left; /* add this */
+    margin-top:15% ;
+    margin-left : 5%;
+    width : 45%;}
+
+fieldset{
+    margin-left : 20%;
+    margin-right:20%;
     justify-content: space-between;
-    line-height: 25px;
     border : none;
     border-radius: 10px;
-    height: 300px;
+    height: auto;
+    align-items: center;
 
 }
 
-.fieldset-connexion input{
+
+fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"]{
     border-radius:10px;
     border: 2px solid #000000;
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
     padding-left: 10px;
     font-size: 15px;
     text-shadow:none;
-    width : 240px;
+    width : 360px;
     float : right;
     height : 40px;
     box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
 }
 
-
-/**inscription**/
-
-.fieldset{
-    float:left; /* add this */
-    padding:1% ;
-    width : 45%;
-    justify-content: space-between;
-    line-height: 25px;
-    border : none;
-    border-radius: 10px;
-    height: 500px;
-
-}
-
-.fieldset input{
-    border-radius:10px;
-    border: 2px solid #000000;
-    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
-    padding-left: 10px;
-    font-size: 15px;
-    text-shadow:none;
-    width : 240px;
-    float : right;
-    height : 35px;
-    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
+fieldset input.desc{
+    width: 360px;
+    height : 120px;
 }
 
 .span {
@@ -296,6 +288,8 @@ nav{
     float: right;
     align-items: center;
     justify-content: space-between;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 .req-img{
     padding-top: 10px;
@@ -304,9 +298,11 @@ nav{
 }
 
 .field{
+    position:relative;
     padding-bottom:12px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .field input[type= "checkbox"]  {
@@ -322,14 +318,6 @@ nav{
 }
 .field input[type = "checkbox"]:checked{
     background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
-}
-.cb-label{
-    padding-left: 10%;
-    width :400px;
-    display :flex;
-    float:left;
-    text-align:left;
-    padding-top : 1%;
 }
 
 .espacement-degeu{
@@ -347,9 +335,25 @@ input[type="file"]{
     width : 150px;
     height : 130px;
     cursor: pointer;
+    position: relative;
+    display: flex;
     padding-top: 20%;
-    padding-bottom: 100px;
-    padding-left : 200px;
+    padding-bottom: 15%;
+
+}
+fieldset .field .input-pp{
+    border:solid black 2px;
+    border-radius: 500px;
+    padding: 3% 5% 3% 5%;
+    box-shadow:4px 2px 3px 2px rgba(0, 0, 0, 0.25); ;
+
+    width:auto;
+    height:auto;
+    margin-left : 35%;
+    margin-top: 2%; margin-bottom: 2%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
 }
 /**Footer**/
 footer{

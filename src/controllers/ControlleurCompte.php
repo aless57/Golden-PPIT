@@ -306,7 +306,7 @@ class ControlleurCompte
     public function deconnexion(Request $rq, Response $rs, $args) : Response {
         session_destroy();
         $_SESSION = [];
-        $url_accueil = $this->container->router->pathFor('connexion');
+        $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);
     }
 

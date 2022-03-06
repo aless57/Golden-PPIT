@@ -30,12 +30,26 @@ class VueAccueil{
         $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
         $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
         $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
+        $url_menu = $this->container->router->pathFor('accueil');
+        $url_deconnexion = $this->container->router->pathFor('deconnexion');
+
+        $url_creationEv = $this->container->router->pathFor('creationEvenement');
+        $url_enregistrerEv = $this->container->router->pathFor('enregistrerEvenement');
+
         $content="";
         if(isset($_SESSION['profile'])){
+            //si l'utilisateur est connecté
             $bandeau .= <<<FIN
-        <div class="menu text-right">
+            <div class="logo">
+                <a href="$url_menu" title="logo">
+                    <img src="images/logo-white.png" >
+                </a>
+            </div>
+            <div class="menu text-right">
+            
                 <ul>  
-                       <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>     
+                       <li> <a href="$url_modifierCompte"> Modifier compte </a> </li> 
+                       <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>    
                 </ul>
             </div>
 
@@ -43,6 +57,11 @@ FIN;
 
         }else {
             $bandeau .= <<<FIN
+            <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png" alt="logo-accueil" >
+                </a>
+            </div>
             <div class="menu text-right">
                 <ul>
                     <li> <a href="$url_formConnexion"> Se connecter </a></li>
@@ -57,7 +76,7 @@ FIN;
             $content .= <<<FIN
 <section>
     <div class="logo-accueil" >            
-        <img src="images/logo-accueil.png" class="img-logo">
+        <img src="images/logo-accueil.png" class="img-logo" alt="logo-accueil">
     </div>
         <div class="text-center">
             <p class = "p-accueil"> Rejoignez notre communauté et devenez membre de notre association ! </p>
@@ -76,19 +95,19 @@ FIN;
             case 1:
             {
                 $content .= <<<FIN
-<body>
-        <h1 class="text-center"> MENU </h1>
-        
-        <div class = " container ">
-            <button class="bouton-blanc text-center">Créer un événement</button>
-            <button class="bouton-blanc text-center">Consulter la liste des événements</button>
-            <button class="bouton-blanc text-center">Gérer mon événement</button>
-            <button class="bouton-blanc text-center">Voir le calendrier de mes événements</button>
-        </div>
-
-
-
-</body>
+            <body>
+                    <h1 class="text-center"> MENU </h1>
+                    
+                    <div class = "container">
+                        <button class="bouton-blanc" onclick="window.location.href='$url_creationEv'">Créer un événement</button>
+                        <button class="bouton-blanc">Consulter la liste des événements</button>
+                        <button class="bouton-blanc">Gérer mon événement</button>
+                        <button class="bouton-blanc">Voir le calendrier de mes événements</button>
+                    </div>
+            
+            
+            
+            </body>
 FIN;
                 break;
             }
@@ -99,9 +118,9 @@ FIN;
             }
         }
         $html =<<<FIN
-<html>
+<html lang="french">
 
-<head>
+<head lang="french">
     <title>GoldenPPIT</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -109,11 +128,7 @@ FIN;
 <body>
     <nav>
         <div class ="container">
-            <div class="logo">
-                <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png" >
-                </a>
-            </div>
+            
                 $bandeau
 
             <div class="clearfix"></div>

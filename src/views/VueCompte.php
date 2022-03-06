@@ -30,32 +30,47 @@ class VueCompte
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
         $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
+        $url_menu = $this->container->router->pathFor('accueil');
+        $url_deconnexion = $this->container->router->pathFor('deconnexion');
         $content = "";
 
         if(isset($_SESSION['profile'])){
+            //Si l'utilisateur est connecté
             $bandeau .= <<<FIN
-        <div class="menu text-right">
+            <div class="menu text-right">
+                <div class="logo">
+                <a href="$url_menu" title="logo">
+                    <img src="images/logo-white.png"  alt="logo">
+                </a>
+                </div>
                 <ul>  
-                <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>       
+                <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>  
+                <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>     
                 </ul>
             </div>
 
-FIN;
+            FIN;
 
         }else{
+            //si 'l'utilisateur n'est pas connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
+                <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png"  alt="logo">
+                </a>
+                </div>
                 <ul>
                     <li> <a href="$url_formConnexion"> Se connecter </a></li>
                     <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
                 </ul>
             </div>
-FIN;
+            FIN;
 
         }
 
         switch ($select) {
-            case 0: //
+            case 0:
             {
                 $content .= $this->formulaireConnexion();
                 break;
@@ -83,41 +98,37 @@ FIN;
         }
 
         return <<<FIN
-<html lang="french">
-
-<head>
-    <title>GoldenPPIT</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-    <nav>
-        <div class ="container">
-            <div class="logo">
-                <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png"  alt="logo">
-                </a>
-            </div>
-
-            $bandeau
-
-            <div class="clearfix"></div>
-        </div>
-    </nav>
-    <div class = "content-wrap">
-        $content
-    </div>
-    <footer>
-    <div class="clearfix"></div>
-        <div class="container text-center">
-                <a href="#"> Nous contacter </a>
-                <a href="#"> A propos de nous </a>
-                <p> © 2022 GoldenPPIT. Tous droits réservés </p>
-        </div>    
+    <html lang="french">
     
-    </footer>
-</body>
-</html>
+        <head>
+            <title>GoldenPPIT</title>
+            <link rel="stylesheet" href="css/style.css">
+        </head>
+    
+        <body>
+        <nav>
+            <div class ="container">
+    
+                $bandeau
+    
+                <div class="clearfix"></div>
+            </div>
+        </nav>
+        <div class = "content-wrap">
+            $content
+        </div>
+      
+        
+        </body> 
+        <footer><div class="clearfix"></div>
+            <div class="container text-center">
+                    <a href="#"> Nous contacter </a>
+                    <a href="#"> A propos de nous </a>
+                    <p> © 2022 GoldenPPIT. Tous droits réservés </p>
+            </div>    
+        
+        </footer>
+    </html>
 FIN;
     }
 
@@ -128,15 +139,16 @@ FIN;
         return <<<FIN
     <body>
     <h1 class="text-center">Connexion</h1>
-    <div class = "container droite">
-        <div class="remonte">
+    <div class="clearfix"></div>
+
+    <div class = "container ">
             
         <form name="connexion" method="POST" action="$url_connexion">
-            <div class="fieldset-connexion">
-            <div class ="espacement-degeu"></div>
+            <div class="fieldset-left">
+            
                 <div class="field"> 
 				    Email : 
-				    <input type="text" name="u_mail" placeholder="exemple@exemple.fr"/>
+				    <input type="email" name="u_mail" placeholder="exemple@exemple.fr"/>
 			    </div>
 			
 			    <div class="field"> 
@@ -147,15 +159,20 @@ FIN;
 			    <p class = "p-accueil2">
 			    Mot de passe oublié ? <a class="test" href="$url_motDePasseOublie">Cliquez ici !</a>
                 </p>
-			          
-			          <div class="remonte"></div>
-			          <input class="bouton-bleu" type="submit" value="Connexion" >
+			    <input class="bouton-bleu" type="submit" value="Connexion" >
+
                 </div>
-        </div>
+            <div class="clearfix"></div>
+            </div>
+            
+            
+            <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
+            <div class="clearfix"></div>
+            
+
         </form>
     
-        <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
-        </div>
+        
         
     
 </div>
@@ -170,11 +187,16 @@ FIN;
         $url_enregistrerInscription = $this->container->router->pathFor('enregistrerInscription');
 
         return <<<FIN
-<h1 class="text-center">Créer un compte et gérez vos événements en toute tranquilité !</h1>
+        <h1 class="text-center">Créer un compte et gérez vos événements en toute tranquilité !</h1>
 		<div class = "container ">
 		
 	    <form method="post" action="$url_enregistrerInscription">
-			<fieldset class="fieldset">
+			<fieldset >
+                <div class="field">
+                <label class="input-pp"> <img src="images/user-pp.png" alt="pp" class="pp-img"/> 
+                <input type="file" alt="photo de profile"  name="photo" placeholder="photo"/>
+				</label>
+				</div>
 				<div class="field"> 
 				    <label> Nom * :  </label>
 				    <input type="text" name="nom" placeholder="Votre nom" pattern="[a-ZA-Z]+" required="required"/>
@@ -222,29 +244,23 @@ FIN;
 				<div class="field"> Département * :
 				<input type="text" name="dep" placeholder="Votre département" pattern="[a-zA-z\-\']+" required="required"/>
 				</div>
-				
-				<span class="span text-right"> *  : Champ obligatoire !</span>
-			</fieldset>
-			<fieldset class="fieldset">
-			<div class="field">
-			<label class="input-pp"> <img src="images/user-pp.png" alt="pp" class="pp-img"/> 
-				<input type="file" alt="photo de profile"  name="photo" placeholder="photo"/>
-				</label>
+				<div class="field"> Activer les notifications par mail  <input type="checkbox" name="notif" value="1" />
 				</div>
-				
-				<div class="field">
-				<label class="cb-label"> Activer les notifications par mail</label>
-
-				<input type="checkbox" name="notif" value="1"/>
-				</div>
-				<div class="field">
-                <label class="cb-label"> Je veux devenir membre de Golden-PPIT * </label>    
+				<div class="field"> Je veux devenir membre de Golden-PPIT *    
 				<input type="checkbox" name="confirminscri" required="required"/>
                 </div>
-            </fieldset>
-            <div class="clearfix"/>
+	                <div class="text-right">
+                <span class="span "> *  : Champ obligatoire !</span>
+				<div class="clearfix"></div>
+
+				<input type="submit" value="S'inscrire" name="submit" class="bouton-bleu" />
+				</div>
+				<div class="clearfix"></div>
+
+			</fieldset>
+
+            <div class="clearfix"></div>
             
-			<input type="submit" value="S'inscrire" name="submit" class="bouton-bleu" />
 		</form>
 
     </div>
@@ -260,7 +276,13 @@ FIN;
         <h1 class="text-center">Modifier les informations actuelles de votre compte !</h1>
         <div class="container ">
           <form method="post" action="$url_enregistrerModification">
-            <fieldset class="fieldset">
+            <fieldset >
+                <div class="field">
+                <label class="input-pp">
+                  <img src="images/user-pp.png" alt="pp" class="pp-img" />
+                  <input type="file" alt="photo de profile" name="photo" placeholder="photo" />
+                </label>
+              </div>
               <div class="field">
                 <label> Nom : </label>
                 <input type="text" name="nom" placeholder="Votre nom" pattern="[a-ZA-Z]+" required="required" />
@@ -275,7 +297,7 @@ FIN;
               </div>
               <div class="field"> Nouveau mot de passe : <input type="password" name="mdp" placeholder="**********" required="required" />
               </div>
-              <div class="field"> Confirmation du nouveau mot de passe : <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
+              <div class="field"> Confirmation du mot de passe : <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
               </div>
               <div class="field"> Adresse : <input type="text" name="adr" placeholder="Votre adresse" />
               </div>
@@ -283,22 +305,16 @@ FIN;
               </div>
               <div class="field"> Département : <input type="text" name="dep" placeholder="Votre département" pattern="[a-zA-z\-\']+" required="required" />
               </div>
-              <span class="span text-right"> * : Champ obligatoire pour enregistrer les modifications !</span>
-            </fieldset>
-            <fieldset class="fieldset">
-              <div class="field">
-                <label class="input-pp">
-                  <img src="images/user-pp.png" alt="pp" class="pp-img" />
-                  <input type="file" alt="photo de profile" name="photo" placeholder="photo" />
-                </label>
-              </div>
-              <div class="field">
-                <label class="cb-label"> Activer les notifications par mail</label>
+              <div class="field"> Activer les notifications par mail : 
                 <input type="checkbox" name="notif" value="1" />
               </div>
+              <span class="span text-right"> * : Champ obligatoire pour enregistrer les modifications !</span>
             </fieldset>
-            <div class="clearfix" />
-            <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu" />
+            
+              
+            <div class="clearfix"/>
+
+            <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu " />
           </form>
         </div>
         FIN;

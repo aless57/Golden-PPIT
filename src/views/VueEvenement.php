@@ -92,7 +92,7 @@ FIN;
 		<div class = "container ">
 		
 		<form method="post" action="$url_enregistrerEvenement">
-			<fieldset class="fieldset">
+			<fieldset >
 				<div class="field"> 
 				    <label> Nom * :  </label>
 				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" required="required"/>
@@ -120,7 +120,7 @@ FIN;
 				
 				<div class="field"> 
 				    <label> Description : </label>
-				    <input type="textarea" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
+				    <input type="text" class="desc" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
 				</div>
 				
 				<span class="span text-right"> *  : Champ obligatoire !</span>
