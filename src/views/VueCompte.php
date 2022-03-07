@@ -322,74 +322,98 @@ FIN;
 
     public function formulaireMotDePasseOublie(): string
     {
+        $url_envoyer = $this->container->router->pathFor('envoyerLien');
         return <<<FIN
     <body>
     <h1 class="text-center">Récupérez votre mot de passe</h1>
-    <div class = "container droite">
-        <div class="remonte">
+    <div class="clearfix"></div>
+
+    <div class = "container ">
             
         <form name="connexion" method="POST" action="#">
-            <div class="fieldset-connexion">
-            <div class ="espacement-degeu"></div>
-                <p class = "p-accueil2">
+            <div class="fieldset-left">
+                <div class="text-right">
+			    <p class = "p-accueil2">
 			    Renseignez votre adresse mail ci-dessous. Un mail vous sera envoyé dans les plus brefs delais !
                 </p>
+                </div>
                 <div class="field"> 
 				    Email : 
-				    <input type="text" name="u_mail" placeholder="exemple@exemple.fr"/>
+				    <input type="mail" name="u_mail" placeholder="$url_envoyer"/>
 			    </div>
 			    <div class="text-right">
 			    <p class = "p-accueil2">
-			    Si vous n'avez pas reçu de mail, il est possible qu'aucun compte ne soit lié a votre adresse mail ou bien que votre adresse soit bloqué.
+			    Si vous n'avez pas reçu de mail, il est possible qu'aucun compte ne soit lié à votre adresse mail ou bien que votre adresse soit bloqué.
                 </p>
-			          <div class="remonte"></div>
-			          <input class="bouton-bleu" type="submit" value="Envoyer" >
+			    <input class="bouton-bleu" type="submit" value="Envoyer" >
+
                 </div>
-        </div>
+            <div class="clearfix"></div>
+            </div>
+            
+            
+            <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
+            <div class="clearfix"></div>
+            
+
         </form>
     
-        <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
-        </div>
+        
         
     
 </div>
+   
+</body>
 FIN;
 
     }
 
     public function formulaireResetMDP(): string
     {
+        $url_envoyer = $this->container->router->pathFor('resetMDP');
         return <<<FIN
-    <body>
+<body>
     <h1 class="text-center">Réinitialisé votre mot de passe</h1>
-    <div class = "container droite">
-        <div class="remonte">
+    <div class="clearfix"></div>
+
+    <div class = "container ">
             
         <form name="connexion" method="POST" action="#">
-            <div class="fieldset-connexion">
-            <div class ="espacement-degeu"></div>
-                <p class = "p-accueil2">
+            <div class="fieldset-left">
+                <div class="text-right">
+			    <p class = "p-accueil2">
 			    Renseignez votre nouveau mot de passe ci-dessous
                 </p>
-                <div class="field"> Mot de passe :
-				<input type="password" name="mdp" placeholder="**********" required="required"/>
-				</div>
-				
-				<div class="field"> Confirmation du mot de passe : 
-				<input type="password" name="mdpconfirm" placeholder="**********" required="required"/>
-				</div>
-			    <div class="text-right">
-			          <div class="remonte"></div>
-			          <input class="bouton-bleu" type="submit" value="Réinitialiser" >
                 </div>
-        </div>
+                <div class="field"> 
+				    Mot de passe :
+				    <input type="mdp" name="u_mdp" placeholder=""/>
+			    </div>
+			
+			    <div class="field"> 
+				    Confirmation du mot de passe : 
+				    <input type="mdpconfirm" name="u_mdpconfirm" placeholder=""/>
+			    </div>
+			    <div class="text-right">
+			    <input class="bouton-bleu" type="submit" value="Valider" >
+
+                </div>
+            <div class="clearfix"></div>
+            </div>
+            
+            
+            <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
+            <div class="clearfix"></div>
+            
+
         </form>
     
-        <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
-        </div>
+        
         
     
 </div>
+   
+</body>
 FIN;
 
     }
