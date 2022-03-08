@@ -111,4 +111,27 @@ class ControlleurEvenement
         $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);
     }
+
+
+    /**
+     * POST
+     * Utilisateur quitte un evenement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $event_id l'ID de l'utilisateur
+     * @return Response
+     */
+    public function quitterEvenement(Request $rq, Response $rs, $event_id) : Response{
+        $post = $rq->getParsedBody(); #method to parse the HTTP request body into a native PHP format
+
+        #retire participation et besoins
+        $user_email = $_SESSION['profile']['mail'];
+        $event = Evenement::find($event_id);
+        $participe = Participant::find([$user_email, $event])
+        $participe->delete();    
+        
+        //TODO : remettre sur la page précedente
+        $url_accueil = $this->container->router->pathFor('racine');
+        return $rs->withRedirect($url_accueil);
+    }
 }
