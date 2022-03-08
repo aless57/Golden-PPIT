@@ -126,8 +126,7 @@ class ControlleurEvenement
 
         #retire participation et besoins
         $user_email = $_SESSION['profile']['mail'];
-        $event = Evenement::find($event_id);
-        $participe = Participant::find([$user_email, $event])
+        $participe = Participant::find([$user_email, $event_id])
         $participe->delete();    
         
         //TODO : remettre sur la page précedente
