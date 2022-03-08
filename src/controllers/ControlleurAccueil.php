@@ -18,6 +18,21 @@ class ControlleurAccueil{
     {
         $this->container = $container;
     }
+
+    /**
+     * GET
+     * Affichage inscription/connexion
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function connexionInscription(Request $rq, Response $rs, $args) : Response {
+        $vue = new VueAccueil(array(), $this->container);
+        $rs->getBody()->write($vue->render(0));
+        return $rs;
+    }
+
     /**
      * GET
      * Affichage accueil
@@ -28,7 +43,7 @@ class ControlleurAccueil{
      */
     public function accueil(Request $rq, Response $rs, $args) : Response {
         $vue = new VueAccueil(array(), $this->container);
-        $rs->getBody()->write($vue->render(0));
+        $rs->getBody()->write($vue->render(1));
         return $rs;
     }
 }

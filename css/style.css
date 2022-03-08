@@ -1,19 +1,34 @@
-*{
+*{ /**CSS pour tout*/
     margin: 0;
     padding: 0;
     text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
     font-weight: bold;
+    list-style-type: none;
 
 }
-html{
+html{ /**Fond de la page principale*/
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    position: relative;
 
 }
 body {
-    position: relative;
-    min-height: 100vh;
+    min-height: 100vh; /*Le body prend 100 % de la hauteur de la viewport */
     font-family: Arial, sans-serif;
     font-size: 100%;
+}
+body::-webkit-scrollbar{
+    width : 0.25rem;
+}
+body::-webkit-scrollbar-track{
+    background: #C4C4C4;
+}
+body::-webkit-scrollbar-thumb{
+    background: black;
+}
+h1{
+    padding-top : 5%;
+    text-shadow: 1px 2px rgba(0, 0, 0, 0.25);
+
 }
 
 .container{
@@ -21,6 +36,38 @@ body {
     margin: 0 auto;
     padding: 1%;
 }
+
+button.bouton-blanc{
+    position: relative;
+    filter: drop-shadow(4px 8px 8px rgba(0, 0, 0, 0.25));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+    width: 40%;
+    height: 50px;
+    box-sizing: border-box;
+    cursor:pointer;
+    margin-left :30%;
+    margin-top: 2%;
+    border: none;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+
+}
+
+.bouton-blanc:hover{
+    transition: 1s ;
+    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
 .clearfix{
     text-align: center;
     clear: both;
@@ -28,16 +75,47 @@ body {
 }
 /**Les liens**/
 a{
-    color: white;
     text-decoration: none;
-    justify-content: space-around;
 }
-a:hover{
-    color: lightsteelblue;
+.menu ul a{
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    text-transform:uppercase;
+}
+.menu ul a:after{
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+.menu a:hover:after{
+    width: 100%;
+    left: 0;
+}
+
+footer a {
+    color:black;
+    background: linear-gradient(to right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
+
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.5s ease-out;
+}
+footer a:hover{
+    background-position: -100%;
 }
 .text-center{
     text-align: center;
 }
+
+
 /**CSS pour la barre de navigation**/
 nav{
     /* Blue gradient */
@@ -46,8 +124,12 @@ nav{
 }
 
 .logo{
+
     width: 5%;
     float: left;
+}
+.logo:hover{
+    text-decoration: none;
 }
 .menu{
     line-height: 60px;
@@ -81,13 +163,15 @@ nav{
     margin-left: auto;
     margin-right: auto ;
 }
-.bouton-bleu{
+.bouton-bleu {
+    position: relative;
+    margin-top:2%;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     font-style: normal;
-    width: 20%;
-    height: 40px;
-    font-size: 18px;
-    line-height: 29px;
+    width: auto;
+    height: auto;
+    font-size: 1rem;
+    padding: 1%;
     color: #ECECF3;
     background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
     border: 2px solid #000000;
@@ -96,14 +180,15 @@ nav{
     cursor:pointer;
 }
 .bouton-bleu:hover{
-    color: lightsteelblue;
+    color: #C4C4C4;
 }
 
 .p-accueil{
-    color: #4299C8;
+    color: #4BABD4;
     font-weight: bolder;
     padding-top: 4%;
     padding-bottom: 1%;
+    font-size: 1.5rem;
 }
 .p-accueil2{
     color: black;
@@ -119,21 +204,166 @@ nav{
 .p-accueil2 a:hover{
     color:#4299C8;;
     font-weight: normal;
+    text-decoration: underline;
+}
+
+/** Connexion **/
+
+.droite{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 40vh;
+    padding-left: 150px;
+}
+
+.titre_connexion{
+
+    /* header text */
+    font-style: normal;
+    font-weight: normal;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: black;
+
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.box-input{
+    background: #C4C4C4;
+    border: 2px solid #000000;
+    box-sizing: initial;
+    border-radius: 10px;
+}
+
+
+.loginFemme{
+    width: 40%;
+    padding-left: 10%;
+}
+
+
+
+/**inscription**/
+.fieldset-left{ float:left; /* add this */
+    margin-top:15% ;
+    margin-left : 5%;
+    width : 45%;}
+
+fieldset{
+    margin-left : 20%;
+    margin-right:20%;
+    justify-content: space-between;
+    border : none;
+    border-radius: 10px;
+    height: auto;
+    align-items: center;
 
 }
 
+
+fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"]{
+    border-radius:10px;
+    border: 2px solid #000000;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    padding-left: 10px;
+    font-size: 15px;
+    text-shadow:none;
+    width : 360px;
+    float : right;
+    height : 40px;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
+}
+
+fieldset input.desc{
+    width: 360px;
+    height : 120px;
+}
+
+.span {
+    text-align: right;
+    float: right;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.req-img{
+    padding-top: 10px;
+    width :15px;
+    height: 15px;
+}
+
+.field{
+    position:relative;
+    padding-bottom:12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.field input[type= "checkbox"]  {
+    width :20px;
+    height : 20px;
+    border: 2px solid #000000;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
+    cursor : pointer;
+    padding: 10px;
+}
+.field input[type = "checkbox"]:checked{
+    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+}
+
+.espacement-degeu{
+    height: 100px;
+}
+
+.test:hover{
+    color:#4299C8;
+}
+
+input[type="file"]{
+    display: none;
+}
+.pp-img{
+    width : 150px;
+    height : 130px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    padding-top: 20%;
+    padding-bottom: 15%;
+
+}
+fieldset .field .input-pp{
+    border:solid black 2px;
+    border-radius: 500px;
+    padding: 3% 5% 3% 5%;
+    box-shadow:4px 2px 3px 2px rgba(0, 0, 0, 0.25); ;
+
+    width:auto;
+    height:auto;
+    margin-left : 35%;
+    margin-top: 2%; margin-bottom: 2%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
 /**Footer**/
 footer{
-    position: absolute;
+    position:relative;
     bottom : 0;
     width:100%;
     height:4rem;
     text-align: center;
-}
-footer a{
-    color:black;
-    text-decoration: none;
-    cursor: pointer;
+    align-content: center;
+    padding-top: 10%;
 }
 
 footer a:hover{

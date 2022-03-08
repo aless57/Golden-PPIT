@@ -17,21 +17,22 @@ class Authentification {
      * @param $password
      * @throws \Exception
      */
-    public static function createUser($mail, $password, $nom, $prenom, $sexe, $date_naissance, $tel, $photo, $notif_mail, $ville) {
-        $nb = Utilisateur::where('mail','=',$mail)->count();
+    public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville) {
+        $nb = Utilisateur::where('u_mail','=',$mail)->count();
         if ($nb == 0) {
             $u = new Utilisateur();
             $u->u_mail = $mail;
             $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
             $u->u_nom = $nom;
             $u->u_prenom = $prenom;
-            $u->u_sexe = $sexe;
             $u->u_naissance = $date_naissance;
             $u->u_tel = $tel;
             $u->u_photo = $photo;
             $u->u_notif_mail = $notif_mail;
             $u->u_statut = "membre";
-            $u->u_ville = Ville::where('v_nom','LIKE',$ville)->first()->v_id;
+            //A modif
+            //$u->u_ville = Ville::where('v_nom','LIKE',$ville)->first()->v_id;
+            $u->u_ville = $ville;
             $u->save();
             return true;
         } else {
