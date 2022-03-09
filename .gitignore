@@ -13,3 +13,4 @@ vendor/
 /config/config.ini
 /composer.phar
 /.phpunit.result.cache
+/.vs/
