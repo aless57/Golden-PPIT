@@ -29,12 +29,12 @@ class VueCompte
         $url_accueil = $this->container->router->pathFor('racine');
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
-        $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
+        $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
         $content = "";
 
-        if(isset($_SESSION['profile'])){
+        if (isset($_SESSION['profile'])) {
             //Si l'utilisateur est connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
@@ -51,7 +51,7 @@ class VueCompte
 
             FIN;
 
-        }else{
+        } else {
             //si 'l'utilisateur n'est pas connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
@@ -135,7 +135,7 @@ FIN;
     public function formulaireConnexion(): string
     {
         $url_connexion = $this->container->router->pathFor('enregisterConnexion');
-        $url_motDePasseOublie = $this->container->router->pathFor( 'formMotDePasseOublie' ) ;
+        $url_motDePasseOublie = $this->container->router->pathFor('formMotDePasseOublie');
         return <<<FIN
     <body>
     <h1 class="text-center">Connexion</h1>
@@ -271,8 +271,11 @@ FIN;
 
     public function formulaireModifierCompte(): string
     {
+        $url_accueil = $this->container->router->pathFor('racine');
         $url_enregistrerModification = $this->container->router->pathFor('enregistrerModifierCompte');
-        return <<<FIN
+        if (isset($_SESSION['profile'])) {
+            //si l'utilisateur est connecté
+            $html = <<<FIN
         <h1 class="text-center">Modifier les informations actuelles de votre compte !</h1>
         <div class="container ">
           <form method="post" action="$url_enregistrerModification">
@@ -309,11 +312,28 @@ FIN;
                 <input type="checkbox" name="notif" value="1" />
               </div>
               <span class="span text-right"> * : Champ obligatoire pour enregistrer les modifications !</span>
+              <div class="clearfix"></div>
+                <div class="text-right">
+                <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu " />
+                <div class="clearfix"></div>
+                </div>
+                
+
             </fieldset>
-            <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu " />
+
           </form>
         </div>
         FIN;
+        } else {
+            $html = <<<FIN
+    <div class ="message-erreur">
+        <h1>Vous devez être connecté pour accéder à cette page !</h1>
+        <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>
+    </div>
+
+FIN;
+        }
+        return $html;
     }
 
     public function formulaireMotDePasseOublie(): string

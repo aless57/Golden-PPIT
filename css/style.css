@@ -74,7 +74,7 @@ button.bouton-blanc{
     float: none;
 }
 /**Les liens**/
-a{
+a {
     text-decoration: none;
 }
 .menu ul a{
@@ -83,7 +83,7 @@ a{
     position: relative;
     text-transform:uppercase;
 }
-.menu ul a:after{
+.menu ul a:after {
     bottom: 0;
     content: "";
     display: block;
@@ -99,7 +99,9 @@ a{
     left: 0;
 }
 
-footer a {
+
+
+footer a , .message-erreur a, .lien-liste .lien-p {
     color:black;
     background: linear-gradient(to right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
 
@@ -108,7 +110,7 @@ footer a {
     -webkit-text-fill-color: transparent;
     transition: 0.5s ease-out;
 }
-footer a:hover{
+footer a:hover, .message-erreur a:hover, .lien-liste .lien-p:hover{
     background-position: -100%;
 }
 .text-center{
@@ -180,9 +182,29 @@ nav{
     cursor:pointer;
 }
 .bouton-bleu:hover{
-    color: #C4C4C4;
+    color:white;
 }
 
+.bouton-rouge{
+    position: relative;
+    margin-top:2%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width:250px;
+    height : 40px;
+    font-size: 1rem;
+    padding: 1%;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #EC8686 0%, #B73B3B 100%);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor:pointer;
+}
+.bouton-rouge:hover{
+    color:white;
+text-decoration: underline;
+}
 .p-accueil{
     color: #4BABD4;
     font-weight: bolder;
@@ -355,6 +377,100 @@ fieldset .field .input-pp{
     display: flex;
     justify-content: space-between;
 }
+
+.message-erreur {
+    color:#020024;
+    margin-top: 18%;
+    text-align: center;
+    line-height: 300%;
+}
+/** Evenement **/
+.page-evenement{
+    line-height : 40px;
+    margin-top: 4%;
+}
+.desc-eve{
+    margin-top: 11%;
+}
+.img-ev{
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
+    background: #4BABD4;
+    margin-top : 5%;
+    width: 20%;
+    height: 300px;
+    display: block;
+    border-radius: 20px;
+    margin-bottom:  3%;
+    position:absolute;
+ }
+.details-ev{
+    position:relative;
+    height: 27%;
+    margin-left: 31%;
+    padding-top:1%;
+    width: 58%;
+    align-content: center;
+
+}
+.evenement {
+    display:block;
+    padding: 2%;
+    justify-content : space-between;
+    line-height: 30px;
+    text-align: justify;
+    text-justify: inter-word;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    overflow-y:scroll;
+    height:20vh;
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
+    border-radius: 10px;
+}
+.evenement::-webkit-scrollbar{
+    width : 0.25rem;
+    border-radius: 30px;
+}
+.evenement::-webkit-scrollbar-track{
+    background: #C4C4C4;
+    border-radius: 30px;
+
+}
+.evenement::-webkit-scrollbar-thumb{
+    background: black;
+    border-radius: 30px;
+
+}
+
+.lien-liste{
+    width: 40%;
+    text-align: center;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    border: solid black 2px;
+    border-radius: 10px;
+    box-shadow:4px 2px 3px 2px rgba(0, 0, 0, 0.25); ;
+}
+
+
+.lien-liste .lien-p:hover{
+    width: 100%;
+    left: 0;
+    color:#4299C8;
+}
+.param-buttons{
+    float:right;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width :30%;
+    height: 200px;
+    align-content: center;
+    align-self: center;
+}
+.param-buttons .bouton-bleu{
+    width:250px;
+    height : 40px;
+}
+
 /**Footer**/
 footer{
     position:relative;

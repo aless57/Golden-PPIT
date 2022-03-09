@@ -25,19 +25,69 @@ class VueEvenement
      */
     public function render(int $select): string
     {
+        $bandeau = "";
+
         $url_accueil = $this->container->router->pathFor('accueil');
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
+
         $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
         $content = "";
+        if(isset($_SESSION['profile'])){
+            //si l'utilisateur est connecté
+            $bandeau .= <<<FIN
+            <div class="logo">
+                <a href="$url_menu" title="logo">
+                    <img src="images/logo-white.png" >
+                </a>
+            </div>
+            <div class="menu text-right">
+            
+                <ul>  
+                       <li> <a href="$url_modifierCompte"> Modifier compte </a> </li> 
+                       <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>    
+                </ul>
+            </div>
+
+FIN;
+
+        }else {
+            $select = -1;
+            $bandeau .= <<<FIN
+            <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png" alt="logo-accueil" >
+                </a>
+            </div>
+            <div class="menu text-right">
+                <ul>
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
+                </ul>
+            </div>
+FIN;
+            $content = <<<FIN
+    <div class ="message-erreur">
+        <h1>Vous devez être connecté pour accéder à cette page !</h1>
+        <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>
+    </div>
+
+FIN;
+
+
+        }
         $bandeau = "";
         if(isset($_SESSION['profile'])){
             //Si l'utilisateur est connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
-                
+                <div class="logo">
+                <a href="$url_menu" title="logo">
+                    <img src="images/logo-white.png" >
+                </a>
+            </div>
                 <ul>  
                 <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>  
                 <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>     
@@ -50,7 +100,11 @@ class VueEvenement
             //si 'l'utilisateur n'est pas connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
-               
+               <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png" alt="logo-accueil" >
+                </a>
+            </div>
                 <ul>
                     <li> <a href="$url_formConnexion"> Se connecter </a></li>
                     <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
@@ -60,9 +114,14 @@ class VueEvenement
 
         }
         switch ($select) {
-            case 0: //
+            case 0: //page de création d'un événement
             {
                 $content .= $this->formulaireEvenement();
+                break;
+            }
+            case 1:
+            {
+                $content.=$this->pageEvenement();
                 break;
             }
         }
@@ -77,15 +136,9 @@ class VueEvenement
 
 <body>
     <nav>
-        <div class ="container">
-            <div class="logo">
-                <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png" >
-                </a>
-            </div>
-
-            $bandeau
-
+    <div class = "container">
+    
+        $bandeau
             <div class="clearfix"></div>
         </div>
     </nav>
@@ -161,5 +214,62 @@ FIN;
 </body>
 FIN;
         return $html;
+    }
+
+
+    public function pageEvenement():string{
+        //TODO chopper les infos à partir de la bdd
+        //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
+        $url_quitter = $this->container->router->pathFor('quitterEvenement');
+        $html =<<<FIN
+        <section class="page-evenement">
+            <div class="container ">
+                <div class="img-ev">
+                </div>
+                
+            </div>
+            <div class="container details-ev">
+                <h1> Nom de l'evenement : </h1>
+                    <h2> Date de début : </h2>
+                    <h2> Date de fin : </h2>
+                
+                <h2> Propriétaire: </h2>
+                <div class="clearfix"/>
+
+            </div>
+                    </section>
+        <div class="container desc-eve ">
+        
+                 <h3>Description: </h3>
+
+                <div class="evenement"> 
+                    Ici il faudra mettre la description et on pourra scroll si c'est trop long 
+                </div>
+
+            </div>
+       
+            <div class="container lien-liste">
+                <p> Il y a XX participants à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</div> </p>
+            </div>                
+            <div class="clearfix"/>
+        </section>
+        <section >
+       <div class="Tab-besoin">
+       
+        </div>
+            <div class = "container">
+                <div class="param-buttons">
+                <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
+                <button class="bouton-bleu">Suggérer une modification</button>
+                <button class="bouton-bleu">Inviter</button>
+                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
+            </div>
+        </div>
+        <div class="clearfix"/>
+
+        </section>
+            
+FIN;
+    return $html;
     }
 }

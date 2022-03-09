@@ -94,7 +94,9 @@ FIN;
             }
             case 1:
             {
-                $content .= <<<FIN
+                if(isset($_SESSION['profile'])){
+                    //si l'utilisateur est connecté
+                    $content .= <<<FIN
             <body>
                     <h1 class="text-center"> MENU </h1>
                     
@@ -109,6 +111,17 @@ FIN;
             
             </body>
 FIN;
+
+                }else {
+
+                    $content = <<<FIN
+    <div class ="message-erreur">
+        <h1>Vous devez être connecté pour accéder à cette page !</h1>
+        <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>
+    </div>
+
+FIN;
+                }
                 break;
             }
             case 2:
