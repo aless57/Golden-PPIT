@@ -5,13 +5,14 @@ session_start();
 
 require 'vendor/autoload.php';
 
-use goldenppit\controllers\ControlleurAccueil;
-use goldenppit\controllers\ControlleurCompte;
-use goldenppit\controllers\ControlleurEvenement;
-use goldenppit\controllers\ControlleurModifierCompte;
+use goldenppit\tests\ControlleurAccueil;
+use goldenppit\tests\ControlleurCompte;
+use goldenppit\tests\ControlleurEvenement;
+use goldenppit\tests\ControlleurModifierCompte;
 use Illuminate\Database\Capsule\Manager;
 use Slim\App;
 use Slim\Container;
+
 
 $config = ['settings' => [
     'displayErrorDetails' => true,
@@ -24,7 +25,6 @@ $db->bootEloquent();
 
 $container = new Container($config);
 $app = new App($container);
-
 
 //Chemin Accueil
 $app->get('/', ControlleurAccueil::class . ':connexionInscription')->setName('racine');

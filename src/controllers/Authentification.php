@@ -1,24 +1,31 @@
 <?php
 
 namespace goldenppit\controllers;
-use \goldenppit\models\utilisateur;
-use \goldenppit\models\ville;
+
+use goldenppit\models\utilisateur;
 
 /**
  * Class Authentication
  * @package goldenppit\controllers
  */
-class Authentification {
+class Authentification
+{
     /**
-     * Fonction de création de USer
+     * Fonction de création de User
+     * @param $mail
+     * @param $password
      * @param $nom
      * @param $prenom
-     * @param $username
-     * @param $password
-     * @throws \Exception
+     * @param $date_naissance
+     * @param $tel
+     * @param $photo
+     * @param $notif_mail
+     * @param $ville
+     * @return bool
      */
-    public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville) {
-        $nb = Utilisateur::where('u_mail','=',$mail)->count();
+    public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville): bool
+    {
+        $nb = Utilisateur::where('u_mail', '=', $mail)->count();
         if ($nb == 0) {
             $u = new Utilisateur();
             $u->u_mail = $mail;
@@ -30,8 +37,7 @@ class Authentification {
             $u->u_photo = $photo;
             $u->u_notif_mail = $notif_mail;
             $u->u_statut = "membre";
-            //A modif
-            //$u->u_ville = Ville::where('v_nom','LIKE',$ville)->first()->v_id;
+            //TODO Gestion des villes à traiter.
             $u->u_ville = $ville;
             $u->save();
             return true;
@@ -46,14 +52,15 @@ class Authentification {
      * @param $password
      * @return bool
      */
-    public static function authenticate($mail, $password) {
-        $u = Utilisateur::where('u_mail','LIKE',$mail)->first();
-        if(gettype($u) != 'NULL'){
+    public static function authenticate($mail, $password): bool
+    {
+        $u = Utilisateur::where('u_mail', 'LIKE', $mail)->first();
+        if (gettype($u) != 'NULL') {
             $res = password_verify($password, $u->u_mdp);
-        }else{
+        } else {
             $res = false;
         }
-        if ($res){
+        if ($res) {
             self::loadProfile($u->u_mail);
         }
         return $res;
@@ -63,14 +70,13 @@ class Authentification {
      * Fonction pour stocker le profile dans la variable de session
      * @param $mail
      */
-    private static function loadProfile($mail) {
+    private static function loadProfile($mail)
+    {
         session_destroy();
         $_SESSION = [];
         session_start();
-        setcookie("mail", $mail, time() + 60*60*24*30, "/" );
-        $_SESSION['profile'] = array('user' => Utilisateur::where('u_mail','=',$mail)->first()->login, 'mail' => $mail);
+        setcookie("mail", $mail, time() + 60 * 60 * 24 * 30, "/");
+        $_SESSION['profile'] = array('user' => Utilisateur::where('u_mail', '=', $mail)->first()->login, 'mail' => $mail);
     }
-
-    public static function checkAccessRights($required) {}
 
 }
