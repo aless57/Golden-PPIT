@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 declare(strict_types=1);
 
 session_start();
@@ -13,6 +13,7 @@ use Illuminate\Database\Capsule\Manager;
 use Slim\App;
 use Slim\Container;
 
+
 $config = ['settings' => [
     'displayErrorDetails' => true,
 ]];
@@ -24,7 +25,6 @@ $db->bootEloquent();
 
 $container = new Container($config);
 $app = new App($container);
-
 
 //Chemin Accueil
 $app->get('/', ControlleurAccueil::class . ':connexionInscription')->setName('racine');
@@ -49,4 +49,8 @@ $app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenemen
 $app->get('/evenement' , ControlleurEvenement::class . ':evenement')->setName('Evenement');
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
-$app->run();
+
+try {
+    $app->run();
+} catch (Throwable $e) {
+}
