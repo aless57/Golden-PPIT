@@ -5,10 +5,10 @@ session_start();
 
 require 'vendor/autoload.php';
 
-use goldenppit\tests\ControlleurAccueil;
-use goldenppit\tests\ControlleurCompte;
-use goldenppit\tests\ControlleurEvenement;
-use goldenppit\tests\ControlleurModifierCompte;
+use goldenppit\controllers\ControlleurAccueil;
+use goldenppit\controllers\ControlleurCompte;
+use goldenppit\controllers\ControlleurEvenement;
+use goldenppit\controllers\ControlleurModifierCompte;
 use Illuminate\Database\Capsule\Manager;
 use Slim\App;
 use Slim\Container;
