@@ -25,10 +25,40 @@ class VueEvenement
      */
     public function render(int $select): string
     {
-        $url_accueil = $this->container->router->pathFor('racine');
+        $url_accueil = $this->container->router->pathFor('accueil');
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
+        $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
+        $url_menu = $this->container->router->pathFor('accueil');
+        $url_deconnexion = $this->container->router->pathFor('deconnexion');
         $content = "";
+        $bandeau = "";
+        if(isset($_SESSION['profile'])){
+            //Si l'utilisateur est connecté
+            $bandeau .= <<<FIN
+            <div class="menu text-right">
+                
+                <ul>  
+                <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>  
+                <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>     
+                </ul>
+            </div>
+
+            FIN;
+
+        }else{
+            //si 'l'utilisateur n'est pas connecté
+            $bandeau .= <<<FIN
+            <div class="menu text-right">
+               
+                <ul>
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
+                </ul>
+            </div>
+            FIN;
+
+        }
         switch ($select) {
             case 0: //
             {
@@ -54,12 +84,7 @@ class VueEvenement
                 </a>
             </div>
 
-            <div class="menu text-right">
-                <ul>
-                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
-                </ul>
-            </div>
+            $bandeau
 
             <div class="clearfix"></div>
         </div>

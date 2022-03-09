@@ -310,10 +310,6 @@ FIN;
               </div>
               <span class="span text-right"> * : Champ obligatoire pour enregistrer les modifications !</span>
             </fieldset>
-            
-              
-            <div class="clearfix"/>
-
             <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu " />
           </form>
         </div>
