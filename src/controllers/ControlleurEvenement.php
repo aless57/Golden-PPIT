@@ -102,9 +102,10 @@ class ControlleurEvenement
         return true;
     }
 
-    public function evenement(Request $rq, Response $rs, $args): Response{
-        $vue = new VueEvenement( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(1)) ; //on ouvre la page d'un événement
+    public function evenement(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(1)); //on ouvre la page d'un événement
         return $rs;
     }
 

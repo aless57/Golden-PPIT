@@ -8,7 +8,7 @@ class souhaite extends Model
 {
 
     protected $table = 'souhaite';
-    protected $primaryKey = ['s_notif','s_event'];
+    protected $primaryKey = ['s_notif', 's_event'];
     public $timestamps = false;
 
 }

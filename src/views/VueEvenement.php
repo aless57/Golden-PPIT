@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection DuplicatedCode */
 
 namespace goldenppit\views;
 
@@ -31,16 +31,16 @@ class VueEvenement
         $url_formInsription = $this->container->router->pathFor('formInscription');
         $url_formConnexion = $this->container->router->pathFor('formConnexion');
 
-        $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
+        $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
         $content = "";
-        if(isset($_SESSION['profile'])){
+        if (isset($_SESSION['profile'])) {
             //si l'utilisateur est connecté
             $bandeau .= <<<FIN
             <div class="logo">
                 <a href="$url_menu" title="logo">
-                    <img src="images/logo-white.png" >
+                    <img src="images/logo-white.png"  alt="">
                 </a>
             </div>
             <div class="menu text-right">
@@ -53,7 +53,7 @@ class VueEvenement
 
 FIN;
 
-        }else {
+        } else {
             $select = -1;
             $bandeau .= <<<FIN
             <div class="logo">
@@ -79,13 +79,13 @@ FIN;
 
         }
         $bandeau = "";
-        if(isset($_SESSION['profile'])){
+        if (isset($_SESSION['profile'])) {
             //Si l'utilisateur est connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
                 <div class="logo">
                 <a href="$url_menu" title="logo">
-                    <img src="images/logo-white.png" >
+                    <img src="images/logo-white.png"  alt="">
                 </a>
             </div>
                 <ul>  
@@ -96,7 +96,7 @@ FIN;
 
             FIN;
 
-        }else{
+        } else {
             //si 'l'utilisateur n'est pas connecté
             $bandeau .= <<<FIN
             <div class="menu text-right">
@@ -121,7 +121,7 @@ FIN;
             }
             case 1:
             {
-                $content.=$this->pageEvenement();
+                $content .= $this->pageEvenement();
                 break;
             }
         }
@@ -217,11 +217,12 @@ FIN;
     }
 
 
-    public function pageEvenement():string{
+    public function pageEvenement(): string
+    {
         //TODO chopper les infos à partir de la bdd
         //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
         $url_quitter = $this->container->router->pathFor('quitterEvenement');
-        $html =<<<FIN
+        $html = <<<FIN
         <section class="page-evenement">
             <div class="container ">
                 <div class="img-ev">
@@ -270,6 +271,6 @@ FIN;
         </section>
             
 FIN;
-    return $html;
+        return $html;
     }
 }

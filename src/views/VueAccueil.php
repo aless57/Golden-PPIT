@@ -2,7 +2,8 @@
 
 namespace goldenppit\views;
 
-class VueAccueil{
+class VueAccueil
+{
 
     private $tab;
     private $container;
@@ -23,26 +24,26 @@ class VueAccueil{
      * @param int $select
      * @return string
      */
-    public function render( int $select ) : string
+    public function render(int $select): string
     {
         $bandeau = "";
         $url_accueil = $this->container->router->pathFor('racine');
-        $url_formConnexion = $this->container->router->pathFor( 'formConnexion' ) ;
-        $url_formInsription = $this->container->router->pathFor( 'formInscription' ) ;
-        $url_modifierCompte = $this->container->router->pathFor( 'formModifierCompte' ) ;
+        $url_formConnexion = $this->container->router->pathFor('formConnexion');
+        $url_formInsription = $this->container->router->pathFor('formInscription');
+        $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
 
         $url_creationEv = $this->container->router->pathFor('creationEvenement');
         $url_enregistrerEv = $this->container->router->pathFor('enregistrerEvenement');
 
-        $content="";
-        if(isset($_SESSION['profile'])){
+        $content = "";
+        if (isset($_SESSION['profile'])) {
             //si l'utilisateur est connecté
             $bandeau .= <<<FIN
             <div class="logo">
                 <a href="$url_menu" title="logo">
-                    <img src="images/logo-white.png" >
+                    <img src="images/logo-white.png"  alt="">
                 </a>
             </div>
             <div class="menu text-right">
@@ -55,7 +56,7 @@ class VueAccueil{
 
 FIN;
 
-        }else {
+        } else {
             $bandeau .= <<<FIN
             <div class="logo">
                 <a href="$url_accueil" title="logo">
@@ -70,10 +71,10 @@ FIN;
             </div>
 FIN;
         }
-        switch ($select){
+        switch ($select) {
             case 0:
             {
-            $content .= <<<FIN
+                $content .= <<<FIN
 <section>
     <div class="logo-accueil" >            
         <img src="images/logo-accueil.png" class="img-logo" alt="logo-accueil">
@@ -89,12 +90,12 @@ FIN;
         
     </section>
 FIN;
-            break;
+                break;
 
             }
             case 1:
             {
-                if(isset($_SESSION['profile'])){
+                if (isset($_SESSION['profile'])) {
                     //si l'utilisateur est connecté
                     $content .= <<<FIN
             <body>
@@ -112,7 +113,7 @@ FIN;
             </body>
 FIN;
 
-                }else {
+                } else {
 
                     $content = <<<FIN
     <div class ="message-erreur">
@@ -130,7 +131,7 @@ FIN;
                 break;
             }
         }
-        $html =<<<FIN
+        return <<<FIN
 <html lang="french">
 
 <head lang="french">
@@ -161,7 +162,5 @@ FIN;
     </footer>
 </html>
 FIN;
-
-        return $html;
     }
 }

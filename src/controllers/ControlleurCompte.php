@@ -1,25 +1,23 @@
-<?php
+<?php /** @noinspection PhpUnusedParameterInspection */
 
 namespace goldenppit\controllers;
 
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueCompte;
-use goldenppit\views\VueModifierCompte;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use \goldenppit\models\Utilisateur;
-use \goldenppit\models\Ville;
+use goldenppit\models\Utilisateur;
 
 class ControlleurCompte
 {
     private $container;
-    private $today;
 
     /**
      * ControlleurCompte constructor.
      * @param $container
      */
-    public function __construct($container) {
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
@@ -31,9 +29,10 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function inscription(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueCompte( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(1)) ;
+    public function inscription(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueCompte([], $this->container);
+        $rs->getBody()->write($vue->render(1));
         return $rs;
     }
 
@@ -45,9 +44,10 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function motDePasseOublie(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueCompte( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(3)) ;
+    public function motDePasseOublie(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueCompte([], $this->container);
+        $rs->getBody()->write($vue->render(3));
         return $rs;
     }
 
@@ -59,9 +59,10 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function reinitialiserMDP(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueCompte( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(4)) ;
+    public function reinitialiserMDP(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueCompte([], $this->container);
+        $rs->getBody()->write($vue->render(4));
         return $rs;
     }
 
@@ -73,7 +74,8 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function enregistrerInscription(Request $rq, Response $rs, $args) : Response {
+    public function enregistrerInscription(Request $rq, Response $rs, $args): Response
+    {
         $post = $rq->getParsedBody();
 
         $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
@@ -81,21 +83,22 @@ class ControlleurCompte
         $naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
         $tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
         $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
-        $mdp = filter_var($post['mdp'] , FILTER_SANITIZE_STRING) ;
-        $adr = filter_var($post['adr'] , FILTER_SANITIZE_STRING) ;
-        $cp = filter_var($post['cp'] , FILTER_SANITIZE_STRING) ;
-        $dep = filter_var($post['dep'] , FILTER_SANITIZE_STRING) ;
-        $photo = filter_var($post['mdp'] , FILTER_SANITIZE_STRING) ;
+        $mdp = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
+        $adr = filter_var($post['adr'], FILTER_SANITIZE_STRING);
+        //TODO Gérer la ville
+        //$cp = filter_var($post['cp'], FILTER_SANITIZE_STRING);
+        //$dep = filter_var($post['dep'], FILTER_SANITIZE_STRING);
+        $photo = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
         $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
         echo $post['notif'];
-        $vue = new VueAccueil([], $this->container ) ;
-        if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr)){
+        $vue = new VueAccueil([], $this->container);
+        if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr)) {
             Authentification::authenticate($mail, $mdp);
             $_SESSION['inscriptionOK'] = true;
             $url_accueil = $this->container->router->pathFor("accueil");
             return $rs->withRedirect($url_accueil);
-        }else{
-            $rs->getBody()->write( $vue->render(2));
+        } else {
+            $rs->getBody()->write($vue->render(2));
         }
         return $rs;
     }
@@ -108,23 +111,25 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function connexion(Request $rq, Response $rs, $args) : Response {
-        if (isset($_SESSION['connexionOK'])){
-            if(!$_SESSION['connexionOK']){
+    public function connexion(Request $rq, Response $rs, $args): Response
+    {
+        if (isset($_SESSION['connexionOK'])) {
+            if (!$_SESSION['connexionOK']) {
                 session_destroy();
                 $_SESSION = [];
-                $vue = new VueCompte([] , $this->container) ;
-                $rs->getBody()->write( $vue->render(1)); //inscription
-                return $rs;
-            }{
                 $vue = new VueCompte([], $this->container);
-                $rs->getBody()->write( $vue->render(0));
+                $rs->getBody()->write($vue->render(1)); //inscription
+                return $rs;
+            }
+            {
+                $vue = new VueCompte([], $this->container);
+                $rs->getBody()->write($vue->render(0));
                 return $rs;
             }
             //autre cas (avec les inscriptions)
-        }else{
+        } else {
             $vue = new VueCompte([], $this->container);
-            $rs->getBody()->write( $vue->render(0));
+            $rs->getBody()->write($vue->render(0));
             return $rs;
         }
     }
@@ -137,16 +142,17 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function testConnexion(Request $rq, Response $rs, $args) : Response {
-        $post = $rq->getParsedBody() ;
-        $login = filter_var($post['u_mail']       , FILTER_SANITIZE_STRING) ;
-        $pass = filter_var($post['u_mdp'] , FILTER_SANITIZE_STRING) ;
+    public function testConnexion(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $login = filter_var($post['u_mail'], FILTER_SANITIZE_STRING);
+        $pass = filter_var($post['u_mdp'], FILTER_SANITIZE_STRING);
         $connexionOK = Authentification::authenticate($login, $pass);
         var_dump($connexionOK);
-        if ($connexionOK){
+        if ($connexionOK) {
             $url_accueil = $this->container->router->pathFor("accueil");
             return $rs->withRedirect($url_accueil);
-        }else{
+        } else {
             $url_connexion = $this->container->router->pathFor("formConnexion");
             return $rs->withRedirect($url_connexion);
         }
@@ -160,38 +166,36 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function afficherCompte(Request $rq, Response $rs, $args) : Response {
-        $infosUser = Utilisateur::where('mail','=',$_SESSION['profile']['mail'])->first();
-        $vue = new VueCompte($infosUser->toArray(), $this->container );
+    public function afficherCompte(Request $rq, Response $rs, $args): Response
+    {
+        $infosUser = Utilisateur::where('mail', '=', $_SESSION['profile']['mail'])->first();
+        $vue = new VueCompte($infosUser->toArray(), $this->container);
         if (isset($_SESSION['inscriptionOK'])) {
             if ($_SESSION['inscriptionOK']) {
                 // on vient de s'inscrire
-                $rs->getBody()->write( $vue->render(4));
+                $rs->getBody()->write($vue->render(4));
                 $info = $_SESSION['profile'];
                 $_SESSION = [];
                 $_SESSION['profile'] = $info;
-                return $rs;
-            }else {
-                $rs->getBody()->write( $vue->render(5));
-                return $rs;
+            } else {
+                $rs->getBody()->write($vue->render(5));
             }
-        }else if (isset($_SESSION['passwordOK'])) {
+            return $rs;
+        } else if (isset($_SESSION['passwordOK'])) {
+            $info = $_SESSION['profile'];
             if ($_SESSION['passwordOK']) {
-                $info = $_SESSION['profile'];
                 $_SESSION = [];
                 $_SESSION['profile'] = $info;
                 $vue = new VueCompte($infosUser->toArray(), $this->container);
                 $rs->getBody()->write($vue->render(7));
-                return $rs;
             } else {
-                $info = $_SESSION['profile'];
                 $_SESSION = [];
                 $_SESSION['profile'] = $info;
                 $vue = new VueCompte($infosUser->toArray(), $this->container);
                 $rs->getBody()->write($vue->render(5));
-                return $rs;
             }
-        }else{
+            return $rs;
+        } else {
             $rs->getBody()->write($vue->render(5));
             return $rs;
         }
@@ -205,8 +209,9 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function enregistrerMotDePasse(Request $rq, Response $rs, $args) : Response {
-        $infosUser = Utilisateur::where('mail','=',$_SESSION['profile']['mail'])->first();
+    public function enregistrerMotDePasse(Request $rq, Response $rs, $args): Response
+    {
+        $infosUser = Utilisateur::where('mail', '=', $_SESSION['profile']['mail'])->first();
         $post = $rq->getParsedBody();
         $ancienMDP = filter_var($post['ancienMDP'], FILTER_SANITIZE_STRING);
         $nouveauMDP = filter_var($post['nouveauMDP'], FILTER_SANITIZE_STRING);
@@ -214,15 +219,15 @@ class ControlleurCompte
         $mdpOK = Authentification::authenticate($_SESSION['profile']['username'], $ancienMDP);
 
         if (!$mdpOK) {
-            $vue = new VueCompte( $infosUser->toArray() , $this->container ) ;
-            $rs->getBody()->write($vue->render(11)) ;
+            $vue = new VueCompte($infosUser->toArray(), $this->container);
+            $rs->getBody()->write($vue->render(11));
             return $rs;
-        }else {
+        } else {
             if ($nouveauMDP != $confirmerMDP) {
-                $vue = new VueCompte( $infosUser->toArray() , $this->container ) ;
-                $rs->getBody()->write($vue->render(12)) ;
+                $vue = new VueCompte($infosUser->toArray(), $this->container);
+                $rs->getBody()->write($vue->render(12));
                 return $rs;
-            }else {
+            } else {
                 $infosUser->mdp = password_hash($nouveauMDP, PASSWORD_DEFAULT);
                 $infosUser->save();
                 $_SESSION['passwordOK'] = true;
@@ -241,16 +246,16 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function enregistrerModif(Request $rq, Response $rs, $args) : Response {
-        $infoUser = Utilisateur::where("mail","=",$_SESSION['profile']['mail'])->first();
+    public function enregistrerModif(Request $rq, Response $rs, $args): Response
+    {
+        $infoUser = Utilisateur::where("mail", "=", $_SESSION['profile']['mail'])->first();
         $post = $rq->getParsedBody();
         $nouveauMail = filter_var($post['mail']);
-        $nbNouveauMail = Utilisateur::where("mail","=",$nouveauMail)->count();
+        $nbNouveauMail = Utilisateur::where("mail", "=", $nouveauMail)->count();
         if ($nbNouveauMail > 0 && $nouveauMail != $infoUser->email) {
             $vue = new VueCompte($infoUser->toArray(), $this->container);
             $rs->getBody()->write($vue->render(9));
-            return $rs;
-        }else {
+        } else {
             $infoUser->u_nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
             $infoUser->u_prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING);
             $infoUser->u_login = filter_var($post['login'], FILTER_SANITIZE_STRING);
@@ -259,11 +264,11 @@ class ControlleurCompte
             $infoUser->u_naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
             $infoUser->u_tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
             $infoUser->save();
-            $vue = new VueCompte( $infoUser->toArray(), $this->container ) ;
+            $vue = new VueCompte($infoUser->toArray(), $this->container);
             $_SESSION['profile']['mail'] = $nouveauMail;
-            $rs->getBody()->write( $vue->render(7));
-            return $rs;
+            $rs->getBody()->write($vue->render(7));
         }
+        return $rs;
     }
 
     /**
@@ -274,9 +279,10 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function modifierCompte(Request $rq, Response $rs, $args) : Response {
-        $vue = new VueCompte( [] , $this->container ) ;
-        $rs->getBody()->write( $vue->render(2)) ;
+    public function modifierCompte(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueCompte([], $this->container);
+        $rs->getBody()->write($vue->render(2));
         return $rs;
     }
 
@@ -288,9 +294,10 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function changerMotDePasse (Request $rq, Response $rs, $args) : Response  {
-        $infosUser = Utilisateur::where('mail','=',$_SESSION['profile']['mail'])->first();
-        $vue = new VueCompte( $infosUser->toArray() , $this->container ) ;
+    public function changerMotDePasse(Request $rq, Response $rs, $args): Response
+    {
+        $infosUser = Utilisateur::where('mail', '=', $_SESSION['profile']['mail'])->first();
+        $vue = new VueCompte($infosUser->toArray(), $this->container);
         $rs->getBody()->write($vue->render(10));
         return $rs;
     }
@@ -303,7 +310,8 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function deconnexion(Request $rq, Response $rs, $args) : Response {
+    public function deconnexion(Request $rq, Response $rs, $args): Response
+    {
         session_destroy();
         $_SESSION = [];
         $url_accueil = $this->container->router->pathFor('racine');
@@ -318,11 +326,12 @@ class ControlleurCompte
      * @param $args
      * @return Response
      */
-    public function supprimerCompte(Request $rq, Response $rs, $args) : Response {
+    public function supprimerCompte(Request $rq, Response $rs, $args): Response
+    {
         session_destroy();
         $user = Utilisateur::find($_SESSION['profile']['mail']);
         $user->delete();
-        setcookie("mail", '-1', time() + 60*60*24*30, "/" );
+        setcookie("mail", '-1', time() + 60 * 60 * 24 * 30, "/");
         session_destroy();
         $_SESSION = [];
         $url_accueil = $this->container->router->pathFor('racine');

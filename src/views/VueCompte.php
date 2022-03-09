@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection DuplicatedCode */
+
+/** @noinspection HtmlUnknownTarget */
 
 namespace goldenppit\views;
 
@@ -216,7 +218,7 @@ FIN;
 				
 				<div class="field"> 
 				Numéro de téléphone : 
-				<input type="tel" name="tel" placeholder="0X XX XX XX XX"/>
+				<input type="tel" name="tel" placeholder="0XXXXXXXXX"/>
 				</div>
 				
 				<div class="field"> 
@@ -294,7 +296,7 @@ FIN;
               </div>
               <div class="field"> Date de naissance : <input type="date" name="naissance" placeholder="XX-XX-XXXX" />
               </div>
-              <div class="field"> Numéro de téléphone : <input type="tel" name="tel" placeholder="0X XX XX XX XX" />
+              <div class="field"> Numéro de téléphone : <input type="tel" name="tel" placeholder="0XXXXXXXXX" />
               </div>
               <div class="field"> Mot de passe actuel * : <input type="password" name="mdp" placeholder="**********" required="required" />
               </div>
@@ -394,7 +396,7 @@ FIN;
 
     <div class = "container ">
             
-        <form name="connexion" method="POST" action="#">
+        <form name="connexion" method="POST" action="$url_envoyer">
             <div class="fieldset-left">
                 <div class="text-right">
 			    <p class = "p-accueil2">
@@ -403,12 +405,12 @@ FIN;
                 </div>
                 <div class="field"> 
 				    Mot de passe :
-				    <input type="mdp" name="u_mdp" placeholder=""/>
+				    <input type="password" name="u_mdp" placeholder=""/>
 			    </div>
 			
 			    <div class="field"> 
 				    Confirmation du mot de passe : 
-				    <input type="mdpconfirm" name="u_mdpconfirm" placeholder=""/>
+				    <input type="password" name="u_mdpconfirm" placeholder=""/>
 			    </div>
 			    <div class="text-right">
 			    <input class="bouton-bleu" type="submit" value="Valider" >

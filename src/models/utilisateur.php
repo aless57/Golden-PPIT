@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static where(string $string, string $string1, $mail)
+ * @method static find(mixed $mail)
  * @property mixed $u_mail
  * @property mixed $u_nom
  * @property mixed $u_prenom
