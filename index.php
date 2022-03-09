@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 declare(strict_types=1);
 
 session_start();
@@ -46,4 +46,7 @@ $app->post('/reinitialiserMDP', ControlleurCompte::class . ':resetMDP')->setName
 $app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('creationEvenement');
 $app->get('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 
-$app->run();
+try {
+    $app->run();
+} catch (Throwable $e) {
+}
