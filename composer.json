@@ -12,8 +12,7 @@
       "goldenppit\\": "./src"
     },
     "classmap": [
-      "tests/",
-      "bin/.phpunit/phpunit-9.2.0-0/src"
+      "tests/"
     ]
   }
 }
