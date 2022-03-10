@@ -1,14 +1,15 @@
-<?php /** @noinspection DuplicatedCode */
+<?php
+
 
 namespace goldenppit\views;
 
-class VueEvenement
+class VuePageEvenement
 {
     private $tab;
     private $container;
 
     /**
-     * VueEvenement constructor.
+     * VuePageEvenement constructor.
      * @param $tab
      * @param $container
      */
@@ -34,6 +35,7 @@ class VueEvenement
         $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
+
         $content = "";
         if (isset($_SESSION['profile'])) {
             //si l'utilisateur est connecté
@@ -78,29 +80,19 @@ FIN;
 
 
         }
-        switch ($select) {
-            case 0: //page de création d'un événement
-            {
-                $content .= $this->formulaireEvenement();
-                break;
-            }
-            case 1:
-            {
-                $content .= $this->pageEvenement();
-                break;
-            }
-            case 2:
-            {
-                $content .=$this->consulterEvenement();
-            }
-        }
 
+        switch ($select) {
+            case 0:
+                $content = $this->pageEvenement();
+                break;
+
+        }
         $html = <<<FIN
 <html lang="french">
 
 <head>
     <title>GoldenPPIT</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -130,75 +122,27 @@ FIN;
         return $html;
     }
 
-    public function formulaireEvenement(): string
-    {
-        $url_enregistrerEvenement = $this->container->router->pathFor('enregistrerEvenement' );
-
-        $html = <<<FIN
-<h1 class="text-center">Créer un événement</h1>
-		<div class = "container ">
-		
-		<form method="post" action="$url_enregistrerEvenement">
-			<fieldset >
-				<div class="field"> 
-				    <label> Nom * :  </label>
-				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" required="required"/>
-                </div>
-				
-				<div class="field"> 
-				    <label> Date de début * : </label>
-				    <input type="date" name="deb" placeholder="03-03-2022" required="required"/>
-				</div>
-				
-				<div class="field"> 
-				    <label> Date d'archivage * : </label>
-				    <input type="date" name="archiv" placeholder="24-04-2022" required="required"/>
-				</div>
-				
-				<div class="field"> 
-				    <label> Date de suppression automatique : </label>
-				    <input type="date" name="supprauto" placeholder="24-04-2022" />
-				</div>
-				
-				<div class="field"> 
-				    <label> Lieu * : </label>
-				    <input type="text" name="lieu" placeholder="Lieu de l'évenement" required="required"/>
-				</div>
-				
-				<div class="field"> 
-				    <label> Description : </label>
-				    <input type="text" class="desc" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
-				</div>
-				
-				<span class="span text-right"> *  : Champ obligatoire !</span>
-			</fieldset>
-			
-            <div class="clearfix"/>
-            
-			<input type="submit" value="Créer" name="submit" class="bouton-bleu" />
-		</form>
-
-    </div>
-    
-</body>
-FIN;
-        return $html;
-    }
 
 
     public function pageEvenement(): string
     {
         $url_quitter = $this->container->router->pathFor('quitterEvenement');
-
+        $id_ev = $this->tab[0];
+        $nom= $this->tab[1];
+        $date_deb = $this->tab[2];
+        $date_fin = $this->tab[3];
+        $proprio =$this->tab[4];
+        $ville =  $this->tab[5];
+        $desc = $this->tab[6];
         if(true){//si l'utilisateur est propriétaire :
             $boutons =
-        <<<FIN
+                <<<FIN
          <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
                 <button class="bouton-bleu">Suggérer une modification</button>
                 <button class="bouton-bleu">Inviter</button>
                 <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
         FIN;
-    }
+        }
 
 
         //TODO chopper les infos à partir de la bdd
@@ -211,11 +155,10 @@ FIN;
                 
             </div>
             <div class="container details-ev">
-                <h1> Nom de l'evenement : </h1>
-                    <h2> Date de début : </h2>
-                    <h2> Date de fin : </h2>
-                
-                <h2> Propriétaire: </h2>
+                    <h1> Nom de l'evenement : $nom </h1>
+                    <h2> Date de début : $date_deb</h2>
+                    <h2> Date de fin : $date_fin</h2>
+                <h2> Propriétaire: $proprio</h2>
                 <div class="clearfix"/>
 
             </div>
@@ -225,7 +168,7 @@ FIN;
                  <h3>Description: </h3>
 
                 <div class="evenement"> 
-                    Ici il faudra mettre la description et on pourra scroll si c'est trop long 
+                    <p> $desc </p> 
                 </div>
 
             </div>
@@ -242,40 +185,13 @@ FIN;
             <div class = "container">
                 <div class="param-buttons">
                 
-                $boutons; 
+                $boutons
             </div>
         </div>
         <div class="clearfix"/>
 
         </section>
             
-FIN;
-        return $html;
-    }
-
-    public function consulterEvenement(): string
-    {
-
-        $evenements = "";
-        $test = "";
-        //TODO chopper les infos à partir de la bdd
-        for($i = 0; $i<$this->tab[1]->count(); $i++){
-            $test = $this->tab[1][$i]->e_titre;
-            $evenements .= <<<FIN
-                    <button class="bouton-blanc">$test</button>   
-FIN;
-
-        }
-
-        $html = <<<FIN
-            <body>
-                    <h1 class="text-center"> LES ÉVÉNEMENTS </h1>
-                    
-                    <div class = "container">
-                        $evenements
-                    </div>
-                    
-            </body>
 FIN;
         return $html;
     }

@@ -7,6 +7,7 @@ use goldenppit\models\evenement;
 use goldenppit\models\participant;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueEvenement;
+use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -64,7 +65,9 @@ class ControlleurEvenement
         $vue = new VueAccueil([], $this->container);
 
         if ($this->createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)) {
-            $url_accueil = $this->container->router->pathFor("accueil");
+            $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
+            $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
+
             return $rs->withRedirect($url_accueil);
         } else {
             $rs->getBody()->write($vue->render(2));
@@ -104,6 +107,7 @@ class ControlleurEvenement
         $e->e_date = $debut;
         $e->e_archive = $archiv;
         $e->e_statut = ENCOURS;
+        //TODO $e->e_proprio = $_SESSION['profile']['mail']; La récup du mail dans la variable de session ne fonctionne pas.
         //$e->e_proprio = "moi@gmail.fr";
         $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
 
@@ -115,11 +119,20 @@ class ControlleurEvenement
         return true;
     }
 
-
     public function evenement(Request $rq, Response $rs, $args): Response
     {
-        $vue = new VueEvenement([], $this->container);
-        $rs->getBody()->write($vue->render(1)); //on ouvre la page d'un événement
+        $id_ev = $args['id_ev'];
+
+        $nom_ev = Evenement::where('e_id', '=', $id_ev)->first()->e_titre;
+        $date_deb = Evenement::where('e_id', '=', $id_ev)->first()->e_date;
+        $date_fin = Evenement::where('e_id', '=', $id_ev)->first()->e_archive;
+        $proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
+        $ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
+        $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
+
+        //récupérer les champs ici et les mettre entre les crochets
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc], $this->container);
+        $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
         return $rs;
     }
 
