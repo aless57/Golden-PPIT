@@ -124,6 +124,10 @@ FIN;
                 $content .= $this->pageEvenement();
                 break;
             }
+            case 2:
+            {
+                $content .=$this->consulterEvenement();
+            }
         }
 
         $html = <<<FIN
@@ -273,4 +277,32 @@ FIN;
 FIN;
         return $html;
     }
+
+    public function consulterEvenement(): string
+    {
+
+        $evenements = "";
+        $test = "";
+        //TODO chopper les infos à partir de la bdd
+        for($i = 0; $i<$this->tab[1]->count(); $i++){
+            $test = $this->tab[1][$i]->e_titre;
+            $evenements .= <<<FIN
+                    <button class="bouton-blanc">$test</button>   
+FIN;
+
+        }
+
+        $html = <<<FIN
+            <body>
+                    <h1 class="text-center"> LES ÉVÉNEMENTS </h1>
+                    
+                    <div class = "container">
+                        $evenements
+                    </div>
+                    
+            </body>
+FIN;
+        return $html;
+    }
+
 }

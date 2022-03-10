@@ -91,7 +91,7 @@ class ControlleurEvenement
         $e->e_supp_date = $supprAuto;
         $e->e_desc = $desc;
         $e->e_statut = ENCOURS;
-        $e->e_proprio = "moi@gmail.fr";
+        $e->e_proprio = "jetest@gmail.com";
         //TODO $e->e_proprio = $_SESSION['profile']['mail']; La récup du mail dans la variable de session ne fonctionne pas.
 
         // TODO : A modif
@@ -106,6 +106,15 @@ class ControlleurEvenement
     {
         $vue = new VueEvenement([], $this->container);
         $rs->getBody()->write($vue->render(1)); //on ouvre la page d'un événement
+        return $rs;
+    }
+
+    public function consulterEv(Request $rq, Response $rs, $args): Response
+    {
+        $nbEvent = Evenement::all()->count();
+        $nomsEvent = Evenement::all();
+        $vue = new VueEvenement([$nbEvent,$nomsEvent], $this->container);
+        $rs->getBody()->write($vue->render(2)); //on ouvre la page d'un événement
         return $rs;
     }
 
