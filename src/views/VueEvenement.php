@@ -183,7 +183,7 @@ FIN;
 				
 				<div class="field"> 
 				    <label> Date d'archivage * : </label>
-				    <input type="date" name="archiv" placeholder="24-04-2022" />
+				    <input type="date" name="archiv" placeholder="24-04-2022" required="required"/>
 				</div>
 				
 				<div class="field"> 

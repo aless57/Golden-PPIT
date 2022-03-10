@@ -85,11 +85,24 @@ class ControlleurEvenement
     public static function createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)
     {
         $e = new Evenement();
+
+        if($supprAuto == null ){
+            $e->e_supp_date = NULL;
+        }
+        else {
+            $e->e_supp_date = $supprAuto;
+        }
+
+        if($supprAuto == null ){
+            $e->e_desc = NULL;
+        }
+        else {
+            $e->e_desc = $desc;
+        }
+
         $e->e_titre = $nom;
         $e->e_date = $debut;
         $e->e_archive = $archiv;
-        $e->e_supp_date = $supprAuto;
-        $e->e_desc = $desc;
         $e->e_statut = ENCOURS;
         //$e->e_proprio = "moi@gmail.fr";
         $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
@@ -119,9 +132,9 @@ class ControlleurEvenement
      * @param Id de l'event à supprimer $event_id
      * @return Response
      */
-    public function supprimerEvenement(Request $rq, Response $rs, $args, $event_id): Response
+    public function supprimerEvenement(Request $rq, Response $rs, $args): Response
     {
-        $event = Evenement::find($event_id);
+        $event = Evenement::find($args['event_id']);
         $event->delete();
         //TODO : remettre sur la page précedente
         $url_accueil = $this->container->router->pathFor('racine');
