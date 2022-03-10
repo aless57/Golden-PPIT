@@ -91,8 +91,8 @@ class ControlleurEvenement
         $e->e_supp_date = $supprAuto;
         $e->e_desc = $desc;
         $e->e_statut = ENCOURS;
-        $e->e_proprio = "moi@gmail.fr";
-        //TODO $e->e_proprio = $_SESSION['profile']['mail']; La récup du mail dans la variable de session ne fonctionne pas.
+        //$e->e_proprio = "moi@gmail.fr";
+        $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
 
         // TODO : A modif
         //$e->e_ville = Ville::where('v_nom','LIKE',$ville)->first()->v_id;
@@ -101,6 +101,7 @@ class ControlleurEvenement
         $e->save();
         return true;
     }
+
 
     public function evenement(Request $rq, Response $rs, $args): Response
     {

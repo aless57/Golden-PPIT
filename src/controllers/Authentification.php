@@ -61,7 +61,7 @@ class Authentification
             $res = false;
         }
         if ($res) {
-            self::loadProfile($u->u_mail);
+            self::loadProfile($mail);
         }
         return $res;
     }
@@ -75,6 +75,7 @@ class Authentification
         session_destroy();
         $_SESSION = [];
         session_start();
+        $mail = str_replace("%40","@",$mail);
         setcookie("mail", $mail, time() + 60 * 60 * 24 * 30, "/");
         $_SESSION['profile'] = array('user' => Utilisateur::where('u_mail', '=', $mail)->first()->login, 'mail' => $mail);
     }

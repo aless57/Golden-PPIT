@@ -319,10 +319,7 @@ FIN;
                 <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu " />
                 <div class="clearfix"></div>
                 </div>
-                
-
-            </fieldset>
-
+            </fieldset> 
           </form>
         </div>
         FIN;
