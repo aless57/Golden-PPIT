@@ -196,7 +196,7 @@ nav{
     font-size: 1rem;
     padding: 1%;
     color: #ECECF3;
-    background: linear-gradient(180deg, #EC8686 0%, #B73B3B 100%);
+    background: linear-gradient(180deg, #fd5c63 0%, #960018 100%);
     border: 2px solid #030233;
     box-sizing: border-box;
     border-radius: 10px;
@@ -204,7 +204,6 @@ nav{
 }
 .bouton-rouge:hover{
     color:white;
-text-decoration: underline;
 }
 .p-accueil{
     color: #030233;
@@ -500,6 +499,48 @@ fieldset .field .input-pp{
     width:250px;
     height : 40px;
 }
+
+
+/** menu dropdown pour les paramètres*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height:auto;
+    text-align: center;
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    border: solid #030233 2px;
+    width:230px;
+    z-index: 1;
+
+    margin-left:3%;
+
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    background:  #ECECF3;
+    display: block;
+    border-radius: 2px;
+
+
+}
+.dropdown-content a.supp{
+    color: #960018;
+}
+
+.dropdown-content a:hover {
+    color:#357EB7;
+    background:white;
+}
+.dropdown:hover .dropdown-content {display: block;}
+
 
 /**Footer**/
 footer{

@@ -155,7 +155,15 @@ FIN;
         if($proprio == $_SESSION['profile']['mail']){//si l'utilisateur est propriétaire :
             $boutons .=
                 <<<FIN
-                <button class="bouton-bleu">Paramètres</button>
+                    <div class="dropdown">
+                      <button class="bouton-bleu">Paramètres</button>
+                      <div class="dropdown-content">
+                        <span> <a href="#">Gérer les besoins</a></span>
+                        <span> <a href="#">Gérer les participants</a></span>
+                        <span> <a href="#">Léguer l'événement</a></span>
+                        <span> <a href="#" class="supp">Supprimer l'événement</a></span>
+                      </div>
+                    </div>
             FIN;
         }else{
             $boutons .=<<<FIN
@@ -219,9 +227,8 @@ FIN;
             </section>
        
             <div class="container lien-liste">
-                <p> Il y a $nb_participants $participant_s à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</div> </p>
+                <p> Il y a $nb_participants $participant_s à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</a> </div> </p>
             </div>                
-            <div class="clearfix"/>
         </section>
         <section >
        <div class="Tab-besoin">
@@ -229,8 +236,7 @@ FIN;
         </div>
             <div class = "container">
                 <div class="param-buttons">
-                
-                $boutons
+                    $boutons
             </div>
         </div>
         <div class="clearfix"/>
