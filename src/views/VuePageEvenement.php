@@ -41,8 +41,8 @@ class VuePageEvenement
             //si l'utilisateur est connecté
             $bandeau .= <<<FIN
             <div class="logo">
-                <a href="$url_menu" title="logo">
-                    <img src="images/logo-white.png"  alt="">
+                <a href="$url_accueil" title="logo">
+                    <img src="../images/logo-white.png" alt="logo-accueil" >
                 </a>
             </div>
             <div class="menu text-right">
@@ -58,6 +58,7 @@ FIN;
         } else {
             $select = -1;
             $bandeau .= <<<FIN
+
             <div class="logo">
                 <a href="$url_accueil" title="logo">
                     <img src="images/logo-white.png" alt="logo-accueil" >
@@ -71,6 +72,11 @@ FIN;
             </div>
 FIN;
             $content = <<<FIN
+        <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="images/logo-white.png" alt="logo-accueil" >
+                </a>
+            </div>
     <div class ="message-erreur">
         <h1>Vous devez être connecté pour accéder à cette page !</h1>
         <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>
@@ -134,18 +140,36 @@ FIN;
         $proprio =$this->tab[4];
         $ville =  $this->tab[5];
         $desc = $this->tab[6];
-        if(true){//si l'utilisateur est propriétaire :
-            $boutons =
-                <<<FIN
-         <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
-                <button class="bouton-bleu">Suggérer une modification</button>
-                <button class="bouton-bleu">Inviter</button>
-                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
-        FIN;
+        $nb_participants = $this->tab[7];
+        $participant_s  = "";
+        if($nb_participants > 1){
+                $participant_s = "participants";
+        }else{
+            $participant_s = "participant";
         }
+        $boutons =
+            <<<FIN
+                
+                <button class="bouton-bleu">Inviter</button>
+            FIN;
+        if($proprio == $_SESSION['profile']['mail']){//si l'utilisateur est propriétaire :
+            $boutons .=
+                <<<FIN
+                <button class="bouton-bleu">Paramètres</button>
+            FIN;
+        }else{
+            $boutons .=<<<FIN
+                <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
+                <button class="bouton-bleu">Suggérer une modification</button>
+            FIN;
+
+        }
+        $boutons .=<<<FIN
+                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
+
+            FIN;
 
 
-        //TODO chopper les infos à partir de la bdd
         //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
         $html = <<<FIN
         <section class="page-evenement">
@@ -153,28 +177,49 @@ FIN;
                 <div class="img-ev">
                 </div>
                 
-            </div>
-            <div class="container details-ev">
-                    <h1> Nom de l'evenement : $nom </h1>
-                    <h2> Date de début : $date_deb</h2>
-                    <h2> Date de fin : $date_fin</h2>
-                <h2> Propriétaire: $proprio</h2>
-                <div class="clearfix"/>
+            
+            <div class=" details-bg">
+                    <div class=" labels-details-ev"> 
+                        <h2> Nom de l'evenement : </h2>
+                        <h2 class="details-ev" > $nom </h2>
+                    </div>
+                    <div class=" labels-details-ev">
+                        <h2> Date de début : </h2>
+                        <h2 class="details-ev"> $date_deb</h2>
+                    </div>
+                    <div class=" labels-details-ev">
+                        <h2> Date de fin : </h2>
+                        <h2 class="details-ev"> $date_fin </h2>
+                    </div>
+                    
+                    <div class=" labels-details-ev">
+                        <h2> Propriétaire: </h2>
+                        <h2 class="details-ev"> $proprio </h2>
+                    </div>
+                    
+                    <div class=" labels-details-ev">
+                        <h2> Lieu : </h2>
+                        <h2 class="details-ev"> $ville </h2>
+                    </div>
 
             </div>
-                    </section>
-        <div class="container desc-eve ">
-        
-                 <h3>Description: </h3>
+            </div>
+         
+              
+            </section>
+            <section class=" desc">
+            <div class="container"> 
+                <h3>Description: </h3>
 
                 <div class="evenement"> 
                     <p> $desc </p> 
                 </div>
-
             </div>
+            
+            </section>
        
             <div class="container lien-liste">
-                <p> Il y a XX participants à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</div> </p>
+                <p> Il y a $nb_participants $participant_s à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</div> </p>
             </div>                
             <div class="clearfix"/>
         </section>

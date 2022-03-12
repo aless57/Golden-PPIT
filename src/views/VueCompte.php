@@ -304,7 +304,7 @@ FIN;
               </div>
               <div class="field"> Confirmation du mot de passe : <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
               </div>
-              <div class="field"> Adresse : <input type="text" name="adr" placeholder="Votre adresse" />
+              <div class="field"> Ville : <input type="text" name="adr" placeholder="Votre ville" />
               </div>
               <div class="field"> Code Postal : <input type="text" name="cp" placeholder="Votre code postal" pattern="[0-9]{5}" />
               </div>
@@ -344,19 +344,19 @@ FIN;
     <div class="clearfix"></div>
 
     <div class = "container ">
-            
-        <form name="connexion" method="POST" action="#">
-            <div class="fieldset-left">
-                <div class="text-right">
+            <div class="text-center">
 			    <p class = "p-accueil2">
 			    Renseignez votre adresse mail ci-dessous. Un mail vous sera envoyé dans les plus brefs delais !
                 </p>
                 </div>
+        <form name="connexion" method="POST" action="#">
+            <div class="fieldset-left">
+                
                 <div class="field"> 
 				    Email : 
-				    <input type="mail" name="u_mail" placeholder="$url_envoyer"/>
+				    <input type="email" name="u_mail" placeholder="$url_envoyer"/>
 			    </div>
-			    <div class="text-right">
+			    <div class="text-center">
 			    <p class = "p-accueil2">
 			    Si vous n'avez pas reçu de mail, il est possible qu'aucun compte ne soit lié à votre adresse mail ou bien que votre adresse soit bloqué.
                 </p>

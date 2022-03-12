@@ -142,12 +142,12 @@ FIN;
 			<fieldset >
 				<div class="field"> 
 				    <label> Nom * :  </label>
-				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" required="required"/>
+				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" maxlength="30" required="required"/>
                 </div>
 				
 				<div class="field"> 
 				    <label> Date de début * : </label>
-				    <input type="date" name="deb" placeholder="03-03-2022" required="required"/>
+				    <input type="date" name="deb" placeholder="03-03-2022" required="required" />
 				</div>
 				
 				<div class="field"> 
@@ -185,73 +185,6 @@ FIN;
         return $html;
     }
 
-
-    public function pageEvenement(): string
-    {
-        $url_quitter = $this->container->router->pathFor('quitterEvenement');
-
-        if(true){//si l'utilisateur est propriétaire :
-            $boutons =
-        <<<FIN
-         <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
-                <button class="bouton-bleu">Suggérer une modification</button>
-                <button class="bouton-bleu">Inviter</button>
-                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
-        FIN;
-    }
-
-
-        //TODO chopper les infos à partir de la bdd
-        //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
-        $html = <<<FIN
-        <section class="page-evenement">
-            <div class="container ">
-                <div class="img-ev">
-                </div>
-                
-            </div>
-            <div class="container details-ev">
-                <h1> Nom de l'evenement : </h1>
-                    <h2> Date de début : </h2>
-                    <h2> Date de fin : </h2>
-                
-                <h2> Propriétaire: </h2>
-                <div class="clearfix"/>
-
-            </div>
-                    </section>
-        <div class="container desc-eve ">
-        
-                 <h3>Description: </h3>
-
-                <div class="evenement"> 
-                    Ici il faudra mettre la description et on pourra scroll si c'est trop long 
-                </div>
-
-            </div>
-       
-            <div class="container lien-liste">
-                <p> Il y a XX participants à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</div> </p>
-            </div>                
-            <div class="clearfix"/>
-        </section>
-        <section >
-       <div class="Tab-besoin">
-       
-        </div>
-            <div class = "container">
-                <div class="param-buttons">
-                
-                $boutons; 
-            </div>
-        </div>
-        <div class="clearfix"/>
-
-        </section>
-            
-FIN;
-        return $html;
-    }
 
     public function consulterEvenement(): string
     {

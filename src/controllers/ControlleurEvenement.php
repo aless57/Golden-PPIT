@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 define("ENCOURS", "En cours");
 
+
 class ControlleurEvenement
 {
     private $container;
@@ -60,11 +61,10 @@ class ControlleurEvenement
         $supprAuto = filter_var($post['supprauto'], FILTER_SANITIZE_STRING);
         $lieu = filter_var($post['lieu'], FILTER_SANITIZE_STRING);
         $desc = filter_var($post['desc'], FILTER_SANITIZE_STRING);
-
-        //TODO : remplacer avec un appel vers la page de consultation d'événement
+        //avant l'exécution
         $vue = new VueAccueil([], $this->container);
 
-        if ($this->createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)) {
+        if ($this->createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)) { //si tout est bon, on affiche la page de l'évenement
             $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
             $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
 
@@ -107,8 +107,6 @@ class ControlleurEvenement
         $e->e_date = $debut;
         $e->e_archive = $archiv;
         $e->e_statut = ENCOURS;
-        //TODO $e->e_proprio = $_SESSION['profile']['mail']; La récup du mail dans la variable de session ne fonctionne pas.
-        //$e->e_proprio = "moi@gmail.fr";
         $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
 
         // TODO : A modif
@@ -116,8 +114,17 @@ class ControlleurEvenement
         $e->e_ville = $lieu;
 
         $e->save();
+
+        $participant = new Participant();
+        $participant->p_user = $e->e_proprio;
+        $participant->p_event = $e->e_id;
+
+        $participant->save();
+
+
         return true;
     }
+
 
     public function evenement(Request $rq, Response $rs, $args): Response
     {
@@ -130,8 +137,11 @@ class ControlleurEvenement
         $ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
         $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
 
+        //Récupéerer les données des participants et des besoins
+
+        $nb_participants = Participant::where('p_event', '=', $id_ev)->get()->count();
         //récupérer les champs ici et les mettre entre les crochets
-        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc], $this->container);
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc, $nb_participants], $this->container);
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
         return $rs;
     }

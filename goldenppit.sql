@@ -94,8 +94,20 @@ CREATE TABLE `notification` (
 
 CREATE TABLE `participe` (
   `p_user` varchar(50) NOT NULL COMMENT 'L''utilisateur qui participe à l''évènement.\r\nComposante de la clé primaire. Clé étrangère sur la table utilisateur.',
-  `p_event` int(5) NOT NULL COMMENT 'L''évènement auquel participe un utilisateur. Composante de la clé primaire.\r\nClé étrangère sur la table evenement.',
-  `p_besoin` int(5) NOT NULL COMMENT 'Le besoin auquel participe un utilisateur.\r\nClé étrangère sur la table besoin.\r\nAttribut facultatif.'
+  `p_event` int(5) NOT NULL COMMENT 'L''évènement auquel participe un utilisateur. Composante de la clé primaire.\r\nClé étrangère sur la table evenement.'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `participe_besoin`
+--
+
+CREATE TABLE `participe_besoin`(
+    `pb_user` varchar(50) NOT NULL COMMENT 'L''utilisateur qui se charge du besoin. \r\n Composante de la clé primaire. Clé étrangère sur la table utilisateur.',
+    `pb_besoin` int(5) NOT NULL COMMENT 'Le besoin associé à l''utilisateur . \r\n Composante de la clé primaire. Clé étrangère sur la table besoin.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -184,8 +196,15 @@ ALTER TABLE `notification`
 ALTER TABLE `participe`
   ADD PRIMARY KEY (`p_user`,`p_event`),
   ADD KEY `p_user` (`p_user`),
-  ADD KEY `p_event` (`p_event`),
-  ADD KEY `p_besoin` (`p_besoin`);
+  ADD KEY `p_event` (`p_event`);
+
+--
+-- Indexes for table `participe_besoin`
+--
+ALTER TABLE `participe_besoin`
+    ADD PRIMARY KEY (`pb_user`,`pb_besoin`),
+    ADD KEY `pb_user` (`pb_user`),
+    ADD KEY `pb_besoin` (`pb_besoin`);
 
 --
 -- Indexes for table `souhaite`
@@ -280,8 +299,14 @@ ALTER TABLE `notification`
 --
 ALTER TABLE `participe`
   ADD CONSTRAINT `participe_ibfk_1` FOREIGN KEY (`p_user`) REFERENCES `utilisateur` (`u_mail`),
-  ADD CONSTRAINT `participe_ibfk_2` FOREIGN KEY (`p_event`) REFERENCES `evenement` (`e_id`),
-  ADD CONSTRAINT `participe_ibfk_3` FOREIGN KEY (`p_besoin`) REFERENCES `besoin` (`b_id`);
+  ADD CONSTRAINT `participe_ibfk_2` FOREIGN KEY (`p_event`) REFERENCES `evenement` (`e_id`);
+
+--
+-- Constraints for table `participe_besoin`
+--
+ALTER TABLE `participe_besoin`
+    ADD CONSTRAINT `participe_besoin_ibfk_1` FOREIGN KEY (`pb_user`) REFERENCES `utilisateur` (`u_mail`),
+    ADD CONSTRAINT `participe_besoin_ibfk_2` FOREIGN KEY (`pb_besoin`) REFERENCES `besoin` (`b_id`);
 
 --
 -- Constraints for table `souhaite`
