@@ -405,6 +405,7 @@ fieldset .field .input-pp{
     margin-bottom:  3%;
     position:absolute;
  }
+
 .labels-details-ev{
     position:relative;
     left: 32%;
@@ -413,6 +414,19 @@ fieldset .field .input-pp{
     display: flex;
     width: 60%;
    height: auto;
+}
+
+.alignement{
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+    right: 10%;
+}
+
+.leftBouton{
+    position: relative;
+    right:5%
 }
 
 .details-ev{

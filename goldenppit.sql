@@ -51,7 +51,8 @@ CREATE TABLE `evenement` (
   `e_archive` date NOT NULL COMMENT 'La date d''archivage de l''évènement.',
   `e_statut` varchar(50) NOT NULL COMMENT 'Le statut actuel de l''évènement.\r\nEn cours, terminé, archivé ou supprimé.',
   `e_proprio` varchar(50) NOT NULL COMMENT 'Le mail du responsable de l''évènement. Clé étrangère sur la table utilisateur.',
-  `e_ville` int(5) NOT NULL COMMENT 'La ville où se déroule l''évènement. Clé étrangère sur la table ville.'
+  `e_ville` int(5) NOT NULL COMMENT 'La ville où se déroule l''évènement. Clé étrangère sur la table ville.',
+  UNIQUE (`e_titre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

@@ -10,6 +10,7 @@ use goldenppit\views\VueEvenement;
 use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Symfony\Component\Console\Input\Input;
 
 define("ENCOURS", "En cours");
 
@@ -42,6 +43,16 @@ class ControlleurEvenement
         $rs->getBody()->write($vue->render(0));
         return $rs;
     }
+
+    public function consulterEv(Request $rq, Response $rs, $args): Response
+    {
+        $nbEvent = Evenement::all()->count();
+        $nomsEvent = Evenement::all();
+        $vue = new VueEvenement([$nbEvent,$nomsEvent], $this->container);
+        $rs->getBody()->write($vue->render(2)); //on ouvre la page d'un événement
+        return $rs;
+    }
+
 
     /**
      * POST
@@ -123,6 +134,18 @@ class ControlleurEvenement
 
 
         return true;
+    }
+
+    public function redirection(Request $rq, Response $rs, $args): Response
+    {
+
+        $nom = "Test";
+        $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
+        print($id_ev);
+
+        $url_event = $this->container->router->pathFor('evenement/'.$id_ev);
+        return $rs->withRedirect($url_event);
+
     }
 
 

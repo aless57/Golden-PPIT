@@ -194,8 +194,13 @@ FIN;
         //TODO chopper les infos à partir de la bdd
         for($i = 0; $i<$this->tab[1]->count(); $i++){
             $test = $this->tab[1][$i]->e_titre;
+            $url_event = $this->container->router->pathfor("redirection");
             $evenements .= <<<FIN
-                    <button class="bouton-blanc">$test</button>   
+            <div class="alignement">
+                <button name="test" class="bouton-blanc" onclick="window.location.href='$url_event'">$test</button>
+                <button> <img src="images/exit.png" class="leftBouton"/>  </button>
+            </div>   
+            
 FIN;
 
         }
@@ -207,6 +212,8 @@ FIN;
                     <div class = "container">
                         $evenements
                     </div>
+                    
+                    
                     
             </body>
 FIN;
