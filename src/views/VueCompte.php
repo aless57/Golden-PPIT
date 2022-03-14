@@ -10,7 +10,7 @@ class VueCompte
     private $container;
 
     /**
-     * VueConnexion constructor.
+     * VueConnexion constructor
      * @param $tab
      * @param $container
      */
@@ -72,26 +72,38 @@ class VueCompte
         }
 
         switch ($select) {
+            //Erreur dans la connexion
+            case 5:
+            {
+                $content .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Adresse mail  /  Mot de passe incorrect !</div>";
+
+            }
+            //Affichage du formulaire de connexion
             case 0:
             {
                 $content .= $this->formulaireConnexion();
                 break;
             }
+            //Affichage du formulaire d'inscription
             case 1:
             {
                 $content .= $this->formulaireInscription();
                 break;
             }
+            //Affichage du formulaire de mofication de compte
             case 2:
             {
                 $content .= $this->formulaireModifierCompte();
+                echo($this->tab[0]);
                 break;
             }
+            //Affichage du formulaire du mot de passe oublié
             case 3:
             {
                 $content .= $this->formulaireMotDePasseOublie();
                 break;
             }
+            //Affichage du formulaire de reset du mot de passe
             case 4:
             {
                 $content .= $this->formulaireResetMDP();
@@ -105,6 +117,7 @@ class VueCompte
         <head>
             <title>GoldenPPIT</title>
             <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         </head>
     
         <body>
@@ -134,6 +147,10 @@ class VueCompte
 FIN;
     }
 
+    /**
+     * Formulaire de page de connexion
+     * @return string
+     */
     public function formulaireConnexion(): string
     {
         $url_connexion = $this->container->router->pathFor('enregisterConnexion');
@@ -184,6 +201,10 @@ FIN;
 
     }
 
+    /**
+     * Formulaire de page d'inscription
+     * @return string
+     */
     public function formulaireInscription(): string
     {
         $url_enregistrerInscription = $this->container->router->pathFor('enregistrerInscription');
@@ -235,17 +256,10 @@ FIN;
 				<input type="password" name="mdpconfirm" placeholder="**********" required="required"/>
 				</div>
 				
-				<div class="field"> Adresse :
-				<input type="text" name="adr" placeholder="Votre adresse"/>
+				<div class="field"> Ville :
+				<input type="text" name="adr" placeholder="Votre ville"/>
 				</div>
-				
-				<div class="field"> Code Postal :
-				<input type="text" name="cp" placeholder="Votre code postal" pattern="[0-9]{5}"/>
-				</div>
-				
-				<div class="field"> Département * :
-				<input type="text" name="dep" placeholder="Votre département" pattern="[a-zA-z\-\']+" required="required"/>
-				</div>
+			
 				<div class="field"> Activer les notifications par mail  <input type="checkbox" name="notif" value="1" />
 				</div>
 				<div class="field"> Je veux devenir membre de Golden-PPIT *    
@@ -271,11 +285,21 @@ FIN;
 FIN;
     }
 
+    /**
+     * Formulaire de page de modification de compte
+     * @return string
+     */
     public function formulaireModifierCompte(): string
     {
         $url_accueil = $this->container->router->pathFor('racine');
         $url_enregistrerModification = $this->container->router->pathFor('enregistrerModifierCompte');
         if (isset($_SESSION['profile'])) {
+            $nom = $this->tab[0]->u_nom;
+            $prenom = $this->tab[0]->u_prenom;
+            $naissance = $this->tab[0]->u_naissance;
+            $telephone = $this->tab[0]->u_tel;
+            $ville = $this->tab[1]->v_nom;
+            $notifMail = $this->tab[0]->u_notif_mail;
             //si l'utilisateur est connecté
             $html = <<<FIN
         <h1 class="text-center">Modifier les informations actuelles de votre compte !</h1>
@@ -290,13 +314,13 @@ FIN;
               </div>
               <div class="field">
                 <label> Nom : </label>
-                <input type="text" name="nom" placeholder="Votre nom" pattern="[a-ZA-Z]+" required="required" />
+                <input type="text" name="nom" placeholder="" pattern="[a-ZA-Z]+" required="required" value="$nom" />
               </div>
-              <div class="field"> Prénom : <input type="text" name="prenom" placeholder="Votre prénom" pattern="[a-ZA-Z]+" required="required" />
+              <div class="field"> Prénom : <input type="text" name="prenom" placeholder="" pattern="[a-ZA-Z]+" required="required" value="$prenom" />
               </div>
-              <div class="field"> Date de naissance : <input type="date" name="naissance" placeholder="XX-XX-XXXX" />
+              <div class="field"> Date de naissance : <input type="date" name="naissance" placeholder="" value="$naissance" />
               </div>
-              <div class="field"> Numéro de téléphone : <input type="tel" name="tel" placeholder="0XXXXXXXXX" />
+              <div class="field"> Numéro de téléphone : <input type="tel" name="tel" placeholder="" value="$telephone" />
               </div>
               <div class="field"> Mot de passe actuel * : <input type="password" name="mdp" placeholder="**********" required="required" />
               </div>
@@ -304,12 +328,8 @@ FIN;
               </div>
               <div class="field"> Confirmation du mot de passe : <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
               </div>
-              <div class="field"> Adresse : <input type="text" name="adr" placeholder="Votre adresse" />
-              </div>
-              <div class="field"> Code Postal : <input type="text" name="cp" placeholder="Votre code postal" pattern="[0-9]{5}" />
-              </div>
-              <div class="field"> Département : <input type="text" name="dep" placeholder="Votre département" pattern="[a-zA-z\-\']+" required="required" />
-              </div>
+              <div class="field"> Ville : <input type="text" name="adr" placeholder="" value="$ville" />
+              </div>            
               <div class="field"> Activer les notifications par mail : 
                 <input type="checkbox" name="notif" value="1" />
               </div>
@@ -335,6 +355,10 @@ FIN;
         return $html;
     }
 
+    /**
+     * Fomulaire sur la récupération de mot de passe oublié
+     * @return string
+     */
     public function formulaireMotDePasseOublie(): string
     {
         $url_envoyer = $this->container->router->pathFor('envoyerLien');
@@ -383,6 +407,10 @@ FIN;
 
     }
 
+    /**
+     * Formulaire sur la recréation du mot de passe
+     * @return string
+     */
     public function formulaireResetMDP(): string
     {
         $url_envoyer = $this->container->router->pathFor('resetMDP');

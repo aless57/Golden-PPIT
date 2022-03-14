@@ -3,6 +3,7 @@
 namespace goldenppit\controllers;
 
 use goldenppit\models\utilisateur;
+use goldenppit\models\ville;
 
 /**
  * Class Authentication
@@ -26,6 +27,7 @@ class Authentification
     public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville): bool
     {
         $nb = Utilisateur::where('u_mail', '=', $mail)->count();
+        $id_ville = Ville::where('v_nom', '=', $ville)->first()->v_id;
         if ($nb == 0) {
             $u = new Utilisateur();
             $u->u_mail = $mail;
@@ -37,8 +39,7 @@ class Authentification
             $u->u_photo = $photo;
             $u->u_notif_mail = $notif_mail;
             $u->u_statut = "membre";
-            //TODO Gestion des villes à traiter.
-            $u->u_ville = $ville;
+            $u->u_ville = $id_ville;
             $u->save();
             return true;
         } else {

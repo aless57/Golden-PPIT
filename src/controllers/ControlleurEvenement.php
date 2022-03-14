@@ -73,6 +73,7 @@ class ControlleurEvenement
     }
 
     /**
+     * POST
      * Fonction de création de event
      * @param $nom
      * @param $debut
@@ -103,6 +104,14 @@ class ControlleurEvenement
     }
 
 
+    /**
+     * GET
+     * Affichage d'un evenement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function evenement(Request $rq, Response $rs, $args): Response
     {
         $vue = new VueEvenement([], $this->container);

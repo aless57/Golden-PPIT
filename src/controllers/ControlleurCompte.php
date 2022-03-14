@@ -7,6 +7,7 @@ use goldenppit\views\VueCompte;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use goldenppit\models\Utilisateur;
+use goldenppit\models\Ville;
 
 class ControlleurCompte
 {
@@ -85,9 +86,6 @@ class ControlleurCompte
         $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
         $mdp = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
         $adr = filter_var($post['adr'], FILTER_SANITIZE_STRING);
-        //TODO Gérer la ville
-        //$cp = filter_var($post['cp'], FILTER_SANITIZE_STRING);
-        //$dep = filter_var($post['dep'], FILTER_SANITIZE_STRING);
         $photo = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
         $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
         echo $post['notif'];
@@ -118,7 +116,7 @@ class ControlleurCompte
                 session_destroy();
                 $_SESSION = [];
                 $vue = new VueCompte([], $this->container);
-                $rs->getBody()->write($vue->render(1)); //inscription
+                $rs->getBody()->write($vue->render(5));
                 return $rs;
             }
             {
@@ -148,11 +146,11 @@ class ControlleurCompte
         $login = filter_var($post['u_mail'], FILTER_SANITIZE_STRING);
         $pass = filter_var($post['u_mdp'], FILTER_SANITIZE_STRING);
         $connexionOK = Authentification::authenticate($login, $pass);
-        var_dump($connexionOK);
         if ($connexionOK) {
             $url_accueil = $this->container->router->pathFor("accueil");
             return $rs->withRedirect($url_accueil);
         } else {
+            $_SESSION['connexionOK'] = $connexionOK;
             $url_connexion = $this->container->router->pathFor("formConnexion");
             return $rs->withRedirect($url_connexion);
         }
@@ -281,7 +279,9 @@ class ControlleurCompte
      */
     public function modifierCompte(Request $rq, Response $rs, $args): Response
     {
-        $vue = new VueCompte([], $this->container);
+        $compte = Utilisateur::where('u_mail', '=', $_SESSION['profile']['mail'])->first();
+        $ville = Ville::where('v_id', '=', $compte->u_ville)->first();
+        $vue = new VueCompte([$compte,$ville], $this->container);
         $rs->getBody()->write($vue->render(2));
         return $rs;
     }

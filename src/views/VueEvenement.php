@@ -161,6 +161,10 @@ FIN;
         return $html;
     }
 
+    /**
+     * Fomulaire de création d'événement
+     * @return string
+     */
     public function formulaireEvenement(): string
     {
         $url_enregistrerEvenement = $this->container->router->pathFor('enregistrerEvenement');
@@ -217,6 +221,10 @@ FIN;
     }
 
 
+    /**
+     * Affiche d'une page d'un événement
+     * @return string
+     */
     public function pageEvenement(): string
     {
         //TODO chopper les infos à partir de la bdd
