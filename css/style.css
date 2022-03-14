@@ -4,6 +4,7 @@
     text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
     font-weight: bold;
     list-style-type: none;
+    color: #030233;
 
 }
 html{ /**Fond de la page principale*/
@@ -60,7 +61,7 @@ button.bouton-blanc{
 
 .bouton-blanc:hover{
     transition: 1s ;
-    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+    background: linear-gradient(to top right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
     border: none;
     color: white;
     font-size: 18px;
@@ -121,8 +122,8 @@ footer a:hover, .message-erreur a:hover, .lien-liste .lien-p:hover{
 /**CSS pour la barre de navigation**/
 nav{
     /* Blue gradient */
-    background: linear-gradient(180deg, #4FB3D9 0%, #4BABD4 15.63%, #4299C8 48.96%, #357EB7 100%);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(to top, #020024 0%,  #357EB7 100%);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .logo{
@@ -175,8 +176,8 @@ nav{
     font-size: 1rem;
     padding: 1%;
     color: #ECECF3;
-    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
-    border: 2px solid #000000;
+    background: linear-gradient(to top right, #020024 0%,  #357EB7 70%, #4FB3D9 100%);
+    border: 2px solid #030233;
     box-sizing: border-box;
     border-radius: 10px;
     cursor:pointer;
@@ -195,18 +196,17 @@ nav{
     font-size: 1rem;
     padding: 1%;
     color: #ECECF3;
-    background: linear-gradient(180deg, #EC8686 0%, #B73B3B 100%);
-    border: 2px solid #000000;
+    background: linear-gradient(180deg, #fd5c63 0%, #960018 100%);
+    border: 2px solid #030233;
     box-sizing: border-box;
     border-radius: 10px;
     cursor:pointer;
 }
 .bouton-rouge:hover{
     color:white;
-text-decoration: underline;
 }
 .p-accueil{
-    color: #4BABD4;
+    color: #030233;
     font-weight: bolder;
     padding-top: 4%;
     padding-bottom: 1%;
@@ -224,7 +224,7 @@ text-decoration: underline;
 
 }
 .p-accueil2 a:hover{
-    color:#4299C8;;
+    color:#357EB7;;
     font-weight: normal;
     text-decoration: underline;
 }
@@ -249,14 +249,14 @@ text-decoration: underline;
     align-items: center;
     text-align: center;
     letter-spacing: -0.02em;
-    color: black;
+    color: #030233;
 
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .box-input{
     background: #C4C4C4;
-    border: 2px solid #000000;
+    border: 2px solid #030233;
     box-sizing: initial;
     border-radius: 10px;
 }
@@ -289,7 +289,7 @@ fieldset{
 
 fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"]{
     border-radius:10px;
-    border: 2px solid #000000;
+    border: 2px solid #030233;
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
     padding-left: 10px;
     font-size: 15px;
@@ -330,7 +330,7 @@ fieldset input.desc{
 .field input[type= "checkbox"]  {
     width :20px;
     height : 20px;
-    border: 2px solid #000000;
+    border: 2px solid #030233;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -339,7 +339,7 @@ fieldset input.desc{
     padding: 10px;
 }
 .field input[type = "checkbox"]:checked{
-    background: linear-gradient(180deg, #4FB3D9 0%, #3B7FB7 100%);
+    background: linear-gradient(180deg, #357EB7 0%, #030233 100%);
 }
 
 .espacement-degeu{
@@ -347,7 +347,7 @@ fieldset input.desc{
 }
 
 .test:hover{
-    color:#4299C8;
+    color:#357EB7;
 }
 
 input[type="file"]{
@@ -364,7 +364,7 @@ input[type="file"]{
 
 }
 fieldset .field .input-pp{
-    border:solid black 2px;
+    border:solid #030233 2px;
     border-radius: 500px;
     padding: 3% 5% 3% 5%;
     box-shadow:4px 2px 3px 2px rgba(0, 0, 0, 0.25); ;
@@ -388,14 +388,15 @@ fieldset .field .input-pp{
 .page-evenement{
     line-height : 40px;
     margin-top: 4%;
+    height:auto;
 }
-.desc-eve{
-    margin-top: 11%;
-}
+
 .img-ev{
     box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
-    background: #4BABD4;
-    margin-top : 5%;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 300%);
+);
+    margin-top: 3%;
+    margin-left: 2%;
     width: 20%;
     height: 300px;
     display: block;
@@ -403,15 +404,42 @@ fieldset .field .input-pp{
     margin-bottom:  3%;
     position:absolute;
  }
-.details-ev{
-    position:relative;
-    height: 27%;
-    margin-left: 31%;
-    padding-top:1%;
-    width: 58%;
-    align-content: center;
 
+.labels-details-ev{
+    position:relative;
+    left: 32%;
+    margin-top: 1%;
+    padding:1%;
+    display: flex;
+    width: 60%;
+   height: auto;
 }
+
+.alignement{
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+    right: 10%;
+}
+
+.leftBouton{
+    position: relative;
+    right:5%
+}
+
+.details-ev{
+    display: inline-block;
+    margin-left: auto;
+}
+.details-bg{
+    background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
+    border-radius: 10px;
+}
+
+
+
 .evenement {
     display:block;
     padding: 2%;
@@ -419,7 +447,7 @@ fieldset .field .input-pp{
     line-height: 30px;
     text-align: justify;
     text-justify: inter-word;
-    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
     overflow-y:scroll;
     height:20vh;
     box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
@@ -428,14 +456,15 @@ fieldset .field .input-pp{
 .evenement::-webkit-scrollbar{
     width : 0.25rem;
     border-radius: 30px;
+
 }
 .evenement::-webkit-scrollbar-track{
-    background: #C4C4C4;
+    background: transparent;
     border-radius: 30px;
 
 }
 .evenement::-webkit-scrollbar-thumb{
-    background: black;
+    background: #030233;
     border-radius: 30px;
 
 }
@@ -470,6 +499,48 @@ fieldset .field .input-pp{
     width:250px;
     height : 40px;
 }
+
+
+/** menu dropdown pour les paramètres*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height:auto;
+    text-align: center;
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    border: solid #030233 2px;
+    width:230px;
+    z-index: 1;
+
+    margin-left:3%;
+
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    background:  #ECECF3;
+    display: block;
+    border-radius: 2px;
+
+
+}
+.dropdown-content a.supp{
+    color: #960018;
+}
+
+.dropdown-content a:hover {
+    color:#357EB7;
+    background:white;
+}
+.dropdown:hover .dropdown-content {display: block;}
+
 
 /**Footer**/
 footer{

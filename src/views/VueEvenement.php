@@ -124,6 +124,10 @@ FIN;
                 $content .= $this->pageEvenement();
                 break;
             }
+            case 2:
+            {
+                $content .=$this->consulterEvenement();
+            }
         }
 
         $html = <<<FIN
@@ -162,7 +166,7 @@ FIN;
     }
 
     /**
-     * Fomulaire de création d'événement
+     * Formulaire de création d'événement
      * @return string
      */
     public function formulaireEvenement(): string
@@ -221,63 +225,36 @@ FIN;
     }
 
 
-    /**
-     * Affiche d'une page d'un événement
-     * @return string
-     */
-    public function pageEvenement(): string
+    public function consulterEvenement(): string
     {
+
+        $evenements = "";
+        $test = "";
         //TODO chopper les infos à partir de la bdd
-        //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
-        $url_quitter = $this->container->router->pathFor('quitterEvenement');
-        $html = <<<FIN
-        <section class="page-evenement">
-            <div class="container ">
-                <div class="img-ev">
-                </div>
-                
-            </div>
-            <div class="container details-ev">
-                <h1> Nom de l'evenement : </h1>
-                    <h2> Date de début : </h2>
-                    <h2> Date de fin : </h2>
-                
-                <h2> Propriétaire: </h2>
-                <div class="clearfix"/>
-
-            </div>
-                    </section>
-        <div class="container desc-eve ">
-        
-                 <h3>Description: </h3>
-
-                <div class="evenement"> 
-                    Ici il faudra mettre la description et on pourra scroll si c'est trop long 
-                </div>
-
-            </div>
-       
-            <div class="container lien-liste">
-                <p> Il y a XX participants à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</div> </p>
-            </div>                
-            <div class="clearfix"/>
-        </section>
-        <section >
-       <div class="Tab-besoin">
-       
-        </div>
-            <div class = "container">
-                <div class="param-buttons">
-                <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
-                <button class="bouton-bleu">Suggérer une modification</button>
-                <button class="bouton-bleu">Inviter</button>
-                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
-            </div>
-        </div>
-        <div class="clearfix"/>
-
-        </section>
+        for($i = 0; $i<$this->tab[1]->count(); $i++){
+            $test = $this->tab[1][$i]->e_titre;
+            $url_event = $this->container->router->pathfor("redirection");
+            $evenements .= <<<FIN
+            <div class="alignement">
+                <button name="test" class="bouton-blanc" onclick="window.location.href='$url_event'">$test</button>
+                <button> <img src="images/exit.png" class="leftBouton"/>  </button>
+            </div>   
             
+FIN;
+
+        }
+
+        $html = <<<FIN
+            <body>
+                    <h1 class="text-center"> LES ÉVÉNEMENTS </h1>
+                    
+                    <div class = "container">
+                        $evenements
+                    </div>
+                    
+                    
+                    
+            </body>
 FIN;
         return $html;
     }

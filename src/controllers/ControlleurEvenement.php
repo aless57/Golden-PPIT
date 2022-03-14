@@ -7,10 +7,13 @@ use goldenppit\models\evenement;
 use goldenppit\models\participant;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueEvenement;
+use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Symfony\Component\Console\Input\Input;
 
 define("ENCOURS", "En cours");
+
 
 class ControlleurEvenement
 {
@@ -41,6 +44,16 @@ class ControlleurEvenement
         return $rs;
     }
 
+    public function consulterEv(Request $rq, Response $rs, $args): Response
+    {
+        $nbEvent = Evenement::all()->count();
+        $nomsEvent = Evenement::all();
+        $vue = new VueEvenement([$nbEvent,$nomsEvent], $this->container);
+        $rs->getBody()->write($vue->render(2)); //on ouvre la page d'un événement
+        return $rs;
+    }
+
+
     /**
      * POST
      * Enregistrement des informations du nouveau compte dans la base de données
@@ -59,12 +72,13 @@ class ControlleurEvenement
         $supprAuto = filter_var($post['supprauto'], FILTER_SANITIZE_STRING);
         $lieu = filter_var($post['lieu'], FILTER_SANITIZE_STRING);
         $desc = filter_var($post['desc'], FILTER_SANITIZE_STRING);
-
-        //TODO : remplacer avec un appel vers la page de consultation d'événement
+        //avant l'exécution
         $vue = new VueAccueil([], $this->container);
 
-        if ($this->createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)) {
-            $url_accueil = $this->container->router->pathFor("accueil");
+        if ($this->createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)) { //si tout est bon, on affiche la page de l'évenement
+            $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
+            $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
+
             return $rs->withRedirect($url_accueil);
         } else {
             $rs->getBody()->write($vue->render(2));
@@ -86,13 +100,25 @@ class ControlleurEvenement
     public static function createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)
     {
         $e = new Evenement();
+
+        if($supprAuto == null ){
+            $e->e_supp_date = NULL;
+        }
+        else {
+            $e->e_supp_date = $supprAuto;
+        }
+
+        if($supprAuto == null ){
+            $e->e_desc = NULL;
+        }
+        else {
+            $e->e_desc = $desc;
+        }
+
         $e->e_titre = $nom;
         $e->e_date = $debut;
         $e->e_archive = $archiv;
-        $e->e_supp_date = $supprAuto;
-        $e->e_desc = $desc;
         $e->e_statut = ENCOURS;
-        //$e->e_proprio = "moi@gmail.fr";
         $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
 
         // TODO : A modif
@@ -100,7 +126,27 @@ class ControlleurEvenement
         $e->e_ville = $lieu;
 
         $e->save();
+
+        $participant = new Participant();
+        $participant->p_user = $e->e_proprio;
+        $participant->p_event = $e->e_id;
+
+        $participant->save();
+
+
         return true;
+    }
+
+    public function redirection(Request $rq, Response $rs, $args): Response
+    {
+
+        $nom = "Test";
+        $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
+        print($id_ev);
+
+        $url_event = $this->container->router->pathFor('evenement/'.$id_ev);
+        return $rs->withRedirect($url_event);
+
     }
 
 
@@ -114,8 +160,21 @@ class ControlleurEvenement
      */
     public function evenement(Request $rq, Response $rs, $args): Response
     {
-        $vue = new VueEvenement([], $this->container);
-        $rs->getBody()->write($vue->render(1)); //on ouvre la page d'un événement
+        $id_ev = $args['id_ev'];
+
+        $nom_ev = Evenement::where('e_id', '=', $id_ev)->first()->e_titre;
+        $date_deb = Evenement::where('e_id', '=', $id_ev)->first()->e_date;
+        $date_fin = Evenement::where('e_id', '=', $id_ev)->first()->e_archive;
+        $proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
+        $ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
+        $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
+
+        //Récupéerer les données des participants et des besoins
+
+        $nb_participants = Participant::where('p_event', '=', $id_ev)->get()->count();
+        //récupérer les champs ici et les mettre entre les crochets
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc, $nb_participants], $this->container);
+        $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
         return $rs;
     }
 
@@ -128,9 +187,9 @@ class ControlleurEvenement
      * @param Id de l'event à supprimer $event_id
      * @return Response
      */
-    public function supprimerEvenement(Request $rq, Response $rs, $args, $event_id): Response
+    public function supprimerEvenement(Request $rq, Response $rs, $args): Response
     {
-        $event = Evenement::find($event_id);
+        $event = Evenement::find($args['event_id']);
         $event->delete();
         //TODO : remettre sur la page précedente
         $url_accueil = $this->container->router->pathFor('racine');
