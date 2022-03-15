@@ -338,6 +338,14 @@ class ControlleurCompte
         return $rs->withRedirect($url_accueil);
     }
 
+    /**
+     * POST
+     * envoie du mail pour reinitialisation le MDP
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function sendMail(Request $rq, Response $rs, $args): Response
     {
         if (isset($_POST['u_mail'])) {
@@ -356,12 +364,20 @@ class ControlleurCompte
             } else {
                 echo "Une erreur est survenue";
             }
-            $vue = new VueCompte([], $this->container);
-            $rs->getBody()->write($vue->render(3));
-            return $rs;
         }
+        $vue = new VueCompte([], $this->container);
+        $rs->getBody()->write($vue->render(3));
+        return $rs;
     }
 
+    /**
+     * POST
+     * reinitialisation du MDP
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function resetPW(Request $rq, Response $rs, $args): Response
     {
         if(isset($_POST['newPassWord']) && isset($_POST['token'])){
