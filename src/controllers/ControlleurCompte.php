@@ -296,7 +296,7 @@ class ControlleurCompte
      */
     public function changerMotDePasse(Request $rq, Response $rs, $args): Response
     {
-        $infosUser = Utilisateur::where('mail', '=', $_SESSION['profile']['mail'])->first();
+        $infosUser = Utilisateur::where('u_mail', '=', $_SESSION['profile']['mail'])->first();
         $vue = new VueCompte($infosUser->toArray(), $this->container);
         $rs->getBody()->write($vue->render(10));
         return $rs;
@@ -336,5 +336,44 @@ class ControlleurCompte
         $_SESSION = [];
         $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);
+    }
+
+    public function sendMail(Request $rq, Response $rs, $args): Response
+    {
+        if (isset($_POST['u_mail'])) {
+            $token = uniqid();
+            $url = ""+$token;
+
+            $subject = 'Mot de passe oublié';
+            $message = "Bonjour, voici votre lien pour la reinitialisation du mot de passe : $url";
+            $headers = 'Content-Type: text/plain; charset="UTF-8"';
+
+            if (mail($_POST['u_mail'], $subject, $message, $headers)) {
+                $user = Utilisateur::where('mail', '=', $_POST['u_mail'])->first();
+                $user->u_token = $token;
+                $user->save();
+                echo "E-mail envoyé";
+            } else {
+                echo "Une erreur est survenue";
+            }
+            $vue = new VueCompte([], $this->container);
+            $rs->getBody()->write($vue->render(3));
+            return $rs;
+        }
+    }
+
+    public function resetPW(Request $rq, Response $rs, $args): Response
+    {
+        if(isset($_POST['newPassWord']) && isset($_POST['token'])){
+            $hpw = password_hash($_POST['newPassWord'], PASSWORD_DEFAULT);
+            $user = Utilisateur::where('token', '=', $_GET['token'])->first();
+            $user->u_mdp = $hpw;
+            $user->u_token = NULL;
+            $user->save();
+            echo "Mot de passe modifié";
+        }
+        $vue = new VueCompte([], $this->container);
+        $rs->getBody()->write($vue->render(4));
+        return $rs;
     }
 }

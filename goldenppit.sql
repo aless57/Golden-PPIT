@@ -139,7 +139,8 @@ CREATE TABLE `utilisateur` (
   `u_photo` varchar(50) DEFAULT NULL COMMENT 'La photo de l''utilisateur. Attribut Facultatif.',
   `u_notif_mail` tinyint(4) NOT NULL COMMENT 'Un booléen qui représente le choix de l''utilisateur de recevoir ou non les notifications par mail.',
   `u_statut` varchar(50) NOT NULL COMMENT 'Le statut de l''utilisateur.\r\nSupprimé, administrateur ou simple utilisateur.',
-  `u_ville` int(5) NOT NULL COMMENT 'L''ID de la ville de l''utilisateur.\r\nClé étrangère sur la table ville.'
+  `u_ville` int(5) NOT NULL COMMENT 'L''ID de la ville de l''utilisateur.\r\nClé étrangère sur la table ville.',
+  `u_token` int(20) COMMENT 'Le token permettant de reinitialiser le mdp'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
