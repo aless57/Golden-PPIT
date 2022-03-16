@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $u_notif_mail
  * @property mixed|string $u_statut
  * @property mixed $u_ville
+ * @property mixed|null $u_token
  */
 class utilisateur extends Model
 {

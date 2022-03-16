@@ -2,12 +2,12 @@
 
 namespace goldenppit\controllers;
 
+use goldenppit\models\utilisateur;
+use goldenppit\models\ville;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueCompte;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use goldenppit\models\Utilisateur;
-use goldenppit\models\Ville;
 
 class ControlleurCompte
 {
@@ -279,8 +279,9 @@ class ControlleurCompte
      */
     public function modifierCompte(Request $rq, Response $rs, $args): Response
     {
-        $compte = Utilisateur::where('u_mail', '=', $_SESSION['profile']['mail'])->first();
+        $compte = Utilisateur::where("u_mail", "=", $_SESSION['profile']['mail'])->first();
         $ville = Ville::where('v_id', '=', $compte->u_ville)->first();
+
         $vue = new VueCompte([$compte,$ville], $this->container);
         $rs->getBody()->write($vue->render(2));
         return $rs;
@@ -350,7 +351,7 @@ class ControlleurCompte
     {
         if (isset($_POST['u_mail'])) {
             $token = uniqid();
-            $url = ""+$token;
+            $url = "" . $token;
 
             $subject = 'Mot de passe oublié';
             $message = "Bonjour, voici votre lien pour la reinitialisation du mot de passe : $url";

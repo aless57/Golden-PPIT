@@ -94,7 +94,6 @@ class VueCompte
             case 2:
             {
                 $content .= $this->formulaireModifierCompte();
-                echo($this->tab[0]);
                 break;
             }
             //Affichage du formulaire du mot de passe oublié

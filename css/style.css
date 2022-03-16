@@ -6,6 +6,7 @@
     list-style-type: none;
     color: #030233;
 
+
 }
 html{ /**Fond de la page principale*/
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
@@ -16,6 +17,8 @@ body {
     min-height: 100vh; /*Le body prend 100 % de la hauteur de la viewport */
     font-family: Arial, sans-serif;
     font-size: 100%;
+    display: flex;
+    flex-direction: column;
 }
 body::-webkit-scrollbar{
     width : 0.25rem;
@@ -38,6 +41,10 @@ h1{
     padding: 1%;
 }
 
+.container-no-padding{
+    width: 80%;
+    margin: 0 auto;
+}
 button.bouton-blanc{
     position: relative;
     filter: drop-shadow(4px 8px 8px rgba(0, 0, 0, 0.25));
@@ -76,7 +83,7 @@ button.bouton-blanc{
 }
 /**Les liens**/
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 .menu ul a{
     color: #fff;
@@ -98,19 +105,28 @@ a {
 .menu a:hover:after{
     width: 100%;
     left: 0;
+    text-decoration: none !important;
 }
 
 
-
-footer a , .message-erreur a, .lien-liste .lien-p {
+.message-erreur a, .lien-liste .lien-p{
     color:black;
     background: linear-gradient(to right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
 
-    background-size: 200%;
+}
+footer a {
+
+    background: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 40%, #4299C8 55%, #fd5c63 100%);
+
+}
+footer a , .message-erreur a, .lien-liste .lien-p {
+    background-size: 205%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.5s ease-out;
 }
+
+
 footer a:hover, .message-erreur a:hover, .lien-liste .lien-p:hover{
     background-position: -100%;
 }
@@ -276,8 +292,6 @@ nav{
     width : 45%;}
 
 fieldset{
-    margin-left : 20%;
-    margin-right:20%;
     justify-content: space-between;
     border : none;
     border-radius: 10px;
@@ -369,14 +383,16 @@ fieldset .field .input-pp{
     padding: 3% 5% 3% 5%;
     box-shadow:4px 2px 3px 2px rgba(0, 0, 0, 0.25); ;
 
-    width:auto;
+    width:20%;
     height:auto;
     margin-left : 35%;
     margin-top: 2%; margin-bottom: 2%;
     position: relative;
     display: flex;
     justify-content: space-between;
+
 }
+
 
 .message-erreur {
     color:#020024;
@@ -547,12 +563,20 @@ footer{
     position:relative;
     bottom : 0;
     width:100%;
-    height:4rem;
     text-align: center;
     align-content: center;
-    padding-top: 10%;
+
+    margin-top: auto;
+    background: #030233;
+
+}
+footer p{
+    margin:0;
+    padding:0;
+    color:#C4C4C4;
 }
 
 footer a:hover{
     color:#4299C8;
+
 }
