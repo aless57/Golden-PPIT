@@ -243,7 +243,7 @@ FIN;
 				
 				<div class="field"> 
 				E-mail * :
-				<input type="email" name="mail" placeholder="exemple@exemple.fr" required="required"/>
+				<input type="email" name="mail" placeholder="exemple@mail.fr" required="required"/>
 				</div>
 				
 				<div class="field"> 
@@ -258,6 +258,10 @@ FIN;
 				<div class="field"> Ville :
 				<input type="text" name="adr" placeholder="Votre ville"/>
 				</div>
+				
+				<div class="field"> Code Postal :
+				<input type="text" name="cp" placeholder="Votre code postal" pattern="[0-9]{5}" />
+                </div>
 			
 				<div class="field"> Activer les notifications par mail  <input type="checkbox" name="notif" value="1" />
 				</div>

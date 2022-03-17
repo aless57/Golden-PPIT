@@ -22,24 +22,42 @@ class Authentification
      * @param $photo
      * @param $notif_mail
      * @param $ville
+     * @param $cp
      * @return bool
      */
-    public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville): bool
+    public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville, $cp): bool
     {
         $nb = Utilisateur::where('u_mail', '=', $mail)->count();
-        $id_ville = Ville::where('v_nom', '=', $ville)->first()->v_id;
+        if ($cp == null) {
+            $id_ville = Ville::where('v_nom', '=', $ville)->first()->v_id;
+        } else if ($ville == null) {
+            $id_ville = Ville::where('v_code_postal', '=', $cp)->first()->v_id;
+        } else {
+            $id_ville = Ville::where('v_nom', '=', $ville)->where('v_code_postal', '=', $cp)->first()->v_id;
+        }
+
         if ($nb == 0) {
             $u = new Utilisateur();
             $u->u_mail = $mail;
             $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
             $u->u_nom = $nom;
             $u->u_prenom = $prenom;
-            $u->u_naissance = $date_naissance;
-            $u->u_tel = $tel;
-            $u->u_photo = $photo;
-            $u->u_notif_mail = $notif_mail;
+            if($date_naissance != null) {
+                $u->u_naissance = $date_naissance;
+            }
+            if($tel != null) {
+                $u->u_tel = $tel;
+            }
+            if($photo != null) {
+                $u->u_photo = $photo;
+            }
+            if($notif_mail != null) {
+                $u->u_notif_mail = $notif_mail;
+            }
+            if($ville != null || $cp != null) {
+                $u->u_ville = $id_ville;
+            }
             $u->u_statut = "membre";
-            $u->u_ville = $id_ville;
             $u->save();
             return true;
         } else {
@@ -76,7 +94,7 @@ class Authentification
         session_destroy();
         $_SESSION = [];
         session_start();
-        $mail = str_replace("%40","@",$mail);
+        $mail = str_replace("%40", "@", $mail);
         setcookie("mail", $mail, time() + 60 * 60 * 24 * 30, "/");
         $_SESSION['profile'] = array('user' => Utilisateur::where('u_mail', '=', $mail)->first()->login, 'mail' => $mail);
     }

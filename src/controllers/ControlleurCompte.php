@@ -86,11 +86,12 @@ class ControlleurCompte
         $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
         $mdp = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
         $adr = filter_var($post['adr'], FILTER_SANITIZE_STRING);
+        $cp = filter_var($post['cp'], FILTER_SANITIZE_STRING);
         $photo = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
         $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
         echo $post['notif'];
         $vue = new VueAccueil([], $this->container);
-        if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr)) {
+        if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr, $cp)) {
             Authentification::authenticate($mail, $mdp);
             $_SESSION['inscriptionOK'] = true;
             $url_accueil = $this->container->router->pathFor("accueil");
@@ -124,7 +125,7 @@ class ControlleurCompte
                 $rs->getBody()->write($vue->render(0));
                 return $rs;
             }
-            //autre cas (avec les inscriptions)
+            // Autre cas, après l'inscription.
         } else {
             $vue = new VueCompte([], $this->container);
             $rs->getBody()->write($vue->render(0));
@@ -150,7 +151,7 @@ class ControlleurCompte
             $url_accueil = $this->container->router->pathFor("accueil");
             return $rs->withRedirect($url_accueil);
         } else {
-            $_SESSION['connexionOK'] = $connexionOK;
+            $_SESSION['connexionOK'] = false;
             $url_connexion = $this->container->router->pathFor("formConnexion");
             return $rs->withRedirect($url_connexion);
         }
@@ -351,7 +352,7 @@ class ControlleurCompte
     {
         if (isset($_POST['u_mail'])) {
             $token = uniqid();
-            $url = "" . $token;
+            $url = $token;
 
             $subject = 'Mot de passe oublié';
             $message = "Bonjour, voici votre lien pour la reinitialisation du mot de passe : $url";
