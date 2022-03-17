@@ -54,7 +54,8 @@ class Authentification
             if($notif_mail != null) {
                 $u->u_notif_mail = $notif_mail;
             }
-            if($ville != null || $cp != null) {
+            if(($ville != null || $cp != null) && $id_ville != null) {
+                $_SESSION['inscriptionOK'] = "ville";
                 $u->u_ville = $id_ville;
             }
             $u->u_statut = "membre";
@@ -82,6 +83,7 @@ class Authentification
         if ($res) {
             self::loadProfile($mail);
         }
+        $_SESSION['inscriptionOK'] = true;
         return $res;
     }
 

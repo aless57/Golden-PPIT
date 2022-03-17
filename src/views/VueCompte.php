@@ -84,6 +84,11 @@ class VueCompte
                 $content .= $this->formulaireConnexion();
                 break;
             }
+            // Erreur Ville/CP inscription.
+            case 6:
+            {
+                $content .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Ville ou code postal incorrect !</div>";
+            }
             //Affichage du formulaire d'inscription
             case 1:
             {

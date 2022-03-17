@@ -84,18 +84,28 @@ class ControlleurCompte
         $naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
         $tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
         $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
+        //Gérer vérif du MDP
         $mdp = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
         $adr = filter_var($post['adr'], FILTER_SANITIZE_STRING);
         $cp = filter_var($post['cp'], FILTER_SANITIZE_STRING);
-        $photo = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
+        $photo = filter_var($post['photo'], FILTER_SANITIZE_STRING);
         $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
         echo $post['notif'];
         $vue = new VueAccueil([], $this->container);
         if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr, $cp)) {
-            Authentification::authenticate($mail, $mdp);
-            $_SESSION['inscriptionOK'] = true;
-            $url_accueil = $this->container->router->pathFor("accueil");
-            return $rs->withRedirect($url_accueil);
+
+            if($_SESSION['inscriptionOK'] == "ville") {
+                session_destroy();
+                $_SESSION = [];
+                $vue = new VueCompte([], $this->container);
+                $rs->getBody()->write($vue->render(6));
+                return $rs;
+
+            } else {
+                Authentification::authenticate($mail, $mdp);
+                $url_accueil = $this->container->router->pathFor("accueil");
+                return $rs->withRedirect($url_accueil);
+            }
         } else {
             $rs->getBody()->write($vue->render(2));
         }
