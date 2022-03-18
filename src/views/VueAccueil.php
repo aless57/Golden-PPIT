@@ -75,6 +75,7 @@ FIN;
         switch ($select) {
             case 0:
             {
+                if (!isset($_SESSION['profile'])) {
                 $content .= <<<FIN
 <section>
     <div class="logo-accueil" >            
@@ -90,7 +91,22 @@ FIN;
         </div>
         
     </section>
-FIN;
+FIN;}
+                else{
+                    $content .= <<<FIN
+            <body>
+                    <h1 class="text-center"> MENU </h1>
+                    
+                    <div class = "container">
+                        <button class="bouton-blanc" onclick="window.location.href='$url_creationEv'">Créer un événement</button>
+                        <button class="bouton-blanc" onclick="window.location.href='$url_afficherEv'">Consulter la liste des événements</button>
+                        <button class="bouton-blanc">Gérer mon événement</button>
+                        <button class="bouton-blanc">Voir le calendrier de mes événements</button>
+                    </div>
+            
+            
+            </body>
+FIN;                }
                 break;
 
             }

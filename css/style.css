@@ -567,6 +567,7 @@ footer{
     align-content: center;
 
     margin-top: auto;
+    margin-bottom: 0;
     background: #030233;
 
 }
@@ -574,6 +575,7 @@ footer p{
     margin:0;
     padding:0;
     color:#C4C4C4;
+
 }
 
 footer a:hover{

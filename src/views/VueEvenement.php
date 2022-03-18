@@ -149,7 +149,9 @@ FIN;
     <div class = "content-wrap">
         $content
     </div>
-    <footer>
+    
+</body>
+<footer>
     <div class="clearfix"></div>
         <div class="container text-center">
                 <a href="#"> Nous contacter </a>
@@ -158,7 +160,6 @@ FIN;
         </div>    
     
     </footer>
-</body>
 </html>
 FIN;
 
