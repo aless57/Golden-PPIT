@@ -38,6 +38,7 @@ class Authentification
 
         if ($nb == 0) {
             $u = new Utilisateur();
+            $u->u_statut = "membre";
             $u->u_mail = $mail;
             $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
             $u->u_nom = $nom;
@@ -54,13 +55,15 @@ class Authentification
             if($notif_mail != null) {
                 $u->u_notif_mail = $notif_mail;
             }
-            if(($ville != null || $cp != null) && $id_ville != null) {
-                $_SESSION['inscriptionOK'] = "ville";
+            if(($ville == null && $cp == null) || $id_ville != null) {
                 $u->u_ville = $id_ville;
+                $u->save();
+                return true;
+            } else {
+                $_SESSION['inscriptionOK'] = "ville";
+                return true;
             }
-            $u->u_statut = "membre";
-            $u->save();
-            return true;
+            return false;
         } else {
             return false;
         }
