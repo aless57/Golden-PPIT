@@ -39,6 +39,7 @@ h1{
     width: 80%;
     margin: 0 auto;
     padding: 1%;
+    vertical-align: center;
 }
 
 .container-no-padding{
@@ -510,6 +511,7 @@ fieldset .field .input-pp{
     height: 200px;
     align-content: center;
     align-self: center;
+    margin-bottom:50px;
 }
 .param-buttons .bouton-bleu{
     width:250px;
@@ -557,6 +559,86 @@ fieldset .field .input-pp{
 }
 .dropdown:hover .dropdown-content {display: block;}
 
+
+.tabBesoin-div{
+    display:flex;
+    justify-content: space-around;
+    float:left;
+    width: 60%;
+    position: relative;
+    overflow-x: auto ;
+    overflow-y: auto ;
+    max-height : 300px;
+    margin-bottom: 50px;
+    margin-left:30px;
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #FFF;
+    border-collapse: collapse;
+
+}
+tr:nth-child(even){
+    background-color: #FFF;
+
+}
+tr:nth-child(odd) {
+    background-color: #ECECF3;
+}
+table {
+    width: 100%;
+    margin:  auto;
+    table-layout: auto;
+
+}
+table, td{
+    border-collapse: collapse;
+    border-bottom: 1px solid #030233;
+    padding: 5px;
+    min-width : 100px;
+    box-sizing: border-box;
+
+}
+td{
+    word-wrap: break-word;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    padding-left : 20px;
+}
+.tabBesoin-div::-webkit-scrollbar{
+    width : 0.25rem;
+    height: 0.25rem;
+    border-radius: 10px;
+
+}
+.tabBesoin-div::-webkit-scrollbar-track{
+    background: #DBDBE5;
+    border-radius: 10px;
+
+}
+.tabBesoin-div::-webkit-scrollbar-thumb{
+    background: #030233;
+    border-radius: 10px;
+
+}
+tr td:nth-child(1){
+    padding-left: 10px;
+    background-color: #DBDBE5;
+    min-width : 180px;
+}
+.tab-param{
+    align-content: center;
+    align-items: center;
+    display:flex;
+    justify-content: space-evenly;
+
+}
+
+.caption{
+    background-color: #DBDBE5;
+    color:#030233;
+    font-size: 1.2rem;
+    padding:1%;
+}
 
 /**Footer**/
 footer{

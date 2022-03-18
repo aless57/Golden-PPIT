@@ -51,7 +51,7 @@ $app->get('/consulterEvenement' , ControlleurEvenement::class . ':consulterEv')-
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
-
+$app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 
 try {
     $app->run();

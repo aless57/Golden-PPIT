@@ -3,6 +3,7 @@
 namespace goldenppit\controllers;
 
 use Exception;
+use goldenppit\models\besoin;
 use goldenppit\models\evenement;
 use goldenppit\models\participant;
 use goldenppit\views\VueAccueil;
@@ -170,10 +171,13 @@ class ControlleurEvenement
         $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
 
         //Récupéerer les données des participants et des besoins
-
         $nb_participants = Participant::where('p_event', '=', $id_ev)->get()->count();
+        $participants = Participant::where('p_event', '=', $id_ev)->get()->all();
+
+        $nb_besoins = Besoin::where('b_event','=', $id_ev)->get()->count();
+        $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
         //récupérer les champs ici et les mettre entre les crochets
-        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc, $nb_participants], $this->container);
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc, $nb_participants, $participants], $this->container);
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
         return $rs;
     }
@@ -189,10 +193,10 @@ class ControlleurEvenement
      */
     public function supprimerEvenement(Request $rq, Response $rs, $args): Response
     {
-        $event = Evenement::find($args['event_id']);
+        $event = Evenement::find($args['id_ev']);
         $event->delete();
         //TODO : remettre sur la page précedente
-        $url_accueil = $this->container->router->pathFor('racine');
+        $url_accueil = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($url_accueil);
     }
 

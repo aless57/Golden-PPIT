@@ -3,6 +3,11 @@
 
 namespace goldenppit\views;
 
+
+use goldenppit\models\besoin;
+use goldenppit\models\participe_besoin;
+use goldenppit\models\utilisateur;
+
 class VuePageEvenement
 {
     private $tab;
@@ -61,7 +66,7 @@ FIN;
 
             <div class="logo">
                 <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png" alt="logo-accueil" >
+                    <img src="../images/logo-white.png" alt="logo-accueil" >
                 </a>
             </div>
             <div class="menu text-right">
@@ -74,7 +79,7 @@ FIN;
             $content = <<<FIN
         <div class="logo">
                 <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png" alt="logo-accueil" >
+                    <img src="../images/logo-white.png" alt="logo-accueil" >
                 </a>
             </div>
     <div class ="message-erreur">
@@ -128,13 +133,58 @@ FIN;
 
         return $html;
     }
+    public function tabBesoin($nb_participants, $participants):String{
+            $row = "";
 
+        for($i = 0; $i< $nb_participants; $i++ ){
+            $column = "";
+
+            $p_mail = $participants[$i]->p_user;
+                $participant_nom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_nom;
+                $participant_prenom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_prenom;
+
+                $participe_au_besoin = Participe_Besoin::where('pb_user','=', $p_mail);
+
+                if($participe_au_besoin->get()->count() != 0) {
+                    for($j = 0; $j< $participe_au_besoin->get()->count(); $j++ ){
+                        $id_b = $participe_au_besoin->get()[$j]->pb_besoin ;
+                        $nom_b = Besoin::where('b_id','=', $id_b)->get()->first()->b_objet;
+                        $column .= <<<FIN
+                            <td> $nom_b </td>
+                        FIN;
+                    }
+                }
+
+                $row .= <<<Fin
+                        <tr>
+                           <td> $participant_prenom $participant_nom</td>
+                           
+                          $column
+                        </tr>
+                    Fin;
+
+
+        }
+            $html = <<<FIN
+                <table class = "tabBesoin">
+                <caption class="caption">Voici la répartition des besoins pour l'événement.</caption>
+                        $row
+                </table>
+        FIN;
+
+        return $html;
+    }
 
 
     public function pageEvenement(): string
     {
         $url_quitter = $this->container->router->pathFor('quitterEvenement');
         $id_ev = $this->tab[0];
+        //TODO corriger bug bdd : il faut ajouter on delete cascade parce que ça fait l'erreur:
+        // Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails
+        // (`goldenppit`.`besoin`, CONSTRAINT `besoin_ibfk_1` FOREIGN KEY (`b_event`) REFERENCES `evenement` (`e_id`)) (SQL: delete from `evenement` where `e_id` = 1)
+        $url_supprimer  = $this->container->router->pathFor('supprimerEvenement',  ['id_ev' => $id_ev]);
+
         $nom= $this->tab[1];
         $date_deb = $this->tab[2];
         $date_fin = $this->tab[3];
@@ -142,6 +192,9 @@ FIN;
         $ville =  $this->tab[5];
         $desc = $this->tab[6];
         $nb_participants = $this->tab[7];
+        $participants = $this->tab[8];
+        $nb_besoins = $this->tab[9];
+        $besoins = $this->tab[10];
         $participant_s  = "";
         if($nb_participants > 1){
                 $participant_s = "participants";
@@ -177,7 +230,7 @@ FIN;
                 <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
 
             FIN;
-
+        $tab = $this->tabBesoin($nb_participants, $participants);
 
         //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
         $html = <<<FIN
@@ -232,20 +285,30 @@ FIN;
             </div>                
         </section>
         <section >
-       <div class="Tab-besoin">
-                
-        </div>
-            <div class = "container">
+
+         <div class = "container ">
+             <div class = "tab-param">
+                <div class="clearfix"/>
+    
+                <div class="tabBesoin-div">
+                    $tab
+                </div>
+               
                 <div class="param-buttons">
                     $boutons
-            </div>
-        </div>
-        <div class="clearfix"/>
+                </div>
+                <div class="clearfix"/>
 
+            </div>
+            <div class="clearfix"/>
+        </div>
         </section>
             
 FIN;
         return $html;
     }
+
+
+
 
 }
