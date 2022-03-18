@@ -48,7 +48,7 @@ CREATE TABLE `evenement` (
                              `e_desc` varchar(500) DEFAULT NULL COMMENT 'La description de l''évènement. Attribut facultatif.',
                              `e_image` varchar(50) DEFAULT NULL COMMENT 'Une image liée à l''évènement.\r\nAttribut facultatif.',
                              `e_supp_date` date DEFAULT NULL COMMENT 'La date de suppression automatique. Attribut Facultatif. La date de suppression doit être postérieure à la date d''archivage.',
-                             `e_archive` tinyint(4) NOT NULL COMMENT 'La date d''archivage de l''évènement.',
+                             `e_archive` date NOT NULL COMMENT 'La date d''archivage de l''évènement.',
                              `e_statut` varchar(50) NOT NULL COMMENT 'Le statut actuel de l''évènement.\r\nEn cours, terminé, archivé ou supprimé.',
                              `e_proprio` varchar(50) NOT NULL COMMENT 'Le mail du responsable de l''évènement. Clé étrangère sur la table utilisateur.',
                              `e_ville` int(5) NOT NULL COMMENT 'La ville où se déroule l''évènement. Clé étrangère sur la table ville.'
