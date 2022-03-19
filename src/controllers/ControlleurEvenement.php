@@ -13,7 +13,6 @@ use goldenppit\views\VueEvenement;
 use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Symfony\Component\Console\Input\Input;
 
 define("ENCOURS", "En cours");
 
@@ -51,7 +50,7 @@ class ControlleurEvenement
     {
         $nbEvent = Evenement::all()->count();
         $nomsEvent = Evenement::all();
-        $vue = new VueEvenement([$nbEvent,$nomsEvent], $this->container);
+        $vue = new VueEvenement([$nbEvent, $nomsEvent], $this->container);
         $rs->getBody()->write($vue->render(2)); //on ouvre la page d'un événement
         return $rs;
     }
@@ -104,17 +103,11 @@ class ControlleurEvenement
     {
         $e = new Evenement();
 
-        if($supprAuto == null ){
-            $e->e_supp_date = NULL;
-        }
-        else {
+        if ($supprAuto != null) {
             $e->e_supp_date = $supprAuto;
         }
 
-        if($supprAuto == null ){
-            $e->e_desc = NULL;
-        }
-        else {
+        if ($desc != null) {
             $e->e_desc = $desc;
         }
 
@@ -124,7 +117,6 @@ class ControlleurEvenement
         $e->e_statut = ENCOURS;
         $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
 
-        // TODO : A modif
         $e->e_ville = Ville::where('v_nom', '=', $lieu)->first()->v_id;
 
         $e->save();
@@ -146,7 +138,7 @@ class ControlleurEvenement
         $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
         print($id_ev);
 
-        $url_event = $this->container->router->pathFor('evenement/'.$id_ev);
+        $url_event = $this->container->router->pathFor('evenement/' . $id_ev);
         return $rs->withRedirect($url_event);
 
     }
@@ -168,8 +160,8 @@ class ControlleurEvenement
         $date_deb = Evenement::where('e_id', '=', $id_ev)->first()->e_date;
         $date_fin = Evenement::where('e_id', '=', $id_ev)->first()->e_archive;
         $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
-        $proprio_nom = Utilisateur::where ('u_mail', '=', $id_proprio)->first()->u_nom;
-        $proprio_prenom = Utilisateur::where ('u_mail', '=', $id_proprio)->first()->u_prenom;
+        $proprio_nom = Utilisateur::where('u_mail', '=', $id_proprio)->first()->u_nom;
+        $proprio_prenom = Utilisateur::where('u_mail', '=', $id_proprio)->first()->u_prenom;
 
 
         $id_ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
@@ -180,10 +172,10 @@ class ControlleurEvenement
         $nb_participants = Participant::where('p_event', '=', $id_ev)->get()->count();
         $participants = Participant::where('p_event', '=', $id_ev)->get()->all();
 
-        $nb_besoins = Besoin::where('b_event','=', $id_ev)->get()->count();
+        $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
         $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
         //récupérer les champs ici et les mettre entre les crochets
-        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin,$id_proprio,  $proprio_nom,$proprio_prenom,  $ville, $desc, $nb_participants, $participants], $this->container);
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $id_proprio, $proprio_nom, $proprio_prenom, $ville, $desc, $nb_participants, $participants], $this->container);
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
         return $rs;
     }
@@ -217,15 +209,11 @@ class ControlleurEvenement
      */
     public function quitterEvenement(Request $rq, Response $rs, $event_id): Response
     {
-        $post = $rq->getParsedBody(); #method to parse the HTTP request body into a native PHP format
-
-        #retire participation et besoins
         $user_email = $_SESSION['profile']['mail'];
         $participe = participant::find([$user_email, $event_id]);
         $participe->delete();
 
-        //TODO : remettre sur la page précedente
-        $url_accueil = $this->container->router->pathFor('racine');
+        $url_accueil = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($url_accueil);
     }
 }

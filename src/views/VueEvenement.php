@@ -126,7 +126,7 @@ FIN;
             }
             case 2:
             {
-                $content .=$this->consulterEvenement();
+                $content .= $this->consulterEvenement();
             }
         }
 
@@ -230,13 +230,15 @@ FIN;
         $evenements = "";
         $test = "";
         //TODO chopper les infos à partir de la bdd
-        for($i = 0; $i<$this->tab[1]->count(); $i++){
+        for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
             $url_event = $this->container->router->pathfor("redirection");
+            $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
+            var_dump($url_supprimer);
             $evenements .= <<<FIN
             <div class="alignement">
                 <button name="test" class="bouton-blanc" onclick="window.location.href='$url_event'">$test</button>
-                <button> <img src="images/exit.png" class="leftBouton"/>  </button>
+                <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
             </div>   
             
 FIN;

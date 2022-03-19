@@ -133,28 +133,30 @@ FIN;
 
         return $html;
     }
-    public function tabBesoin($nb_participants, $participants):String{
-            $row = "";
 
-        for($i = 0; $i< $nb_participants; $i++ ){
+    public function tabBesoin($nb_participants, $participants): string
+    {
+        $row = "";
+
+        for ($i = 0; $i < $nb_participants; $i++) {
             $column = "";
 
             $p_mail = $participants[$i]->p_user;
             $participant_nom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_nom;
             $participant_prenom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_prenom;
 
-            $participe_au_besoin = Participe_Besoin::where('pb_user','=', $p_mail);
+            $participe_au_besoin = Participe_Besoin::where('pb_user', '=', $p_mail);
 
-            if($participe_au_besoin->get()->count() != 0) {
-                for($j = 0; $j< $participe_au_besoin->get()->count(); $j++ ){
-                    $id_b = $participe_au_besoin->get()[$j]->pb_besoin ;
-                    $nom_b = Besoin::where('b_id','=', $id_b)->get()->first()->b_objet;
+            if ($participe_au_besoin->get()->count() != 0) {
+                for ($j = 0; $j < $participe_au_besoin->get()->count(); $j++) {
+                    $id_b = $participe_au_besoin->get()[$j]->pb_besoin;
+                    $nom_b = Besoin::where('b_id', '=', $id_b)->get()->first()->b_objet;
                     $column .= <<<FIN
                         <td> $nom_b </td>
                     FIN;
                 }
 
-            }else{
+            } else {
                 $column .= <<<FIN
                         <td> Aucun besoin n'est associé.</td>
                     FIN;
@@ -168,9 +170,8 @@ FIN;
                 Fin;
 
 
-
         }
-            $html = <<<FIN
+        $html = <<<FIN
         
                 <table class = "tabBesoin" id = "tableBesoin">
                 <caption class="caption">Voici la répartition des besoins pour l'événement.</caption>
@@ -199,25 +200,23 @@ FIN;
     {
         $url_quitter = $this->container->router->pathFor('quitterEvenement');
         $id_ev = $this->tab[0];
-        //TODO corriger bug bdd : il faut ajouter on delete cascade parce que ça fait l'erreur:
-        // Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails
-        // (`goldenppit`.`besoin`, CONSTRAINT `besoin_ibfk_1` FOREIGN KEY (`b_event`) REFERENCES `evenement` (`e_id`)) (SQL: delete from `evenement` where `e_id` = 1)
-        $url_supprimer  = $this->container->router->pathFor('supprimerEvenement',  ['id_ev' => $id_ev]);
 
-        $nom= $this->tab[1];
+        $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
+
+        $nom = $this->tab[1];
         $date_deb = $this->tab[2];
         $date_fin = $this->tab[3];
         $proprio = $this->tab[4];
-        $proprio_nom =$this->tab[5];
+        $proprio_nom = $this->tab[5];
         $proprio_prenom = $this->tab[6];
-        $ville =  $this->tab[7];
+        $ville = $this->tab[7];
         $desc = $this->tab[8];
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
-        $participant_s  = "";
-        if($nb_participants > 1){
-                $participant_s = "participants";
-        }else{
+        $participant_s = "";
+        if ($nb_participants > 1) {
+            $participant_s = "participants";
+        } else {
             $participant_s = "participant";
         }
         $boutons =
@@ -225,7 +224,7 @@ FIN;
                 
                 <button class="bouton-bleu">Inviter</button>
             FIN;
-        if($proprio == $_SESSION['profile']['mail']){//si l'utilisateur est propriétaire :
+        if ($proprio == $_SESSION['profile']['mail']) {//si l'utilisateur est propriétaire :
             $boutons .=
                 <<<FIN
                     <div class="dropdown">
@@ -238,14 +237,14 @@ FIN;
                       </div>
                     </div>
             FIN;
-        }else{
-            $boutons .=<<<FIN
+        } else {
+            $boutons .= <<<FIN
                 <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
                 <button class="bouton-bleu">Suggérer une modification</button>
             FIN;
 
         }
-        $boutons .=<<<FIN
+        $boutons .= <<<FIN
                 <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
 
             FIN;
@@ -264,7 +263,7 @@ FIN;
                         
                         <div class="info">
                     <div class=" labels-details-ev"> 
-                        <h2> Nom de l'evenement : </h2>
+                        <h2> Nom de l'évènement : </h2>
                         <h2 class="details-ev" > $nom </h2>
                     </div>
                     <div class=" labels-details-ev">
@@ -330,8 +329,6 @@ FIN;
 FIN;
         return $html;
     }
-
-
 
 
 }
