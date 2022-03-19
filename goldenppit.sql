@@ -39508,21 +39508,21 @@ ALTER TABLE `ville`
 -- Contraintes pour la table `besoin`
 --
 ALTER TABLE `besoin`
-  ADD CONSTRAINT `besoin_ibfk_1` FOREIGN KEY (`b_event`) REFERENCES `evenement` (`e_id`);
+  ADD CONSTRAINT `besoin_ibfk_1` FOREIGN KEY (`b_event`) REFERENCES `evenement` (`e_id`) on delete cascade;
 
 --
 -- Contraintes pour la table `evenement`
 --
 ALTER TABLE `evenement`
   ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`e_ville`) REFERENCES `ville` (`v_id`),
-  ADD CONSTRAINT `evenement_ibfk_2` FOREIGN KEY (`e_proprio`) REFERENCES `utilisateur` (`u_mail`);
+  ADD CONSTRAINT `evenement_ibfk_2` FOREIGN KEY (`e_proprio`) REFERENCES `utilisateur` (`u_mail`) on delete cascade;
 
 --
 -- Contraintes pour la table `modif_temp`
 --
 ALTER TABLE `modif_temp`
   ADD CONSTRAINT `modif_temp_ibfk_1` FOREIGN KEY (`m_notif`) REFERENCES `notification` (`n_id`),
-  ADD CONSTRAINT `modif_temp_ibfk_2` FOREIGN KEY (`n_besoin`) REFERENCES `besoin` (`b_id`);
+  ADD CONSTRAINT `modif_temp_ibfk_2` FOREIGN KEY (`n_besoin`) REFERENCES `besoin` (`b_id`) on delete cascade;
 
 --
 -- Contraintes pour la table `notification`
@@ -39537,14 +39537,14 @@ ALTER TABLE `notification`
 --
 ALTER TABLE `participe`
     ADD CONSTRAINT `participe_ibfk_1` FOREIGN KEY (`p_user`) REFERENCES `utilisateur` (`u_mail`),
-  ADD CONSTRAINT `participe_ibfk_2` FOREIGN KEY (`p_event`) REFERENCES `evenement` (`e_id`);
+  ADD CONSTRAINT `participe_ibfk_2` FOREIGN KEY (`p_event`) REFERENCES `evenement` (`e_id`) on delete cascade;
 
 --
 -- Constraints for table `participe_besoin`
 --
 ALTER TABLE `participe_besoin`
     ADD CONSTRAINT `participe_besoin_ibfk_1` FOREIGN KEY (`pb_user`) REFERENCES `utilisateur` (`u_mail`),
-    ADD CONSTRAINT `participe_besoin_ibfk_2` FOREIGN KEY (`pb_besoin`) REFERENCES `besoin` (`b_id`);
+    ADD CONSTRAINT `participe_besoin_ibfk_2` FOREIGN KEY (`pb_besoin`) REFERENCES `besoin` (`b_id`) on delete cascade;
 
 --
 -- Contraintes pour la table `souhaite`

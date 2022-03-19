@@ -6,6 +6,8 @@ use Exception;
 use goldenppit\models\besoin;
 use goldenppit\models\evenement;
 use goldenppit\models\participant;
+use goldenppit\models\utilisateur;
+use goldenppit\models\ville;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueEvenement;
 use goldenppit\views\VuePageEvenement;
@@ -123,8 +125,7 @@ class ControlleurEvenement
         $e->e_proprio = $_SESSION['profile']['mail']; //La récup du mail dans la variable de session ne fonctionne pas.
 
         // TODO : A modif
-        //$e->e_ville = Ville::where('v_nom','LIKE',$ville)->first()->v_id;
-        $e->e_ville = $lieu;
+        $e->e_ville = Ville::where('v_nom', '=', $lieu)->first()->v_id;
 
         $e->save();
 
@@ -166,8 +167,13 @@ class ControlleurEvenement
         $nom_ev = Evenement::where('e_id', '=', $id_ev)->first()->e_titre;
         $date_deb = Evenement::where('e_id', '=', $id_ev)->first()->e_date;
         $date_fin = Evenement::where('e_id', '=', $id_ev)->first()->e_archive;
-        $proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
-        $ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
+        $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
+        $proprio_nom = Utilisateur::where ('u_mail', '=', $id_proprio)->first()->u_nom;
+        $proprio_prenom = Utilisateur::where ('u_mail', '=', $id_proprio)->first()->u_prenom;
+
+
+        $id_ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
+        $ville = Ville::where('v_id', "=", $id_ville)->first()->v_nom;
         $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
 
         //Récupéerer les données des participants et des besoins
@@ -177,7 +183,7 @@ class ControlleurEvenement
         $nb_besoins = Besoin::where('b_event','=', $id_ev)->get()->count();
         $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
         //récupérer les champs ici et les mettre entre les crochets
-        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $proprio, $ville, $desc, $nb_participants, $participants], $this->container);
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin,$id_proprio,  $proprio_nom,$proprio_prenom,  $ville, $desc, $nb_participants, $participants], $this->container);
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
         return $rs;
     }

@@ -115,12 +115,8 @@ a {
     background: linear-gradient(to right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
 
 }
-footer a {
 
-    background: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 40%, #4299C8 55%, #fd5c63 100%);
-
-}
-footer a , .message-erreur a, .lien-liste .lien-p {
+.message-erreur a, .lien-liste .lien-p {
     background-size: 205%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -129,6 +125,7 @@ footer a , .message-erreur a, .lien-liste .lien-p {
 
 
 footer a:hover, .message-erreur a:hover, .lien-liste .lien-p:hover{
+    -webkit-text-fill-color: transparent;
     background-position: -100%;
 }
 .text-center{
@@ -297,7 +294,10 @@ fieldset{
     border : none;
     border-radius: 10px;
     height: auto;
-    align-items: center;
+    margin-left :8%;
+    margin-right: 8%;
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -318,6 +318,10 @@ fieldset input[type="text"], input[type="password"], input[type="date"], input[t
 fieldset input.desc{
     width: 360px;
     height : 120px;
+}
+
+.field label{
+    font-size: 1.5rem;
 }
 
 .span {
@@ -411,7 +415,6 @@ fieldset .field .input-pp{
 .img-ev{
     box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 300%);
-);
     margin-top: 3%;
     margin-left: 2%;
     width: 20%;
@@ -426,10 +429,9 @@ fieldset .field .input-pp{
     position:relative;
     left: 32%;
     margin-top: 1%;
-    padding:1%;
     display: flex;
     width: 60%;
-   height: auto;
+    height: auto;
 }
 
 .alignement{
@@ -449,10 +451,16 @@ fieldset .field .input-pp{
     display: inline-block;
     margin-left: auto;
 }
+.info{
+   padding-top: 5%;
+}
 .details-bg{
+    height: 400px;
+    display: block;
     background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
     box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
     border-radius: 10px;
+
 }
 
 
@@ -571,31 +579,37 @@ fieldset .field .input-pp{
     max-height : 300px;
     margin-bottom: 50px;
     margin-left:30px;
-    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25);
     background-color: #FFF;
     border-collapse: collapse;
+    border-bottom: 2px solid #030233;
+
 
 }
 tr:nth-child(even){
     background-color: #FFF;
 
 }
-tr:nth-child(odd) {
-    background-color: #ECECF3;
-}
+
 table {
     width: 100%;
     margin:  auto;
     table-layout: auto;
 
+
 }
 table, td{
     border-collapse: collapse;
-    border-bottom: 1px solid #030233;
     padding: 5px;
     min-width : 100px;
     box-sizing: border-box;
 
+}
+tr{
+    border-bottom: 1px solid #030233;
+}
+
+tr:last-child{
+    border-bottom: none;
 }
 td{
     word-wrap: break-word;
@@ -603,6 +617,9 @@ td{
     height: 40px;
     text-align: center;
     padding-left : 20px;
+}
+td:hover{
+    cursor:pointer;
 }
 .tabBesoin-div::-webkit-scrollbar{
     width : 0.25rem;
@@ -624,12 +641,14 @@ tr td:nth-child(1){
     padding-left: 10px;
     background-color: #DBDBE5;
     min-width : 180px;
+
 }
+
 .tab-param{
     align-content: center;
     align-items: center;
     display:flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
 }
 
@@ -638,6 +657,12 @@ tr td:nth-child(1){
     color:#030233;
     font-size: 1.2rem;
     padding:1%;
+}
+.selected{
+    background-color: #ECECF3;
+    border-left: 1px solid #fd5c63 !important;
+    border-right: 1px solid #fd5c63 !important;
+    border-collapse: collapse;
 }
 
 /**Footer**/
@@ -653,10 +678,18 @@ footer{
     background: #030233;
 
 }
+footer a {
+    background: linear-gradient(to right, #FFFFFF 0%, #21D4FD 50%, #DB81FF 100%);
+    -webkit-text-fill-color: #ECECF3;
+    background-size: 205%;
+    -webkit-background-clip: text;
+    transition: 0.5s ease-out;
+
+}
 footer p{
     margin:0;
     padding:0;
-    color:#C4C4C4;
+   color:#ECECF3;
 
 }
 

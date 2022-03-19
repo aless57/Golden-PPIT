@@ -324,21 +324,21 @@ FIN;
                 <label> Nom : </label>
                 <input type="text" name="nom" placeholder="" pattern="[a-ZA-Z]+" required="required" value="$nom" />
               </div>
-              <div class="field"> Prénom : <input type="text" name="prenom" placeholder="" pattern="[a-ZA-Z]+" required="required" value="$prenom" />
+              <div class="field"> <label>Prénom : </label><input type="text" name="prenom" placeholder="" pattern="[a-ZA-Z]+" required="required" value="$prenom" />
               </div>
-              <div class="field"> Date de naissance : <input type="date" name="naissance" placeholder="" value="$naissance" />
+              <div class="field"> <label>Date de naissance :</label> <input type="date" name="naissance" placeholder="" value="$naissance" />
               </div>
-              <div class="field"> Numéro de téléphone : <input type="tel" name="tel" placeholder="" value="$telephone" />
+              <div class="field"> <label>Numéro de téléphone : </label><input type="tel" name="tel" placeholder="" value="$telephone" />
               </div>
-              <div class="field"> Mot de passe actuel * : <input type="password" name="mdp" placeholder="**********" required="required" />
+              <div class="field"> <label>Mot de passe actuel * : </label><input type="password" name="mdp" placeholder="**********" required="required" />
               </div>
-              <div class="field"> Nouveau mot de passe : <input type="password" name="mdp" placeholder="**********" required="required" />
+              <div class="field"> <label>Nouveau mot de passe : </label><input type="password" name="mdp" placeholder="**********" required="required" />
               </div>
-              <div class="field"> Confirmation du mot de passe : <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
+              <div class="field"> <label>Confirmation du mot de passe :</label> <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
               </div>
-              <div class="field"> Ville : <input type="text" name="adr" placeholder="" value="$ville" />
+              <div class="field"> <label>Ville :</label> <input type="text" name="adr" placeholder="" value="$ville" />
               </div>            
-              <div class="field"> Activer les notifications par mail : 
+              <div class="field"> <label>Activer les notifications par mail :</label> 
                 <input type="checkbox" name="notif" value="1" />
               </div>
               <span class="span text-right"> * : Champ obligatoire pour enregistrer les modifications !</span>

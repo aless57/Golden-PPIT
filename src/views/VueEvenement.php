@@ -149,7 +149,7 @@ FIN;
     <div class = "content-wrap">
         $content
     </div>
-    
+    </div>
 </body>
 <footer>
     <div class="clearfix"></div>
@@ -219,8 +219,6 @@ FIN;
 		</form>
 
     </div>
-    
-</body>
 FIN;
         return $html;
     }

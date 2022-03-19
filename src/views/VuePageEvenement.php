@@ -140,36 +140,55 @@ FIN;
             $column = "";
 
             $p_mail = $participants[$i]->p_user;
-                $participant_nom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_nom;
-                $participant_prenom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_prenom;
+            $participant_nom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_nom;
+            $participant_prenom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_prenom;
 
-                $participe_au_besoin = Participe_Besoin::where('pb_user','=', $p_mail);
+            $participe_au_besoin = Participe_Besoin::where('pb_user','=', $p_mail);
 
-                if($participe_au_besoin->get()->count() != 0) {
-                    for($j = 0; $j< $participe_au_besoin->get()->count(); $j++ ){
-                        $id_b = $participe_au_besoin->get()[$j]->pb_besoin ;
-                        $nom_b = Besoin::where('b_id','=', $id_b)->get()->first()->b_objet;
-                        $column .= <<<FIN
-                            <td> $nom_b </td>
-                        FIN;
-                    }
+            if($participe_au_besoin->get()->count() != 0) {
+                for($j = 0; $j< $participe_au_besoin->get()->count(); $j++ ){
+                    $id_b = $participe_au_besoin->get()[$j]->pb_besoin ;
+                    $nom_b = Besoin::where('b_id','=', $id_b)->get()->first()->b_objet;
+                    $column .= <<<FIN
+                        <td> $nom_b </td>
+                    FIN;
                 }
 
-                $row .= <<<Fin
-                        <tr>
-                           <td> $participant_prenom $participant_nom</td>
-                           
-                          $column
-                        </tr>
-                    Fin;
+            }else{
+                $column .= <<<FIN
+                        <td> Aucun besoin n'est associé.</td>
+                    FIN;
+            }
+            $row .= <<<Fin
+                    <tr>
+                       <td> $participant_prenom $participant_nom</td>
+                       
+                      $column
+                    </tr>
+                Fin;
+
 
 
         }
             $html = <<<FIN
-                <table class = "tabBesoin">
+        
+                <table class = "tabBesoin" id = "tableBesoin">
                 <caption class="caption">Voici la répartition des besoins pour l'événement.</caption>
                         $row
                 </table>
+        <script>
+            let table  = document.getElementById("tableBesoin"); 
+             
+            //parcourir les lignes
+            for(let i = 0; i < table.rows.length; i++){
+                //parcourir les cellules de la table
+                for(let j = 1; j< table.rows[i].cells.length; j++){ //on commence à 1 car on ne peut pas selectionner le nom d'un participant dans la liste
+                    table.rows[i].cells[j].onclick = function(){
+                        this.classList.toggle("selected");  //activer la classe de style
+                    };
+                }
+            }
+        </script>
         FIN;
 
         return $html;
@@ -188,13 +207,13 @@ FIN;
         $nom= $this->tab[1];
         $date_deb = $this->tab[2];
         $date_fin = $this->tab[3];
-        $proprio =$this->tab[4];
-        $ville =  $this->tab[5];
-        $desc = $this->tab[6];
-        $nb_participants = $this->tab[7];
-        $participants = $this->tab[8];
-        $nb_besoins = $this->tab[9];
-        $besoins = $this->tab[10];
+        $proprio = $this->tab[4];
+        $proprio_nom =$this->tab[5];
+        $proprio_prenom = $this->tab[6];
+        $ville =  $this->tab[7];
+        $desc = $this->tab[8];
+        $nb_participants = $this->tab[9];
+        $participants = $this->tab[10];
         $participant_s  = "";
         if($nb_participants > 1){
                 $participant_s = "participants";
@@ -215,7 +234,7 @@ FIN;
                         <span> <a href="#">Gérer les besoins</a></span>
                         <span> <a href="#">Gérer les participants</a></span>
                         <span> <a href="#">Léguer l'événement</a></span>
-                        <span> <a href="#" class="supp">Supprimer l'événement</a></span>
+                        <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
                     </div>
             FIN;
@@ -236,11 +255,14 @@ FIN;
         $html = <<<FIN
         <section class="page-evenement">
             <div class="container ">
-                <div class="img-ev">
-                </div>
+                
                 
             
             <div class=" details-bg">
+                    <div class="img-ev">
+                        </div>
+                        
+                        <div class="info">
                     <div class=" labels-details-ev"> 
                         <h2> Nom de l'evenement : </h2>
                         <h2 class="details-ev" > $nom </h2>
@@ -256,12 +278,13 @@ FIN;
                     
                     <div class=" labels-details-ev">
                         <h2> Propriétaire: </h2>
-                        <h2 class="details-ev"> $proprio </h2>
+                        <h2 class="details-ev"> $proprio_prenom $proprio_nom </h2>
                     </div>
                     
                     <div class=" labels-details-ev">
                         <h2> Lieu : </h2>
                         <h2 class="details-ev"> $ville </h2>
+                    </div>
                     </div>
 
             </div>
@@ -288,7 +311,7 @@ FIN;
 
          <div class = "container ">
              <div class = "tab-param">
-                <div class="clearfix"/>
+                <div class="clearfix"></div>
     
                 <div class="tabBesoin-div">
                     $tab
