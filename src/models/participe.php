@@ -5,7 +5,7 @@ namespace goldenppit\models;
 use goldenppit\traits\CompsitePrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class participant extends Model
+class participe extends Model
 {
     use CompsitePrimaryKeyTrait;
     protected $table = 'participe';

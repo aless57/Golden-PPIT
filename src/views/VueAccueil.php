@@ -37,6 +37,7 @@ class VueAccueil
         $url_creationEv = $this->container->router->pathFor('creationEvenement');
         $url_enregistrerEv = $this->container->router->pathFor('enregistrerEvenement');
         $url_afficherEv = $this->container->router->pathFor('afficherListe');
+        $url_calendrier = $this->container->router->pathFor('calendar');
 
         $content = "";
         if (isset($_SESSION['profile'])) {
@@ -101,7 +102,7 @@ FIN;}
                         <button class="bouton-blanc" onclick="window.location.href='$url_creationEv'">Créer un événement</button>
                         <button class="bouton-blanc" onclick="window.location.href='$url_afficherEv'">Consulter la liste des événements</button>
                         <button class="bouton-blanc">Gérer mon événement</button>
-                        <button class="bouton-blanc">Voir le calendrier de mes événements</button>
+                        <button class="bouton-blanc" onclick="window.location.href='$url_calendrier'">Voir le calendrier de mes événements</button>
                     </div>
             
             
@@ -122,7 +123,7 @@ FIN;                }
                         <button class="bouton-blanc" onclick="window.location.href='$url_creationEv'">Créer un événement</button>
                         <button class="bouton-blanc" onclick="window.location.href='$url_afficherEv'">Consulter la liste des événements</button>
                         <button class="bouton-blanc">Gérer mon événement</button>
-                        <button class="bouton-blanc">Voir le calendrier de mes événements</button>
+                        <button class="bouton-blanc" onclick="window.location.href='$url_calendrier'">Voir le calendrier de mes événements</button>
                     </div>
             
             

@@ -183,7 +183,7 @@ FIN;
             //parcourir les lignes
             for(let i = 0; i < table.rows.length; i++){
                 //parcourir les cellules de la table
-                for(let j = 1; j< table.rows[i].cells.length; j++){ //on commence à 1 car on ne peut pas selectionner le nom d'un participant dans la liste
+                for(let j = 1; j< table.rows[i].cells.length; j++){ //on commence à 1 car on ne peut pas selectionner le nom d'un participe dans la liste
                     table.rows[i].cells[j].onclick = function(){
                         this.classList.toggle("selected");  //activer la classe de style
                     };
@@ -217,7 +217,7 @@ FIN;
         if ($nb_participants > 1) {
             $participant_s = "participants";
         } else {
-            $participant_s = "participant";
+            $participant_s = "participe";
         }
         $boutons =
             <<<FIN

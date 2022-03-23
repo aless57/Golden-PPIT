@@ -2,6 +2,8 @@
 
 namespace goldenppit\views;
 
+use goldenppit\models\ville;
+
 class VueEvenement
 {
     private $tab;
@@ -127,6 +129,14 @@ FIN;
             case 2:
             {
                 $content .= $this->consulterEvenement();
+                break;
+            }
+            //Calendrier
+            case 3:
+            {
+                $content .= $this->afficherCalendrier();
+                var_dump($this->tab[0]);
+                break;
             }
         }
 
@@ -136,6 +146,9 @@ FIN;
 <head>
     <title>GoldenPPIT</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/calendar.css" />
+    <link rel="stylesheet" href="src/calendar/calendarjs.css" />
+    <script src="src/calendar/calendarjs.js"></script>
 </head>
 
 <body>
@@ -257,6 +270,70 @@ FIN;
                     
             </body>
 FIN;
+        return $html;
+    }
+
+    public function afficherCalendrier() : string
+    {
+
+        $html = <<<FIN
+<br><br>
+<div class="container full-width">
+<div id="myCalendar" style="max-width: 800px;">
+            
+</div>
+
+ <script>
+        var calendarInstance = new calendarJs( "myCalendar", { 
+            exportEventsEnabled: false, 
+            showTimesInMainCalendarEvents: false,
+            minimumDayHeight: 0,
+            manualEditingEnabled: false,
+            visibleDays: [ 0, 1, 2, 3, 4, 5, 6 ]
+        } );
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        // var eventTemplate = {
+        //     id: e.e_id,
+        //     title: e.e_titre,
+        //     from: e.e_date,
+        //     to: e.e_supp_date,
+        //     description: e.e_desc,
+        //     location: e.ville,
+        //     color: saucisse,
+        //     organizerEmailAddress: e.e_proprio
+        // };
+        </script>
+</div>
+FIN;
+        foreach ($this->tab as $event){
+            echo "var titre = yo";
+
+
+
+            $html .= <<<FIN
+<script>
+
+var event = {
+            title: titre,
+            from: new Date(),
+            to: new Date(),
+            description: "saucisse ouais",
+            location: "saucisseVile",
+            color : getRandomColor()
+        }
+</script>
+FIN;
+
+        }
+
         return $html;
     }
 }

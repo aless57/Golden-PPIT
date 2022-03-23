@@ -5,7 +5,7 @@ namespace goldenppit\controllers;
 use Exception;
 use goldenppit\models\besoin;
 use goldenppit\models\evenement;
-use goldenppit\models\participant;
+use goldenppit\models\participe;
 use goldenppit\models\utilisateur;
 use goldenppit\models\ville;
 use goldenppit\views\VueAccueil;
@@ -121,7 +121,7 @@ class ControlleurEvenement
 
         $e->save();
 
-        $participant = new Participant();
+        $participant = new participe();
         $participant->p_user = $e->e_proprio;
         $participant->p_event = $e->e_id;
 
@@ -169,8 +169,8 @@ class ControlleurEvenement
         $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
 
         //Récupéerer les données des participants et des besoins
-        $nb_participants = Participant::where('p_event', '=', $id_ev)->get()->count();
-        $participants = Participant::where('p_event', '=', $id_ev)->get()->all();
+        $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
+        $participants = participe::where('p_event', '=', $id_ev)->get()->all();
 
         $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
         $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
@@ -210,10 +210,26 @@ class ControlleurEvenement
     public function quitterEvenement(Request $rq, Response $rs, $event_id): Response
     {
         $user_email = $_SESSION['profile']['mail'];
-        $participe = participant::find([$user_email, $event_id]);
+        $participe = participe::find([$user_email, $event_id]);
         $participe->delete();
 
         $url_accueil = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($url_accueil);
     }
+
+    public function afficherCalendrier(Request $rq, Response $rs, $event_id): Response
+    {
+
+        $user_email = $_SESSION['profile']['mail'];
+        $listeNoEvenement = participe::where('p_user', '=', "$user_email")->get();
+        $listeEvenement = [];
+        foreach ($listeNoEvenement as $num){
+            array_push($listeEvenement, evenement::where('e_id', '=',"$num->p_event")->get());
+        }
+        $vue = new VueEvenement($listeEvenement, $this->container);
+
+        $rs->getBody()->write($vue->render(3));
+        return $rs;
+    }
+
 }
