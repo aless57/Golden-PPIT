@@ -1,7 +1,7 @@
 RewriteEngine On
 
 RewriteRule ^sql(/.*|)$ - [NC,F]
-RewriteRule ^src(/.*|)$ - [NC,F]
+##RewriteRule ^src(/.*|)$ - [NC,F]
 RewriteRule ^vendor(/.*|)$ - [NC,F]
 RewriteRule ^config(/.*|)$ - [NC,F]
 

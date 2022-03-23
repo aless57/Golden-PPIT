@@ -1,0 +1,54 @@
+@import "styles";
+
+div.title-bar {
+    width: calc(100% - #{$spacing} - #{$spacing / 2});
+    display: inline-block;
+    padding-top: $spacing;
+    padding-bottom: $spacing;
+    padding-left: $spacing;
+    padding-right: $spacing / 2;
+    background-color: $dark-color;
+    color: $light-color;
+
+    div {
+        margin-left: $spacing / 2;
+        margin-right: $spacing / 2;
+    }
+
+    div.title {
+        font-weight: 900 !important;
+        float: left;
+        margin-left: 0;
+    }
+
+    div.ib-arrow-down-full-line,
+    div.ib-plus,
+    div.ib-close,
+    div.ib-arrow-left-full,
+    div.ib-arrow-right-full,
+    div.ib-arrow-expand-left-right,
+    div.ib-arrow-contract-left-right,
+    div.ib-pin {
+        float: right;
+    }
+
+    @media screen and (min-width: $minimum-width) {
+        div.ib-arrow-down-full-line,
+        div.ib-arrow-left-full,
+        div.ib-arrow-right-full,
+        div.ib-arrow-expand-left-right,
+        div.ib-arrow-contract-left-right {
+            display: inline-block;
+        }
+    }
+    
+    @media screen and (max-width: $maximum-width) {
+        div.ib-arrow-down-full-line,
+        div.ib-arrow-left-full,
+        div.ib-arrow-right-full,
+        div.ib-arrow-expand-left-right,
+        div.ib-arrow-contract-left-right {
+            display: none !important;
+        }
+    }
+}

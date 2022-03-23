@@ -132,11 +132,6 @@ class ControlleurEvenement
     }
 
 
-        $url_event = $this->container->router->pathFor('evenement/' . $id_ev);
-        return $rs->withRedirect($url_event);
-
-    }
-
 
     /**
      * GET
