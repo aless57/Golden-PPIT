@@ -131,12 +131,6 @@ class ControlleurEvenement
         return true;
     }
 
-    public function redirection(Request $rq, Response $rs, $args): Response
-    {
-
-        $nom = "Test";
-        $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
-        print($id_ev);
 
         $url_event = $this->container->router->pathFor('evenement/' . $id_ev);
         return $rs->withRedirect($url_event);

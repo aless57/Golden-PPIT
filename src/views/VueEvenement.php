@@ -151,6 +151,7 @@ FIN;
 </head>
 
 <body>
+
     <nav>
     <div class = "container">
     
@@ -244,14 +245,25 @@ FIN;
         //TODO chopper les infos à partir de la bdd
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
-            $url_event = $this->container->router->pathfor("redirection");
+            $test_2 = $this->tab[1][$i]->e_id;
+            $url_event = $this->container->router->pathFor("evenement/", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
             var_dump($url_supprimer);
             $evenements .= <<<FIN
+            
             <div class="alignement">
-                <button name="test" class="bouton-blanc" onclick="window.location.href='$url_event'">$test</button>
+                <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
                 <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
             </div>   
+            
+           <script>    
+            var event = document.getElementById('$test_2');
+            
+            event.addEventListener('click', function(event) {
+              console.log('$url_event');
+              window.location.href = '$url_event'; 
+            });        
+            </script>
             
 FIN;
 
