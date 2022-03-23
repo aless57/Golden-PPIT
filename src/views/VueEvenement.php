@@ -146,7 +146,6 @@ FIN;
 <head>
     <title>GoldenPPIT</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/calendar.css" />
     <link rel="stylesheet" href="src/calendar/calendarjs.css" />
     <script src="src/calendar/calendarjs.js"></script>
 </head>
