@@ -242,6 +242,10 @@ FIN;
 
         $evenements = "";
         $test = "";
+        //var_dump($this->tab[1]);
+        
+        
+        
         //TODO chopper les infos à partir de la bdd
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
@@ -251,7 +255,7 @@ FIN;
             var_dump($url_supprimer);
             $evenements .= <<<FIN
             
-            <div class="alignement">
+            <div id="$test_2" class="alignement">
                 <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
                 <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
             </div>   
@@ -262,6 +266,7 @@ FIN;
             event.addEventListener('click', function(event) {
               console.log('$url_event');
               window.location.href = '$url_event'; 
+              
             });        
             </script>
             
@@ -273,11 +278,40 @@ FIN;
             <body>
                     <h1 class="text-center"> LES ÉVÉNEMENTS </h1>
                     
-                    <div class = "container">
+                    <div class="container">
+                        <div class="alignement">
+                            <select id="filtres" name="filtres">
+                                <option value="">Choisir un filtre</option>
+                                <option value="A-Z">A-Z</option>
+                                <option value="Z-A">Z-A</option>
+                                <option value="">Les plus récents</option>
+                                <option value="">Les plus lointains</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div id="listeEvenements" class = "container">
                         $evenements
                     </div>
                     
-                    
+                    <script>
+                        var tab = {$this->tab[1]};
+                        console.log(tab);
+
+                        let sel = document.getElementById("filtres");
+                        sel.addEventListener('change', function() {
+                            console.log("ouais");
+                            console.log(this.value);
+                            switch(this.value) {
+                                case 'A-Z':
+                                    tab.sort();
+                                    let l;
+                                    tab.forEach(element => console.log(element));
+                                   //document.getElementById("listeEvenements").innerHtml =
+                                    break;
+                            }
+                        })
+                    </script>
                     
             </body>
 FIN;
