@@ -46,13 +46,17 @@ $app->post('/reinitialiserMDP', ControlleurCompte::class . ':resetPW')->setName(
 
 //Chemin evenement
 $app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('creationEvenement');
-$app->get('/evenement/{id_ev}' , ControlleurEvenement::class . ':evenement')->setName('evenement/');
+$app->get('/evenement/{id_ev}' , ControlleurEvenement::class . ':evenement')->setName('evenement');
 $app->get('/consulterEvenement' , ControlleurEvenement::class . ':consulterEv')->setName('afficherListe');
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->setName('calendar');
+
+//Chemin notifications
+$app->get('/afficherNotifications' , ControlleurNotifications::class . ':afficherNotifications')->setName('afficherNotifications');
+
 
 try {
     $app->run();

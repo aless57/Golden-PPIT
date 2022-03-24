@@ -38,6 +38,7 @@ class VueAccueil
         $url_enregistrerEv = $this->container->router->pathFor('enregistrerEvenement');
         $url_afficherEv = $this->container->router->pathFor('afficherListe');
         $url_calendrier = $this->container->router->pathFor('calendar');
+        $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
 
         $content = "";
         if (isset($_SESSION['profile'])) {
@@ -51,6 +52,7 @@ class VueAccueil
             <div class="menu text-right">
             
                 <ul>  
+                       <li> <a href="$url_afficherNot"> Notifications </a> </li> 
                        <li> <a href="$url_modifierCompte"> Modifier compte </a> </li> 
                        <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>    
                 </ul>
