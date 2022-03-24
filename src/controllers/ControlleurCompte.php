@@ -84,15 +84,15 @@ class ControlleurCompte
         $naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
         $tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
         $mail = filter_var($post['mail'], FILTER_SANITIZE_EMAIL);
-        //Gérer vérif du MDP
         $mdp = filter_var($post['mdp'], FILTER_SANITIZE_STRING);
+        $mdpconfirm = filter_var($post['mdpconfirm'], FILTER_SANITIZE_STRING);
         $adr = filter_var($post['adr'], FILTER_SANITIZE_STRING);
         $cp = filter_var($post['cp'], FILTER_SANITIZE_STRING);
         $photo = filter_var($post['photo'], FILTER_SANITIZE_STRING);
         $notif = filter_var($post['notif'], FILTER_SANITIZE_STRING);
         echo $post['notif'];
         $vue = new VueAccueil([], $this->container);
-        if (Authentification::createUser($mail, $mdp, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr, $cp)) {
+        if (Authentification::createUser($mail, $mdp, $mdpconfirm, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr, $cp)) {
 
             if($_SESSION['inscriptionOK'] == "ville") {
                 session_destroy();
@@ -100,8 +100,14 @@ class ControlleurCompte
                 $vue = new VueCompte([], $this->container);
                 $rs->getBody()->write($vue->render(6));
                 return $rs;
-
-            } else {
+            } else if($_SESSION['inscriptionOK'] == "mdp") {
+                session_destroy();
+                $_SESSION = [];
+                $vue = new VueCompte([], $this->container);
+                $rs->getBody()->write($vue->render(7));
+                return $rs;
+            }
+            else {
                 Authentification::authenticate($mail, $mdp);
                 $url_accueil = $this->container->router->pathFor("accueil");
                 return $rs->withRedirect($url_accueil);
@@ -226,7 +232,6 @@ class ControlleurCompte
         $nouveauMDP = filter_var($post['nouveauMDP'], FILTER_SANITIZE_STRING);
         $confirmerMDP = filter_var($post['confirmerMDP'], FILTER_SANITIZE_STRING);
         $mdpOK = Authentification::authenticate($_SESSION['profile']['username'], $ancienMDP);
-
         if (!$mdpOK) {
             $vue = new VueCompte($infosUser->toArray(), $this->container);
             $rs->getBody()->write($vue->render(11));
@@ -244,7 +249,6 @@ class ControlleurCompte
                 return $rs->withRedirect($url_enregisterModif);
             }
         }
-
     }
 
     /**

@@ -84,6 +84,19 @@ class VueCompte
                 $content .= $this->formulaireConnexion();
                 break;
             }
+            case 8:
+            {
+                $content .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Ville ou code postal incorrect !</div>";
+                $content .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Les deux mots de passe ne sont pas les mêmes !</div>";
+                $content .= $this->formulaireInscription();
+                break;
+            }
+            case 7:
+            {
+                $content .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Les deux mots de passe ne sont pas les mêmes !</div>";
+                $content .= $this->formulaireInscription();
+                break;
+            }
             // Erreur Ville/CP inscription.
             case 6:
             {
@@ -308,7 +321,11 @@ FIN;
             $telephone = $this->tab[0]->u_tel;
             $ville = $this->tab[1]->v_nom;
             $notifMail = $this->tab[0]->u_notif_mail;
-            //si l'utilisateur est connecté
+            $checked = "<input type=\"checkbox\" name=\"notif\" value=\"0\" />";
+            if($notifMail == 1) {
+                $checked = "<input type=\"checkbox\" name=\"notif\" value=\"1\" checked/>";
+            }
+            //si l"utilisateur est connecté
             $html = <<<FIN
         <h1 class="text-center">Modifier les informations actuelles de votre compte !</h1>
         <div class="container ">
@@ -339,7 +356,7 @@ FIN;
               <div class="field"> <label>Ville :</label> <input type="text" name="adr" placeholder="" value="$ville" />
               </div>            
               <div class="field"> <label>Activer les notifications par mail :</label> 
-                <input type="checkbox" name="notif" value="1" />
+                $checked
               </div>
               <span class="span text-right"> * : Champ obligatoire pour enregistrer les modifications !</span>
               <div class="clearfix"></div>
