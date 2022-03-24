@@ -117,6 +117,9 @@ FIN;
             case 2:
                 $content = $this->lesBesoins();
                 break;
+            case 3:
+                $content = $this->ajoutBesoin();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -158,40 +161,53 @@ FIN;
     {
         $id_ev = $this->tab[0];
         $nom = $this->tab[1];
-        $proprio_nom = $this->tab[5];
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
+        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
         $tab = $this->tabBesoin($nb_participants, $participants);
         $html = <<<FIN
         <h1 class="text-center">Les besoins de $nom</h1>
             <div class="tabBesoin-div">
                 $tab
             </div>
-            <button name="button" class="bouton-blanc" onclick="myFunction()"> Ajouter un besoin </button>
+            <button name="button" class="bouton-blanc" onclick="window.location.href='$url_ajoutBesoin'"> Ajouter un besoin </button>
             <button name="button" class="bouton-blanc" > Associer un besoin </button>
             <button name="button" class="bouton-blanc" > Modifier un besoin </button>
-            <button name="button" class="bouton-blanc" > Supprimer un besoin </button>
-            
-            <p id="demo"></p>
-            
-            <script>
-            function myFunction() {
-              let text;
-              let besoin = prompt("Nom du besoin:", "Besoin1");
-              if (besoin == null) {
-                text = "Vous devez renseigner un nom obligatoirement.";
-              } 
-              let responsable = prompt('Responsable:', "$proprio_nom");
-              if (responsable == null) {
-                //TODO mettre le besoin en attente
-              } 
-              let description = prompt('Description:', " ");
-              document.getElementById("demo").innerHTML = text;
-            }
-            </script>
-            
+            <button name="button" class="bouton-blanc" > Supprimer un besoin </button>  
 FIN;
+        return $html;
+    }
 
+
+    public function ajoutBesoin(): string {
+        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev'=> $this->tab[0]]);
+
+
+        $html = <<<FIN
+        <h1 class="text-center">Ajouter un besoin</h1>
+            <form method="post" action="$url_enregistrerBesoin">
+			<fieldset >
+				<div class="field"> 
+				    <label> Nom * : $url_enregistrerBesoin et $this->tab[0] </label>
+				    <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
+                </div>
+				
+				<div class="field"> 
+				    <label> Nombre * : </label>
+				    <input type="number" name="nb" placeholder="1" required="required"/>
+				</div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
+				</div>
+			</fieldset>
+			
+            <div class="clearfix"/>
+            
+			<input type="submit" value="VALIDER" name="submit" class="bouton-bleu" />
+		</form>
+FIN;
 
         return $html;
     }
@@ -260,7 +276,8 @@ FIN;
     public function invitationEvenement(): string
     {
         $html = <<<FIN
-        <h1>Invitation à un event</h1> 
+        <h1>Invitation à un event</h1>
+
         FIN;
         return $html;
     }
@@ -302,7 +319,7 @@ FIN;
                     <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
-                        <span> <a href="#">Gérer les besoins</a></span>
+                        <span> <a href="$url_besoins">Gérer les besoins</a></span>
                         <span> <a href="$listeParticipant">Gérer les participants</a></span>
                         <span> <a href="#">Modifier l'événement</a></span>
                         <span> <a href="#">Léguer l'événement</a></span>

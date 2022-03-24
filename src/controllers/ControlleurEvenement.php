@@ -56,6 +56,40 @@ class ControlleurEvenement
         return $rs;
     }
 
+    public static function createBesoins($nom, $desc, $nombre, $event){
+        $b = new Besoin();
+
+        if ($desc != null) {
+            $b->b_desc = $desc;
+        }
+
+        $b->b_objet = $nom;
+        $b->b_nombre = $nombre;
+        $b->b_event = $event;
+
+        $b->save();
+
+        return true;
+    }
+
+    public function enregistrerBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $get = $args['id_ev'];
+
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $nb = filter_var($post['nb'], FILTER_SANITIZE_STRING);
+        $desc = filter_var($post['desc'], FILTER_SANITIZE_STRING);
+
+        //avant l'exécution
+
+        $this->createBesoins($nom, $desc, $nb, $get);//si tout est bon, on affiche la page de l'évenement
+        $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
 
     /**
      * POST
@@ -87,6 +121,15 @@ class ControlleurEvenement
             $rs->getBody()->write($vue->render(2));
         }
         return $rs;
+    }
+
+    public function ajoutBesoin(Request $rq, Response $rs, $args): Response{
+        $id_ev = $args['id_ev'];
+        $vue = new VuePageEvenement([$id_ev], $this->container);
+        $rs->getBody()->write($vue->render(3));
+
+        return $rs;
+
     }
 
     /**
@@ -122,15 +165,9 @@ class ControlleurEvenement
 
         $e->save();
 
-       //Créer un nouveau besoin par défault (debug)
-        $b = new Besoin();
-        $b->b_objet = "Propriétaire";
-        $b->b_desc =  "Besoin attribué par défault au propriétaire";
-        $b->b_nombre = NULL;
-        $b->b_event = $e->e_id;
-        $b->save();
-
-        $participant->p_besoin = $b->b_id;
+        $participant = new participe();
+        $participant->p_user = $e->e_proprio;
+        $participant->p_event = $e->e_id;
         $participant->save();
 
 

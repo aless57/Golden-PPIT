@@ -60,6 +60,9 @@ $app->get('/listeParticipant/{id_ev}', ControlleurEvenement::class . ':listePart
 $app->get('/modifierEvenement', ControlleurEvenement::class . ':modifierEvenement')->setName('modifierEvenement');
 $app->post('/enregistrerModifEvenement', ControlleurEvenement::class . ':enregistrerModifEvenement')->setName('enregistrerModifEvenement');
 $app->get('/besoins_evenements/{id_ev}', ControlleurEvenement::class . ':pageBesoins')->setName('lesBesoins');
+$app->post('/enregistrerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerBesoin')->setName('enregistrerBesoin');
+$app->get('/ajout_besoin/{id_ev}', ControlleurEvenement::class . ':ajoutBesoin')->setName('ajout_besoin');
+
 
 
 //Chemin notification
