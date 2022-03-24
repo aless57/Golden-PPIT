@@ -55,6 +55,9 @@ $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/inviterEvenement/{id_ev}', ControlleurEvenement::class . ':inviterEvenement')->setName('inviterEvenement');
 $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->setName('calendar');
+$app->get('/modifierEvenement', ControlleurEvenement::class . ':modifierEvenement')->setName('modifierEvenement');
+$app->post('/enregistrerModifEvenement', ControlleurEvenement::class . ':enregistrerModifEvenement')->setName('enregistrerModifEvenement');
+
 
 //Chemin notification
 $app->get('/afficherNotifications' , ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
