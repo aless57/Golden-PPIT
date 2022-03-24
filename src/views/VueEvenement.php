@@ -244,7 +244,7 @@ FIN;
         $test = "";
         //var_dump($this->tab[1]);
         
-        
+    
         
         //TODO chopper les infos à partir de la bdd
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
@@ -255,7 +255,7 @@ FIN;
             var_dump($url_supprimer);
             $evenements .= <<<FIN
             
-            <div id="$test_2" class="alignement">
+            <div id="$test" class="alignement">
                 <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
                 <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
             </div>   
@@ -284,8 +284,6 @@ FIN;
                                 <option value="">Choisir un filtre</option>
                                 <option value="A-Z">A-Z</option>
                                 <option value="Z-A">Z-A</option>
-                                <option value="">Les plus récents</option>
-                                <option value="">Les plus lointains</option>
                             </select>
                         </div>
                         
@@ -304,11 +302,39 @@ FIN;
                             console.log(this.value);
                             switch(this.value) {
                                 case 'A-Z':
-                                    tab.sort();
-                                    let l;
-                                    tab.forEach(element => console.log(element));
-                                   //document.getElementById("listeEvenements").innerHtml =
-                                    break;
+                                    tab.sort(function(a,b) {
+                                        if(a.e_titre < b.e_titre) { 
+                                            return -1;
+                                        } else {
+                                            return 1;
+                                        }
+                                    });
+                                    var html;
+                                    tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                    }
+                                    );
+                                break;
+
+                                case 'Z-A':
+                                    tab.sort(function(a,b) {
+                                        if(a.e_titre < b.e_titre) { 
+                                            return 1;
+                                        } else {
+                                            return -1;
+                                        }
+                                    });
+                                    var html;
+                                    tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                    }
+                                    );
+                                break;
+
                             }
                         })
                     </script>
