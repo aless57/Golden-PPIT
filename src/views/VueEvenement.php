@@ -254,10 +254,10 @@ FIN;
             if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']){
                     $evenements .= <<<FIN
                 
-                <div id="$test" class="alignement">
+                <div id="$test" class="alignement-centre">
                    <img src="images/black-cat.png" class="rightBouton">
-                    <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
-                    <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
+                    <button id="$test_2" name="test" class="bouton-blanc margin-0" >$test</button>
+                    <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
                 </div>   
                 
                <script>    
@@ -297,22 +297,20 @@ FIN;
                     <h1 class="text-center"> LES ÉVÉNEMENTS </h1>
                     
                     <div class="container">
-                        <div class="alignement">
-                            <select id="filtres" name="filtres">
-                                <option value="">Choisir un filtre</option>
-                                <option value="A-Z">A-Z</option>
-                                <option value="Z-A">Z-A</option>
-                                <option value="recent">Les plus récents</option>
-                                <option value="lointain">Les plus lointains</option>
+                        <div class="alignement-centre ">
+                            <select id="filtres"  class="filtres" name="filtres">
+                                <option class="opt" value="">Choisir un filtre</option>
+                                <option class="opt" value="A-Z">A-Z</option>
+                                <option class="opt" value="Z-A">Z-A</option>
+                                <option class="opt" value="recent">Les plus récents</option>
+                                <option class="opt" value="lointain">Les plus lointains</option>
                             </select>
+                    
+                      <div class="mes-evenements">
+                            <label for="proprietaire">Mes événements</label>
+                                <input type="checkbox" id="proprietaire" name="proprietaire">
                         </div>
-                        
-                    </div>
-
-                    <div class="container">
-                        <div class="alignement">
-                                <input type="checkbox" id="proprietaire" name="proprietaire"></input>
-                                <label for="proprietaire">Mes événements</label>
+                                
                         </div>
                     </div>
 
@@ -423,7 +421,7 @@ FIN;
         $html = <<<FIN
 <br><br>
 <div class="container full-width">
-<div id="myCalendar" style="max-width: 800px;">
+<div id="myCalendar" >
             
 </div>
 

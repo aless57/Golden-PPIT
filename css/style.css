@@ -82,6 +82,10 @@ button.bouton-blanc{
     clear: both;
     float: none;
 }
+
+#myCalendar{
+    min-width :100%;
+}
 /**Les liens**/
 a {
     text-decoration: none !important;
@@ -346,7 +350,7 @@ fieldset input.desc{
     align-items: center;
 }
 
-.field input[type= "checkbox"]  {
+input[type= "checkbox"]  {
     width :20px;
     height : 20px;
     border: 2px solid #030233;
@@ -357,7 +361,7 @@ fieldset input.desc{
     cursor : pointer;
     padding: 10px;
 }
-.field input[type = "checkbox"]:checked{
+input[type = "checkbox"]:checked{
     background: linear-gradient(180deg, #357EB7 0%, #030233 100%);
 }
 
@@ -442,9 +446,54 @@ fieldset .field .input-pp{
     right: 10%;
 }
 
+.alignement-centre{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top : 3%;
+}
+button.margin-0{
+    margin-top: 0;
+    margin-left :0;
+}
+
+.filtres{
+    appearance: auto;
+    outline: 0;
+    border: 0 !important;
+    background: #F9F9F9;
+    box-shadow: none;
+    font-size: 1em;
+    padding: 1%;
+    border-radius : 10px;
+}
+
+.mes-evenements{
+    display: block;
+    align-items: baseline;
+    vertical-align: center;
+
+}
+
+.mes-evenements label{
+    padding:10px;
+
+}
+.mes-evenements input{
+    padding: 5px;
+}
+
 .leftBouton{
     position: relative;
-    right:5%
+    right:5%;
+    background-color: transparent;
+}
+.btn-supp{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .rightBouton{
@@ -452,6 +501,8 @@ fieldset .field .input-pp{
     position: relative;
     left: 5%;
 }
+
+
 
 .details-ev{
     display: inline-block;
@@ -468,7 +519,6 @@ fieldset .field .input-pp{
     border-radius: 10px;
 
 }
-
 
 
 .evenement {
