@@ -405,10 +405,8 @@ FIN;
 
     public function afficherListeParticipant(): string
     {
-        var_dump($this->tab[0]->p_user);
-        echo $this->tab[0]->p_user;
         $html = "Liste utilisateur<br>";
-        foreach ($this->tab[0] as $utilisateur){
+        foreach ($this->tab as $utilisateur){
 
             $html .= utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
             $html .= " " . utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
