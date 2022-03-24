@@ -406,12 +406,14 @@ FIN;
                         document.getElementById("proprietaire").addEventListener('change', function() {
                                 if(this.checked) {
                                     tab.forEach(element => {
-                                        if(element.e_proprio !=) {
-                                            document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        if(element.e_proprio != "{$_SESSION['profile']['mail']}") {
+                                            document.getElementById(element.e_titre).style = "display:none";
                                         } 
-                                    }
+                                    });
                                 } else {
-                                    
+                                    tab.forEach(element => {
+                                        document.getElementById(element.e_titre).style = "";
+                                    });
                                 }
                         });
                     </script>
