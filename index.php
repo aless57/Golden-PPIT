@@ -9,6 +9,7 @@ use goldenppit\controllers\ControlleurAccueil;
 use goldenppit\controllers\ControlleurCompte;
 use goldenppit\controllers\ControlleurEvenement;
 use goldenppit\controllers\ControlleurModifierCompte;
+use goldenppit\controllers\ControlleurNotification;
 use Illuminate\Database\Capsule\Manager;
 use Slim\App;
 use Slim\Container;
@@ -54,8 +55,8 @@ $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->setName('calendar');
 
-//Chemin notifications
-$app->get('/afficherNotifications' , ControlleurNotifications::class . ':afficherNotifications')->setName('afficherNotifications');
+//Chemin notification
+$app->get('/afficherNotifications' , ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
 
 
 try {

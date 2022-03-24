@@ -251,25 +251,55 @@ FIN;
             $test_2 = $this->tab[1][$i]->e_id;
             $url_event = $this->container->router->pathFor("evenement", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
-            $evenements .= <<<FIN
+            if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']){
+                    $evenements .= <<<FIN
+                
+                <div id="$test" class="alignement">
+                   <img src="images/black-cat.png" class="rightBouton">
+                    <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
+                    <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
+                </div>   
+                
+               <script>    
+                var event = document.getElementById('$test_2');
+                
+                event.addEventListener('click', function(event) {
+                  console.log('$url_event');
+                  window.location.href = '$url_event'; 
+                  
+                }); 
+                                   
+            </script>
             
-            <div id="$test" class="alignement">
-                <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
-                <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
-            </div>   
+FIN;
+            }else{
+               $evenements .= <<<FIN
             
-           <script>    
-            var event = document.getElementById('$test_2');
+                <div id="$test" class="alignement">
+                    <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
+                    <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
+                </div>   
             
+            <script>    
+                var event = document.getElementById('$test_2');
+            
+<<<<<<< HEAD
             event.addEventListener('click', function(event) {
               window.location.href = '$url_event'; 
+=======
+                event.addEventListener('click', function(event) {
+                console.log('$url_event');
+                window.location.href = '$url_event'; 
+>>>>>>> d703cc51c2b7c7de86e36bbc9d0026c35d62f978
               
-            });        
+                }); 
+            }
+                   
             </script>
             
 FIN;
 
-        }
+        }}
 
         $html = <<<FIN
             <body>
