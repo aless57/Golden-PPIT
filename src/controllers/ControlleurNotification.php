@@ -58,4 +58,22 @@ class ControlleurNotification
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'une notification
         return $rs;
     }
+
+    /**
+     * POST
+     * Suppression d'une notification'
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @param Id de la notification à supprimer $id_not
+     * @return Response
+     */
+    public function supprimerNotification(Request $rq, Response $rs, $args): Response
+    {
+        $notif = Notification::find($args['id_not']);
+        $notif->delete();
+        //TODO : remettre sur la page précedente
+        $url_accueil = $this->container->router->pathFor('accueil');
+        return $rs->withRedirect($url_accueil);
+    }
 }

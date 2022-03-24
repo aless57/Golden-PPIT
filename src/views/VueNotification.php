@@ -183,6 +183,7 @@ FIN;
             $test_3 = $this->tab[1][$i]->n_expediteur;
             $test_4 = $this->tab[1][$i]->n_destinataire;
             $url_notifs = $this->container->router->pathFor("consulterNotification", ['id_not' => $test_2]);
+            $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $this->tab[1][$i]->n_id]);
             $user_email = $_SESSION['profile']['mail'];
             if ($test_4 == $user_email) {
                 $notifications .= <<<FIN
@@ -190,7 +191,7 @@ FIN;
             <div id="$test_2" class="alignement">
                 <button id="$test_2" name="test" class="bouton-blanc" >$test envoyé par $test_3</button>
             </div>   
-            
+                          <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
            <script>    
             var notif = document.getElementById('$test_2');
             

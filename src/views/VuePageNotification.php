@@ -8,7 +8,7 @@ class VuePageNotification
     private $container;
 
     /**
-     * VuePageEvenement constructor.
+     * VuePageNotification constructor.
      * @param $tab
      * @param $container
      */
@@ -137,6 +137,8 @@ FIN;
         $nom_expediteur = $this->tab[6];
         $prenom_expediteur = $this->tab[7];
 
+        $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
+
         $html = <<<FIN
         <section class="page-evenement">
             <div class="container ">
@@ -166,7 +168,7 @@ FIN;
 
             </div>
             </div>
-         
+               <button class="supp" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
               
             </section>   
 FIN;

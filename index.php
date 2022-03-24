@@ -47,8 +47,8 @@ $app->post('/reinitialiserMDP', ControlleurCompte::class . ':resetPW')->setName(
 
 //Chemin evenement
 $app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('creationEvenement');
-$app->get('/evenement/{id_ev}' , ControlleurEvenement::class . ':evenement')->setName('evenement');
-$app->get('/consulterEvenement' , ControlleurEvenement::class . ':consulterEv')->setName('afficherListe');
+$app->get('/evenement/{id_ev}', ControlleurEvenement::class . ':evenement')->setName('evenement');
+$app->get('/consulterEvenement', ControlleurEvenement::class . ':consulterEv')->setName('afficherListe');
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
@@ -59,12 +59,13 @@ $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->s
 $app->get('/listeParticipant/{id_ev}', ControlleurEvenement::class . ':listeParticipant')->setName('listeParticipant');
 $app->get('/modifierEvenement', ControlleurEvenement::class . ':modifierEvenement')->setName('modifierEvenement');
 $app->post('/enregistrerModifEvenement', ControlleurEvenement::class . ':enregistrerModifEvenement')->setName('enregistrerModifEvenement');
-$app->get('/besoins_evenements/{id_ev}' , ControlleurEvenement::class . ':pageBesoins')->setName('lesBesoins');
+$app->get('/besoins_evenements/{id_ev}', ControlleurEvenement::class . ':pageBesoins')->setName('lesBesoins');
 
 
 //Chemin notification
-$app->get('/afficherNotifications' , ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
-$app->get('/consulterNotification/{id_not}' , ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
+$app->get('/afficherNotifications', ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
+$app->get('/consulterNotification/{id_not}', ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
+$app->get('/supprimerNotification/{id_not}', ControlleurNotification::class . ':supprimerNotification')->setName('supprimerNotification');
 
 try {
     $app->run();
