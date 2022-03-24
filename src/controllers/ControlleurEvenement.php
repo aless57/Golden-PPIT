@@ -122,10 +122,15 @@ class ControlleurEvenement
 
         $e->save();
 
-        $participant = new participe();
-        $participant->p_user = $e->e_proprio;
-        $participant->p_event = $e->e_id;
+       //Créer un nouveau besoin par défault (debug)
+        $b = new Besoin();
+        $b->b_objet = "Propriétaire";
+        $b->b_desc =  "Besoin attribué par défault au propriétaire";
+        $b->b_nombre = NULL;
+        $b->b_event = $e->e_id;
+        $b->save();
 
+        $participant->p_besoin = $b->b_id;
         $participant->save();
 
 
