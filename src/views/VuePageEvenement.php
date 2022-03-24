@@ -322,7 +322,7 @@ FIN;
 
             FIN;
         $tab = $this->tabBesoin($nb_participants, $participants);
-
+        $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
         //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
         $html = <<<FIN
         <section class="page-evenement">
@@ -376,7 +376,7 @@ FIN;
             </section>
        
             <div class="container lien-liste">
-                <p> Il y a $nb_participants $participant_s à cet événement. <a href="#" class="lien-p"> Consulter la liste ici.</a> </div> </p>
+                <p> Il y a $nb_participants $participant_s à cet événement. <a href="$listeParticipant" class="lien-p"> Consulter la liste ici.</a> </div> </p>
             </div>                
         </section>
         <section >

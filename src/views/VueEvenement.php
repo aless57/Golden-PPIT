@@ -277,20 +277,14 @@ FIN;
             
                 <div id="$test" class="alignement">
                     <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
-                    <button> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
                 </div>   
             
             <script>    
                 var event = document.getElementById('$test_2');
-            
                 event.addEventListener('click', function(event) {
-                window.location.href = '$url_event'; 
-                event.addEventListener('click', function(event) {
-                window.location.href = '$url_event'; 
-
-              
+                    console.log('$url_event')
+                    window.location.href = '$url_event'; 
                 }); 
-            }
                    
             </script>
             
@@ -406,12 +400,14 @@ FIN;
                         document.getElementById("proprietaire").addEventListener('change', function() {
                                 if(this.checked) {
                                     tab.forEach(element => {
-                                        if(element.e_proprio !=) {
-                                            document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        if(element.e_proprio != "{$_SESSION['profile']['mail']}") {
+                                            document.getElementById(element.e_titre).style = "display:none";
                                         } 
-                                    }
+                                    });
                                 } else {
-                                    
+                                    tab.forEach(element => {
+                                        document.getElementById(element.e_titre).style = "";
+                                    });
                                 }
                         });
                     </script>
@@ -459,8 +455,6 @@ FIN;
             $description = $event[0]->e_desc;
             $location = $event[0]->e_ville;
             $organizerEmailAddress = $event[0]->e_proprio;
-
-
 
             $html .= <<<FIN
 <script>
