@@ -259,5 +259,20 @@ class ControlleurEvenement
         $rs->getBody()->write($vue->render(3));
         return $rs;
     }
+x²
+    /**
+     * GET
+     * Affichage du formulaire pour création d'événement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function modifierEvenement(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(0));
+        return $rs;
+    }
 
 }

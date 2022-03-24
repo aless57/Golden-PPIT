@@ -287,6 +287,7 @@ FIN;
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
                         <span> <a href="$url_besoins">Gérer les besoins</a></span>
+                        <span> <a href="#">Modifier l'événement</a></span>
                         <span> <a href="#">Gérer les participants</a></span>
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
@@ -386,5 +387,60 @@ FIN;
         return $html;
     }
 
+    /**
+     * Formulaire de modification de l'événement
+     * @return string
+     */
+    public function formulaireModifEvenement(): string
+    {
+        $url_enregistrerEvenement = $this->container->router->pathFor('enregistrerEvenement');
 
+        $html = <<<FIN
+<h1 class="text-center">Créer un événement</h1>
+		<div class = "container ">
+		
+		<form method="post" action="$url_enregistrerEvenement">
+			<fieldset >
+				<div class="field"> 
+				    <label> Nom * :  </label>
+				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" required="required"/>
+                </div>
+				
+				<div class="field"> 
+				    <label> Date de début * : </label>
+				    <input type="date" name="deb" placeholder="03-03-2022" required="required"/>
+				</div>
+				
+				<div class="field"> 
+				    <label> Date d'archivage * : </label>
+				    <input type="date" name="archiv" placeholder="24-04-2022" />
+				</div>
+				
+				<div class="field"> 
+				    <label> Date de suppression automatique : </label>
+				    <input type="date" name="supprauto" placeholder="24-04-2022" />
+				</div>
+				
+				<div class="field"> 
+				    <label> Lieu * : </label>
+				    <input type="text" name="lieu" placeholder="Lieu de l'évenement" required="required"/>
+				</div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
+				</div>
+				
+				<span class="span text-right"> *  : Champ obligatoire !</span>
+			</fieldset>
+			
+            <div class="clearfix"/>
+            
+			<input type="submit" value="Créer" name="submit" class="bouton-bleu" />
+		</form>
+
+    </div>
+FIN;
+        return $html;
+    }
 }
