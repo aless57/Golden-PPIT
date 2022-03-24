@@ -447,6 +447,12 @@ fieldset .field .input-pp{
     right:5%
 }
 
+.rightBouton{
+    width: 3%;
+    position: relative;
+    left: 5%;
+}
+
 .details-ev{
     display: inline-block;
     margin-left: auto;
