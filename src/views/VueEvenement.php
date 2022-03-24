@@ -262,7 +262,6 @@ FIN;
             var event = document.getElementById('$test_2');
             
             event.addEventListener('click', function(event) {
-              console.log('$url_event');
               window.location.href = '$url_event'; 
               
             });        
@@ -288,6 +287,14 @@ FIN;
                         </div>
                         
                     </div>
+
+                    <div class="container">
+                        <div class="alignement">
+                                <input type="checkbox" id="proprietaire" name="proprietaire"></input>
+                                <label for="proprietaire">Mes événements</label>
+                        </div>
+                    </div>
+
                     <div id="listeEvenements" class = "container">
                         $evenements
                     </div>
@@ -298,8 +305,6 @@ FIN;
 
                         let sel = document.getElementById("filtres");
                         sel.addEventListener('change', function() {
-                            console.log("ouais");
-                            console.log(this.value);
                             switch(this.value) {
                                 case 'A-Z':
                                     tab.sort(function(a,b) {
@@ -369,7 +374,19 @@ FIN;
                                     );
                                 break;
                             }
-                        })
+                        });
+
+                        document.getElementById("proprietaire").addEventListener('change', function() {
+                                if(this.checked) {
+                                    tab.forEach(element => {
+                                        if(element.e_proprio !=) {
+                                            document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        } 
+                                    }
+                                } else {
+                                    
+                                }
+                        });
                     </script>
                     
             </body>
