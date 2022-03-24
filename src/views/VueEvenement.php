@@ -249,7 +249,7 @@ FIN;
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
             $test_2 = $this->tab[1][$i]->e_id;
-            $url_event = $this->container->router->pathFor("evenement/", ['id_ev' => $test_2]);
+            $url_event = $this->container->router->pathFor("evenement", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
             $evenements .= <<<FIN
             
@@ -282,6 +282,8 @@ FIN;
                                 <option value="">Choisir un filtre</option>
                                 <option value="A-Z">A-Z</option>
                                 <option value="Z-A">Z-A</option>
+                                <option value="recent">Les plus récents</option>
+                                <option value="lointain">Les plus lointains</option>
                             </select>
                         </div>
                         
@@ -333,6 +335,39 @@ FIN;
                                     );
                                 break;
 
+                                case 'recent':
+                                    tab.sort(function(a,b) {
+                                        if(a.e_date < b.e_date) { 
+                                            return -1;
+                                        } else {
+                                            return 1;
+                                        }
+                                    });
+                                    var html;
+                                    tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                    }
+                                    );
+                                break;
+
+                                case 'lointain':
+                                    tab.sort(function(a,b) {
+                                        if(a.e_date < b.e_date) { 
+                                            return 1;
+                                        } else {
+                                            return -1;
+                                        }
+                                    });
+                                    var html;
+                                    tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                    }
+                                    );
+                                break;
                             }
                         })
                     </script>
