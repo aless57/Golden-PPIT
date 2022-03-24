@@ -3,17 +3,17 @@
 namespace goldenppit\controllers;
 
 use goldenppit\views\VueNotification;
-use Illuminate\Support\Facades\Notification;
+use goldenppit\models\notification;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class ControlleurNotifications
+class ControlleurNotification
 {
     private $container;
     private $today;
 
     /**
-     * ControlleurEvenement constructor.
+     * ControlleurNotification constructor.
      * @param $container
      */
     public function __construct($container)
