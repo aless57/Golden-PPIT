@@ -55,14 +55,12 @@ $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/inviterEvenement/{id_ev}', ControlleurEvenement::class . ':inviterEvenement')->setName('inviterEvenement');
 $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->setName('calendar');
-<<<<<<< HEAD
+
 $app->get('/listeParticipant/{id_ev}', ControlleurEvenement::class . ':listeParticipant')->setName('listeParticipant');
-=======
 $app->get('/modifierEvenement', ControlleurEvenement::class . ':modifierEvenement')->setName('modifierEvenement');
 $app->post('/enregistrerModifEvenement', ControlleurEvenement::class . ':enregistrerModifEvenement')->setName('enregistrerModifEvenement');
-
 $app->get('/besoins_evenements/{id_ev}' , ControlleurEvenement::class . ':pageBesoins')->setName('lesBesoins');
->>>>>>> 71f2745e808c0955f8458dd72c151f9baecffb5a
+
 
 //Chemin notification
 $app->get('/afficherNotifications' , ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');

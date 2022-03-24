@@ -259,7 +259,7 @@ class ControlleurEvenement
         $rs->getBody()->write($vue->render(3));
         return $rs;
     }
-x²
+
     /**
      * GET
      * Affichage du formulaire pour création d'événement

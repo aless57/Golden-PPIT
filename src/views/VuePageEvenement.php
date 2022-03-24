@@ -302,14 +302,9 @@ FIN;
                     <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
-<<<<<<< HEAD
                         <span> <a href="#">Gérer les besoins</a></span>
                         <span> <a href="$listeParticipant">Gérer les participants</a></span>
-=======
-                        <span> <a href="$url_besoins">Gérer les besoins</a></span>
                         <span> <a href="#">Modifier l'événement</a></span>
-                        <span> <a href="#">Gérer les participants</a></span>
->>>>>>> 71f2745e808c0955f8458dd72c151f9baecffb5a
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
@@ -408,7 +403,6 @@ FIN;
         return $html;
     }
 
-<<<<<<< HEAD
     public function afficherListeParticipant(): string
     {
         var_dump($this->tab[0]->p_user);
@@ -423,7 +417,6 @@ FIN;
         return $html;
     }
 
-=======
     /**
      * Formulaire de modification de l'événement
      * @return string
@@ -475,7 +468,6 @@ FIN;
             
 			<input type="submit" value="Créer" name="submit" class="bouton-bleu" />
 		</form>
->>>>>>> 71f2745e808c0955f8458dd72c151f9baecffb5a
 
     </div>
 FIN;
