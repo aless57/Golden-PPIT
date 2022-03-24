@@ -192,8 +192,8 @@ class ControlleurEvenement
     {
         $event = Evenement::find($args['id_ev']);
         //TODO Invitation en cours
-        $vue = new VueInvitationEvenement([], $this->container);
-        $rs->getBody()->write($vue->render(0));
+        $vue = new VuePageEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(1));
         return $rs;
     }
 

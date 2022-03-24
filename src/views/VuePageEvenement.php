@@ -96,7 +96,9 @@ FIN;
             case 0:
                 $content = $this->pageEvenement();
                 break;
-
+            case 1:
+                $content = $this->invitationEvenement();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -195,6 +197,13 @@ FIN;
         return $html;
     }
 
+    public function invitationEvenement(): string
+    {
+        $html = <<<FIN
+        <h1>Invitation à un event</h1> 
+        FIN;
+        return $html;
+    }
 
     public function pageEvenement(): string
     {
