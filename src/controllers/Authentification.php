@@ -15,6 +15,7 @@ class Authentification
      * Fonction de création de User
      * @param $mail
      * @param $password
+     * @param $passwordconfirm
      * @param $nom
      * @param $prenom
      * @param $date_naissance
@@ -25,7 +26,7 @@ class Authentification
      * @param $cp
      * @return bool
      */
-    public static function createUser($mail, $password, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville, $cp): bool
+    public static function createUser($mail, $password, $passwordconfirm, $nom, $prenom, $date_naissance, $tel, $photo, $notif_mail, $ville, $cp): bool
     {
         $nb = Utilisateur::where('u_mail', '=', $mail)->count();
         if ($cp == null) {
@@ -40,7 +41,12 @@ class Authentification
             $u = new Utilisateur();
             $u->u_statut = "membre";
             $u->u_mail = $mail;
-            $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
+            if($password == $passwordconfirm) {
+                $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
+            } else {
+                $_SESSION['inscriptionOK'] = "mdp";
+                return true;
+            }
             $u->u_nom = $nom;
             $u->u_prenom = $prenom;
             if($date_naissance != null) {
@@ -58,12 +64,10 @@ class Authentification
             if(($ville == null && $cp == null) || $id_ville != null) {
                 $u->u_ville = $id_ville;
                 $u->save();
-                return true;
             } else {
                 $_SESSION['inscriptionOK'] = "ville";
-                return true;
             }
-            return false;
+            return true;
         } else {
             return false;
         }
