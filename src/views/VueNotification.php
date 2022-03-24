@@ -8,7 +8,7 @@ class VueNotification
     private $container;
 
     /**
-     * VueEvenement constructor.
+     * VueNotification constructor.
      * @param $tab
      * @param $container
      */
@@ -165,6 +165,10 @@ FIN;
         return $html;
     }
 
+    /**
+     * Affichage d'une notification
+     * @return string
+     */
     public function afficherNotifications(): string
     {
 

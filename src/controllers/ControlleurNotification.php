@@ -34,7 +34,7 @@ class ControlleurNotification
 
     /**
      * GET
-     * Affichage d'un evenement
+     * Affichage d'une notification
      * @param Request $rq
      * @param Response $rs
      * @param $args
