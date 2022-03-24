@@ -252,7 +252,6 @@ FIN;
             $test_2 = $this->tab[1][$i]->e_id;
             $url_event = $this->container->router->pathFor("evenement/", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
-            var_dump($url_supprimer);
             $evenements .= <<<FIN
             
             <div id="$test_2" class="alignement">

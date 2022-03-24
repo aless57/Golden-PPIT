@@ -54,6 +54,10 @@ $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->setName('calendar');
 
+//Chemin notifications
+$app->get('/afficherNotifications' , ControlleurNotifications::class . ':afficherNotifications')->setName('afficherNotifications');
+
+
 try {
     $app->run();
 } catch (Throwable $e) {
