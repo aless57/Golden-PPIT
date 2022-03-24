@@ -39530,7 +39530,7 @@ ALTER TABLE `modif_temp`
 ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`n_expediteur`) REFERENCES `utilisateur` (`u_mail`),
   ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`n_destinataire`) REFERENCES `utilisateur` (`u_mail`),
-  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`n_event`) REFERENCES `evenement` (`e_id`);
+  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`n_event`) REFERENCES `evenement` (`e_id`) on delete cascade;
 
 --
 -- Contraintes pour la table `participe`
