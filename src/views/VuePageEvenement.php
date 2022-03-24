@@ -99,6 +99,9 @@ FIN;
             case 1:
                 $content = $this->invitationEvenement();
                 break;
+            case 2:
+                $content = $this->lesBesoins();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -132,6 +135,48 @@ FIN;
     </footer>
 </html>
 FIN;
+
+        return $html;
+    }
+
+    public function lesBesoins(): string
+    {
+        $id_ev = $this->tab[0];
+        $nom = $this->tab[1];
+        $proprio_nom = $this->tab[5];
+        $nb_participants = $this->tab[9];
+        $participants = $this->tab[10];
+        $tab = $this->tabBesoin($nb_participants, $participants);
+        $html = <<<FIN
+        <h1 class="text-center">Les besoins de $nom</h1>
+            <div class="tabBesoin-div">
+                $tab
+            </div>
+            <button name="button" class="bouton-blanc" onclick="myFunction()"> Ajouter un besoin </button>
+            <button name="button" class="bouton-blanc" > Associer un besoin </button>
+            <button name="button" class="bouton-blanc" > Modifier un besoin </button>
+            <button name="button" class="bouton-blanc" > Supprimer un besoin </button>
+            
+            <p id="demo"></p>
+            
+            <script>
+            function myFunction() {
+              let text;
+              let besoin = prompt("Nom du besoin:", "Besoin1");
+              if (besoin == null) {
+                text = "Vous devez renseigner un nom obligatoirement.";
+              } 
+              let responsable = prompt('Responsable:', "$proprio_nom");
+              if (responsable == null) {
+                //TODO mettre le besoin en attente
+              } 
+              let description = prompt('Description:', " ");
+              document.getElementById("demo").innerHTML = text;
+            }
+            </script>
+            
+FIN;
+
 
         return $html;
     }
@@ -212,6 +257,7 @@ FIN;
 
         $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
         $url_inviter = $this->container->router->pathFor('inviterEvenement', ['id_ev' => $id_ev]);
+        $url_besoins = $this->container->router->pathFor('lesBesoins', ['id_ev' => $id_ev]);
 
         $nom = $this->tab[1];
         $date_deb = $this->tab[2];
@@ -240,7 +286,7 @@ FIN;
                     <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
-                        <span> <a href="#">Gérer les besoins</a></span>
+                        <span> <a href="$url_besoins">Gérer les besoins</a></span>
                         <span> <a href="#">Gérer les participants</a></span>
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
