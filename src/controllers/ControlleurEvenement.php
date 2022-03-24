@@ -170,6 +170,35 @@ class ControlleurEvenement
         return $rs;
     }
 
+    public function pageBesoins(Request $rq, Response $rs, $args): Response
+    {
+        $id_ev = $args['id_ev'];
+
+        $nom_ev = Evenement::where('e_id', '=', $id_ev)->first()->e_titre;
+        $date_deb = Evenement::where('e_id', '=', $id_ev)->first()->e_date;
+        $date_fin = Evenement::where('e_id', '=', $id_ev)->first()->e_archive;
+        $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
+        $proprio_nom = Utilisateur::where('u_mail', '=', $id_proprio)->first()->u_nom;
+        $proprio_prenom = Utilisateur::where('u_mail', '=', $id_proprio)->first()->u_prenom;
+
+
+        $id_ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
+        $ville = Ville::where('v_id', "=", $id_ville)->first()->v_nom;
+        $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
+
+        //Récupéerer les données des participants et des besoins
+        $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
+        $participants = participe::where('p_event', '=', $id_ev)->get()->all();
+
+        $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
+        $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
+
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $id_proprio, $proprio_nom, $proprio_prenom, $ville, $desc, $nb_participants, $participants, $nb_besoins, $besoins], $this->container);
+        $rs->getBody()->write($vue->render(2));
+        return $rs;
+    }
+
+
     /**
      * POST
      * Suppression de l'évenement
@@ -228,6 +257,21 @@ class ControlleurEvenement
         $vue = new VueEvenement($listeEvenement, $this->container);
 
         $rs->getBody()->write($vue->render(3));
+        return $rs;
+    }
+x²
+    /**
+     * GET
+     * Affichage du formulaire pour création d'événement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function modifierEvenement(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new VueEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(0));
         return $rs;
     }
 

@@ -114,6 +114,9 @@ FIN;
             case 1:
                 $content = $this->invitationEvenement();
                 break;
+            case 2:
+                $content = $this->lesBesoins();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -147,6 +150,48 @@ FIN;
     </footer>
 </html>
 FIN;
+
+        return $html;
+    }
+
+    public function lesBesoins(): string
+    {
+        $id_ev = $this->tab[0];
+        $nom = $this->tab[1];
+        $proprio_nom = $this->tab[5];
+        $nb_participants = $this->tab[9];
+        $participants = $this->tab[10];
+        $tab = $this->tabBesoin($nb_participants, $participants);
+        $html = <<<FIN
+        <h1 class="text-center">Les besoins de $nom</h1>
+            <div class="tabBesoin-div">
+                $tab
+            </div>
+            <button name="button" class="bouton-blanc" onclick="myFunction()"> Ajouter un besoin </button>
+            <button name="button" class="bouton-blanc" > Associer un besoin </button>
+            <button name="button" class="bouton-blanc" > Modifier un besoin </button>
+            <button name="button" class="bouton-blanc" > Supprimer un besoin </button>
+            
+            <p id="demo"></p>
+            
+            <script>
+            function myFunction() {
+              let text;
+              let besoin = prompt("Nom du besoin:", "Besoin1");
+              if (besoin == null) {
+                text = "Vous devez renseigner un nom obligatoirement.";
+              } 
+              let responsable = prompt('Responsable:', "$proprio_nom");
+              if (responsable == null) {
+                //TODO mettre le besoin en attente
+              } 
+              let description = prompt('Description:', " ");
+              document.getElementById("demo").innerHTML = text;
+            }
+            </script>
+            
+FIN;
+
 
         return $html;
     }
@@ -227,6 +272,7 @@ FIN;
 
         $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
         $url_inviter = $this->container->router->pathFor('inviterEvenement', ['id_ev' => $id_ev]);
+        $url_besoins = $this->container->router->pathFor('lesBesoins', ['id_ev' => $id_ev]);
 
         $nom = $this->tab[1];
         $date_deb = $this->tab[2];
@@ -256,8 +302,14 @@ FIN;
                     <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
+<<<<<<< HEAD
                         <span> <a href="#">Gérer les besoins</a></span>
                         <span> <a href="$listeParticipant">Gérer les participants</a></span>
+=======
+                        <span> <a href="$url_besoins">Gérer les besoins</a></span>
+                        <span> <a href="#">Modifier l'événement</a></span>
+                        <span> <a href="#">Gérer les participants</a></span>
+>>>>>>> 71f2745e808c0955f8458dd72c151f9baecffb5a
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
@@ -356,6 +408,7 @@ FIN;
         return $html;
     }
 
+<<<<<<< HEAD
     public function afficherListeParticipant(): string
     {
         var_dump($this->tab[0]->p_user);
@@ -370,5 +423,62 @@ FIN;
         return $html;
     }
 
+=======
+    /**
+     * Formulaire de modification de l'événement
+     * @return string
+     */
+    public function formulaireModifEvenement(): string
+    {
+        $url_enregistrerEvenement = $this->container->router->pathFor('enregistrerEvenement');
 
+        $html = <<<FIN
+<h1 class="text-center">Créer un événement</h1>
+		<div class = "container ">
+		
+		<form method="post" action="$url_enregistrerEvenement">
+			<fieldset >
+				<div class="field"> 
+				    <label> Nom * :  </label>
+				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" required="required"/>
+                </div>
+				
+				<div class="field"> 
+				    <label> Date de début * : </label>
+				    <input type="date" name="deb" placeholder="03-03-2022" required="required"/>
+				</div>
+				
+				<div class="field"> 
+				    <label> Date d'archivage * : </label>
+				    <input type="date" name="archiv" placeholder="24-04-2022" />
+				</div>
+				
+				<div class="field"> 
+				    <label> Date de suppression automatique : </label>
+				    <input type="date" name="supprauto" placeholder="24-04-2022" />
+				</div>
+				
+				<div class="field"> 
+				    <label> Lieu * : </label>
+				    <input type="text" name="lieu" placeholder="Lieu de l'évenement" required="required"/>
+				</div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
+				</div>
+				
+				<span class="span text-right"> *  : Champ obligatoire !</span>
+			</fieldset>
+			
+            <div class="clearfix"/>
+            
+			<input type="submit" value="Créer" name="submit" class="bouton-bleu" />
+		</form>
+>>>>>>> 71f2745e808c0955f8458dd72c151f9baecffb5a
+
+    </div>
+FIN;
+        return $html;
+    }
 }
