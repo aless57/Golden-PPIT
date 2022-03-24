@@ -422,13 +422,40 @@ FIN;
 
     public function afficherListeParticipant(): string
     {
-        $html = "Liste utilisateur<br>";
-        foreach ($this->tab as $utilisateur){
+        $html = <<<FIN
+                <div class = "container">
+                
+                <h1 class = "text-center"> Liste des participants </h1> 
 
-            $html .= utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
-            $html .= " " . utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
-            $html .= "<br>";
+                    <table class="tabParticipants">
+                    <thead>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse mail </th>
+                    </thead>
+                    <tbody>
+             
+                    
+FIN;
+        foreach ($this->tab as $utilisateur){
+            $u_nom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
+            $u_prenom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
+
+
+            $html .= <<<FIN
+                <tr>
+                 <td> $u_nom </td>
+                 <td> $u_prenom </td>
+                 <td> $utilisateur->p_user</td>
+                </tr>
+               
+                
+            </div>
+
+FIN;
         }
+
+        $html.= "</tbody></table></div>";
         return $html;
     }
 

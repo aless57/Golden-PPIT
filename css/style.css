@@ -646,12 +646,15 @@ tr:nth-child(even){
 
 }
 
+.tabParticipants{
+    width: 100%;
+    margin-top: 5% ;
+    table-layout: auto;
+}
 table {
     width: 100%;
     margin:  auto;
     table-layout: auto;
-
-
 }
 table, td{
     border-collapse: collapse;
@@ -663,6 +666,7 @@ table, td{
 tr{
     border-bottom: 1px solid #030233;
 }
+
 
 tr:last-child{
     border-bottom: none;
@@ -677,6 +681,17 @@ td{
 td:hover{
     cursor:pointer;
 }
+
+.tabParticipants td:hover{
+    cursor: default;
+}
+thead th{
+    height: 40px;
+    text-align: center;
+    background-color: #030233;
+    color: white;
+}
+
 .tabBesoin-div::-webkit-scrollbar{
     width : 0.25rem;
     height: 0.25rem;
@@ -728,9 +743,9 @@ footer{
     width:100%;
     text-align: center;
     align-content: center;
-
     margin-top: auto;
     margin-bottom: 0;
+    letter-spacing: 0.1rem;
     background: #030233;
 
 }
