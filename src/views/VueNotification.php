@@ -202,7 +202,7 @@ FIN;
             <body>
                     <h1 class="text-center"> LES NOTIFICATIONS </h1>
                     
-                    <div id="listeEvenements" class = "container">
+                    <div id="listeNotifications" class = "container">
                         $notifications
                     </div>
                     
