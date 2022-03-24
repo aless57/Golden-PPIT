@@ -135,7 +135,6 @@ FIN;
             case 3:
             {
                 $content .= $this->afficherCalendrier();
-                var_dump($this->tab[0]);
                 break;
             }
         }
@@ -345,21 +344,17 @@ FIN;
             }
             return color;
         }
-        // var eventTemplate = {
-        //     id: e.e_id,
-        //     title: e.e_titre,
-        //     from: e.e_date,
-        //     to: e.e_supp_date,
-        //     description: e.e_desc,
-        //     location: e.ville,
-        //     color: saucisse,
-        //     organizerEmailAddress: e.e_proprio
-        // };
+       
         </script>
 </div>
 FIN;
         foreach ($this->tab as $event){
-            echo "var titre = yo";
+            $titre = $event[0]->e_titre;
+            $from = $event[0]->e_date;
+            $to = $event[0]->e_archive;
+            $description = $event[0]->e_desc;
+            $location = $event[0]->e_ville;
+            $organizerEmailAddress = $event[0]->e_proprio;
 
 
 
@@ -367,13 +362,15 @@ FIN;
 <script>
 
 var event = {
-            title: titre,
-            from: new Date(),
-            to: new Date(),
-            description: "saucisse ouais",
-            location: "saucisseVile",
-            color : getRandomColor()
+            title: '$titre',
+            from: new Date('$from'),
+            to: new Date('$to'),
+            description: '$description',
+            location: '$location',
+            color : getRandomColor(),
+            organizerEmailAddress: '$organizerEmailAddress'
         }
+        calendarInstance.addEvent( event );
 </script>
 FIN;
 
