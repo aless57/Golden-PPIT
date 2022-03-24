@@ -2,9 +2,9 @@
 
 namespace goldenppit\controllers;
 
+use goldenppit\models\notification;
 use goldenppit\models\utilisateur;
 use goldenppit\views\VueNotification;
-use goldenppit\models\notification;
 use goldenppit\views\VuePageNotification;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -49,8 +49,9 @@ class ControlleurNotification
         $type = Notification::where('n_id', '=', $id_not)->first()->n_type;
         $mail_expediteur = Notification::where('n_id', '=', $id_not)->first()->n_expediteur;
         $mail_destinataire = Notification::where('n_id', '=', $id_not)->first()->n_destinataire;
-        $nom_expediteur = Utilisateur::where('e_id', '=', $mail_expediteur)->first()->u_nom;
-        $prenom_expediteur = Utilisateur::where('e_id', '=', $nom_expediteur)->first()->u_prenom;
+        //On veut afficher le nom et le prénom et pas le mail sur la notification.
+        $nom_expediteur = Utilisateur::where('u_mail', '=', $mail_expediteur)->first()->u_nom;
+        $prenom_expediteur = Utilisateur::where('u_mail', '=', $nom_expediteur)->first()->u_prenom;
 
         //récupérer les champs ici et les mettre entre les crochets
         $vue = new VuePageNotification([$id_not, $objet, $contenu, $type, $mail_expediteur, $mail_destinataire, $nom_expediteur, $prenom_expediteur], $this->container);

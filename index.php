@@ -64,7 +64,7 @@ $app->get('/besoins_evenements/{id_ev}' , ControlleurEvenement::class . ':pageBe
 
 //Chemin notification
 $app->get('/afficherNotifications' , ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
-$app->get('/consulterNotification' , ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
+$app->get('/consulterNotification/{id_not}' , ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
 
 try {
     $app->run();

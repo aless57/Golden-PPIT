@@ -173,15 +173,14 @@ FIN;
         //var_dump($this->tab[1]);
 
 
-
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->n_objet;
             $test_2 = $this->tab[1][$i]->n_id;
             $test_3 = $this->tab[1][$i]->n_expediteur;
             $test_4 = $this->tab[1][$i]->n_destinataire;
-            $url_notifs = $this->container->router->pathFor("consulterNotification/", ['id_not' => $test_2]);
+            $url_notifs = $this->container->router->pathFor("consulterNotification", ['id_not' => $test_2]);
             $user_email = $_SESSION['profile']['mail'];
-            if($test_4 == $user_email) {
+            if ($test_4 == $user_email) {
                 $notifications .= <<<FIN
             
             <div id="$test_2" class="alignement">

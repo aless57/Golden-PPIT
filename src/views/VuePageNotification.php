@@ -154,7 +154,7 @@ FIN;
                         <h2 class="details-not"> $prenom_expediteur $nom_expediteur </h2>
                     </div>
                     <div class=" labels-details-not">
-                        <h2> Notification de type : : </h2>
+                        <h2> Notification de type : </h2>
                         <h2 class="details-not"> $type </h2>
                     </div>
                     
