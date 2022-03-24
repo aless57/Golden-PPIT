@@ -202,6 +202,7 @@ FIN;
         $id_ev = $this->tab[0];
 
         $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
+        $url_inviter = $this->container->router->pathFor('inviterEvenement', ['id_ev' => $id_ev]);
 
         $nom = $this->tab[1];
         $date_deb = $this->tab[2];
@@ -222,7 +223,7 @@ FIN;
         $boutons =
             <<<FIN
                 
-                <button class="bouton-bleu">Inviter</button>
+                <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
             FIN;
         if ($proprio == $_SESSION['profile']['mail']) {//si l'utilisateur est propriétaire :
             $boutons .=

@@ -10,6 +10,7 @@ use goldenppit\models\utilisateur;
 use goldenppit\models\ville;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueEvenement;
+use goldenppit\views\VueInvitationEvenement;
 use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -185,6 +186,15 @@ class ControlleurEvenement
         //TODO : remettre sur la page précedente
         $url_accueil = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($url_accueil);
+    }
+
+    public function inviterEvenement(Request $rq, Response $rs, $args): Response
+    {
+        $event = Evenement::find($args['id_ev']);
+        //TODO Invitation en cours
+        $vue = new VueInvitationEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(0));
+        return $rs;
     }
 
 

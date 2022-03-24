@@ -53,11 +53,11 @@ $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerE
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
+$app->get('/inviterEvenement/{id_ev}', ControlleurEvenement::class . ':inviterEvenement')->setName('inviterEvenement');
 $app->get('/calendrier', ControlleurEvenement::class . ':afficherCalendrier')->setName('calendar');
 
 //Chemin notification
 $app->get('/afficherNotifications' , ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
-
 
 try {
     $app->run();
