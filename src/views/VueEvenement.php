@@ -283,10 +283,14 @@ FIN;
             <script>    
                 var event = document.getElementById('$test_2');
             
-            event.addEventListener('click', function(event) {
-              window.location.href = '$url_event'; 
-       
+                event.addEventListener('click', function(event) {
+                window.location.href = '$url_event'; 
+                event.addEventListener('click', function(event) {
+                window.location.href = '$url_event'; 
+
+              
                 }); 
+            }
                    
             </script>
             
@@ -398,17 +402,16 @@ FIN;
                                 break;
                             }
                         });
+
                         document.getElementById("proprietaire").addEventListener('change', function() {
                                 if(this.checked) {
                                     tab.forEach(element => {
-                                        if(element.e_proprio != "{$_SESSION['profile']['mail']}") {
-                                            document.getElementById(element.e_titre).style= "display:none";
+                                        if(element.e_proprio !=) {
+                                            document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
                                         } 
-                                    });
+                                    }
                                 } else {
-                                    tab.forEach(element => {
-                                        document.getElementById(element.e_titre).style = "";
-                                    });
+                                    
                                 }
                         });
                     </script>

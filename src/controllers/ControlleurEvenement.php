@@ -216,7 +216,7 @@ class ControlleurEvenement
         return $rs->withRedirect($url_accueil);
     }
 
-    public function afficherCalendrier(Request $rq, Response $rs, $event_id): Response
+    public function afficherCalendrier(Request $rq, Response $rs, $args): Response
     {
 
         $user_email = $_SESSION['profile']['mail'];
@@ -230,5 +230,14 @@ class ControlleurEvenement
         $rs->getBody()->write($vue->render(3));
         return $rs;
     }
+
+    public function listeParticipant(Request $rq, Response $rs, $args): Response
+    {
+        $event = participe::where("p_event", "=", $args['id_ev'])->get();
+        $vue = new VuePageEvenement($event, $this->container);
+        $rs->getBody()->write($vue->render(1));
+        return $rs;
+    }
+
 
 }

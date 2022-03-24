@@ -94,7 +94,22 @@ FIN;
 
         switch ($select) {
             case 0:
-                $content = $this->pageEvenement();
+                $content .= $this->pageEvenement();
+                break;
+            case 1:
+
+                $content = <<<FIN
+        <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="../images/logo-white.png" alt="logo-accueil" >
+                </a>
+            </div>
+    <div class ="message-erreur">
+        <h1>Vous devez être connecté pour accéder à cette page !</h1>
+        <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>
+    </div>
+FIN;
+                $content = $this->afficherListeParticipant();
                 break;
             case 1:
                 $content = $this->invitationEvenement();
@@ -235,13 +250,14 @@ FIN;
                 <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
             FIN;
         if ($proprio == $_SESSION['profile']['mail']) {//si l'utilisateur est propriétaire :
+            $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
             $boutons .=
                 <<<FIN
                     <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
                         <span> <a href="#">Gérer les besoins</a></span>
-                        <span> <a href="#">Gérer les participants</a></span>
+                        <span> <a href="$listeParticipant">Gérer les participants</a></span>
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
@@ -337,6 +353,20 @@ FIN;
         </section>
             
 FIN;
+        return $html;
+    }
+
+    public function afficherListeParticipant(): string
+    {
+        var_dump($this->tab[0]->p_user);
+        echo $this->tab[0]->p_user;
+        $html = "Liste utilisateur<br>";
+        foreach ($this->tab[0] as $utilisateur){
+
+            $html .= utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
+            $html .= " " . utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
+            $html .= "<br>";
+        }
         return $html;
     }
 
