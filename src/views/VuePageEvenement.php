@@ -120,6 +120,9 @@ FIN;
             case 3:
                 $content = $this->ajoutBesoin();
                 break;
+            case 4:
+                $content = $this->formulaireModifEvenement();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -314,6 +317,7 @@ FIN;
             FIN;
         if ($proprio == $_SESSION['profile']['mail']) {//si l'utilisateur est propriétaire :
             $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
+            $modifierEvenement = $this->container->router->pathFor('modifierEvenement', ['id_ev' => $id_ev]);
             $boutons .=
                 <<<FIN
                     <div class="dropdown">
@@ -321,7 +325,7 @@ FIN;
                       <div class="dropdown-content">
                         <span> <a href="$url_besoins">Gérer les besoins</a></span>
                         <span> <a href="$listeParticipant">Gérer les participants</a></span>
-                        <span> <a href="#">Modifier l'événement</a></span>
+                        <span> <a href="$modifierEvenement">Modifier l'événement</a></span>
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
@@ -460,47 +464,53 @@ FIN;
     }
 
     /**
-     * Formulaire de modification de l'événement
+     * Formulaire de modification d'événement
      * @return string
      */
     public function formulaireModifEvenement(): string
     {
-        $url_enregistrerEvenement = $this->container->router->pathFor('enregistrerEvenement');
-
+        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement');
+        $id_ev = $this->tab[0];
+        $nom = $this->tab[1];
+        $date_deb = $this->tab[2];
+        $date_supp = $this->tab[3];
+        $date_arch = $this->tab[4];
+        $ville = $this->tab[5];
+        $desc = $this->tab[6];
         $html = <<<FIN
-<h1 class="text-center">Créer un événement</h1>
+<h1 class="text-center">Modifier un événement</h1>
 		<div class = "container ">
 		
-		<form method="post" action="$url_enregistrerEvenement">
+		<form method="post" action="$url_enregistrerModifEvenement">
 			<fieldset >
 				<div class="field"> 
 				    <label> Nom * :  </label>
-				    <input type="text" name="nom" placeholder="Nom de l'événement" pattern="[a-ZA-Z]+" required="required"/>
+				    <input type="text" name="nom" value = "$nom" pattern="[a-ZA-Z]+" required="required"/>
                 </div>
 				
 				<div class="field"> 
 				    <label> Date de début * : </label>
-				    <input type="date" name="deb" placeholder="03-03-2022" required="required"/>
+				    <input type="date" name="deb" value = "$date_deb" required="required"/>
 				</div>
 				
 				<div class="field"> 
 				    <label> Date d'archivage * : </label>
-				    <input type="date" name="archiv" placeholder="24-04-2022" />
+				    <input type="date" name="archiv" value = "$date_arch"/>
 				</div>
 				
 				<div class="field"> 
 				    <label> Date de suppression automatique : </label>
-				    <input type="date" name="supprauto" placeholder="24-04-2022" />
+				    <input type="date" name="supprauto" value = "$date_supp" />
 				</div>
 				
 				<div class="field"> 
 				    <label> Lieu * : </label>
-				    <input type="text" name="lieu" placeholder="Lieu de l'évenement" required="required"/>
+				    <input type="text" name="lieu" value = "$ville" required="required"/>
 				</div>
 				
 				<div class="field"> 
 				    <label> Description : </label>
-				    <input type="text" class="desc" name="desc" placeholder="Décrivez votre événement en quelques mots !"/>
+				    <input type="text" class="desc" name="desc" value = "$desc"/>
 				</div>
 				
 				<span class="span text-right"> *  : Champ obligatoire !</span>

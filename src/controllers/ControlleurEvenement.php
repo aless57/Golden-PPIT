@@ -312,8 +312,19 @@ class ControlleurEvenement
      */
     public function modifierEvenement(Request $rq, Response $rs, $args): Response
     {
-        $vue = new VueEvenement([], $this->container);
-        $rs->getBody()->write($vue->render(0));
+        $id_ev = $args['id_ev'];
+
+        $nom_ev = Evenement::where('e_id', '=', $id_ev)->first()->e_titre;
+        $date_deb = Evenement::where('e_id', '=', $id_ev)->first()->e_date;
+
+        $date_supp = Evenement::where('e_id', '=', $id_ev)->first()->e_supp_date;
+        $date_arch = Evenement::where('e_id', '=', $id_ev)->first()->e_archive;
+
+        $id_ville = Evenement::where('e_id', '=', $id_ev)->first()->e_ville;
+        $ville = Ville::where('v_id', "=", $id_ville)->first()->v_nom;
+        $desc = Evenement::where('e_id', '=', $id_ev)->first()->e_desc;
+        $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_supp, $date_arch, $ville, $desc], $this->container);
+        $rs->getBody()->write($vue->render(4));
         return $rs;
     }
 
