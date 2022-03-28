@@ -469,7 +469,8 @@ FIN;
      */
     public function formulaireModifEvenement(): string
     {
-        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement');
+        $id_ev = $this->tab[0];
+        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement',['id_ev' => $id_ev]);
         $id_ev = $this->tab[0];
         $nom = $this->tab[1];
         $date_deb = $this->tab[2];
