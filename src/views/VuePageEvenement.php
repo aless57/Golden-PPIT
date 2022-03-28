@@ -518,7 +518,7 @@ FIN;
 			
             <div class="clearfix"/>
             
-			<input type="submit" value="Créer" name="submit" class="bouton-bleu" />
+			<input type="submit" value="Modifier" name="submit" class="bouton-bleu" />
 		</form>
 
     </div>
