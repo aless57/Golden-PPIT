@@ -6,6 +6,7 @@ use Exception;
 use goldenppit\models\besoin;
 use goldenppit\models\evenement;
 use goldenppit\models\participe;
+use goldenppit\models\participe_besoin;
 use goldenppit\models\utilisateur;
 use goldenppit\models\ville;
 use goldenppit\models\souhaite;
@@ -92,6 +93,27 @@ class ControlleurEvenement
 
     }
 
+    public function enregistrerAssocierBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $besoin = filter_var($post['besoin_sele'], FILTER_SANITIZE_STRING);
+        $id_besoin = Besoin::where('b_objet', '=', $besoin)->first()->b_id;
+
+        $participant = filter_var($post['participe_sele'], FILTER_SANITIZE_STRING);
+        $mail_participant = Utilisateur::where('u_nom', '=', $participant)->first()->u_mail;
+        //avant l'exécution
+
+        $participant_besoin = new participe_besoin();
+        $participant_besoin->pb_user = "test@gmail.com";
+        $participant_besoin->pb_besoin = $id_besoin;
+        $participant_besoin->save();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
+
     /**
      * POST
      * Enregistrement des informations du nouveau compte dans la base de données
@@ -128,6 +150,19 @@ class ControlleurEvenement
         $id_ev = $args['id_ev'];
         $vue = new VuePageEvenement([$id_ev], $this->container);
         $rs->getBody()->write($vue->render(3));
+
+        return $rs;
+
+    }
+
+
+
+    public function associerBesoin(Request $rq, Response $rs, $args): Response{
+        $id_ev = $args['id_ev'];
+        $participants = participe::where('p_event', '=', $id_ev)->get()->all();
+        $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
+        $vue = new VuePageEvenement([$id_ev, $participants, $nb_participants], $this->container);
+        $rs->getBody()->write($vue->render(7));
 
         return $rs;
 

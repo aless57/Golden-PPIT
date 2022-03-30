@@ -123,6 +123,8 @@ FIN;
             case 4:
                 $content = $this->formulaireModifEvenement();
                 break;
+            case 7 :
+                $content = $this->associerBesoin();
         }
         $html = <<<FIN
 <html lang="french">
@@ -168,6 +170,7 @@ FIN;
         $nom = $this->tab[1];
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
+        $url_associerBesoin = $this->container->router->pathFor('associerBesoin', ['id_ev'=> $id_ev]);
         $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $html = <<<FIN
@@ -179,7 +182,7 @@ FIN;
                 $tab
             </div>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_ajoutBesoin'"> Ajouter un besoin </button>
-            <button name="button" class="bouton-blanc" > Associer un besoin </button>
+            <button name="button" class="bouton-blanc" onclick="window.location.href='$url_associerBesoin'"> Associer un besoin </button>
             <button name="button" class="bouton-blanc" > Modifier un besoin </button>
             <button name="button" class="bouton-blanc" > Supprimer un besoin </button>  
 </div>
@@ -240,6 +243,61 @@ function dec() {
   }
 }
 </script>
+FIN;
+
+        return $html;
+    }
+
+
+    public function associerBesoin(): string {
+        $url_enregistrerAssocierBesoin = $this->container->router->pathFor('enregistrerAssocierBesoin', ['id_ev'=> $this->tab[0]]);
+        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function($join) {
+            $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
+        })
+            ->whereNull('participe_besoin.pb_besoin')->get();
+
+        for($i=0; $i< $besoins_non_associes->count() ; $i++){
+            $nom_besoin = $besoins_non_associes[$i]->b_objet;
+            $column .= <<<FIN
+                        <option> $nom_besoin </option>
+                    FIN;
+        }
+
+        $participants = $this->tab[1];
+        $nb_participants = $this->tab[2];
+
+        for ($i = 0; $i < $nb_participants; $i++) {
+            $p_mail = $participants[$i]->p_user;
+            $column2 .= <<<FIN
+                        <option> $p_mail </option>
+                    FIN;
+        }
+
+        $html = <<<FIN
+        <h1 class="text-center">Associer un besoin</h1>
+        <div class="container">
+            <form method="post" action="$url_enregistrerAssocierBesoin">
+			<fieldset >
+				<div class="field"> 
+				    <select class="filtres" name="besoin_sele">
+                        $column
+                    </select>
+                </div>
+                
+                <div class="field"> 
+				    <select class="filtres" name="participe_sele">
+                        $column2
+                    </select>
+                </div>
+
+			</fieldset>
+			
+            <div class="clearfix"/>
+            
+			<input type="submit" value="ASSOCIÉ" name="submit" class="bouton-bleu" />
+		</form>
+</div>
+</div>
 FIN;
 
         return $html;
