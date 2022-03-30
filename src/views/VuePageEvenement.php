@@ -510,6 +510,7 @@ FIN;
                  <td> $u_nom </td>
                  <td> $u_prenom </td>
                  <td> $utilisateur->p_user</td>
+                 <td><button class="bouton-rouge" onclick=""> Exclure </button> </td>
                 </tr>
                
                 
