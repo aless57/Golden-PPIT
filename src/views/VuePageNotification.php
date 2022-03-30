@@ -162,7 +162,7 @@ FIN;
                         <h2 class="details-not" > $objet </h2>
                     </div>
                     
-                    <button class="btn-supp" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+                    <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
                     
                     </div>
 
@@ -173,7 +173,6 @@ FIN;
             <div class="details-bg-not-contenu">
                         
                     <div class="content">
-                 
                     <div class="label-content-not">
                         <h2> Contenu du message : </h2>
                         <h2 class="content-not"> $contenu </h2>

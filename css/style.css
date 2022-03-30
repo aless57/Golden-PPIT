@@ -541,6 +541,12 @@ button.margin-0{
     background-color: transparent;
 }
 .btn-supp {
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.btn-supp-not {
     background-color: black;
     border: none;
     height: 40px;
@@ -567,6 +573,7 @@ button.margin-0{
 .content {
     padding-top: 3%;
     padding-left: 7%;
+    text-justify: initial
 }
 .content-not {
     color: #4299C8;
