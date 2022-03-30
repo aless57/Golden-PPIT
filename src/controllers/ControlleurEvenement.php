@@ -341,6 +341,22 @@ class ControlleurEvenement
         return $rs->withRedirect($url_accueil);
     }
 
+    /**
+     * POST
+     * Utilisateur exclue d'un evenement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function exclureEvenement(Request $rq, Response $rs, $args): Response
+    {
+        $participe = participe::where([['p_user', '=',$args['p_user']], ['p_event','=',$args['p_event']]]);
+        $participe->delete();
+        $url_accueil = $this->container->router->pathFor("listeParticipant", ['id_ev' => $args['p_event']]);
+        return $rs->withRedirect($url_accueil);
+    }
+
     public function afficherCalendrier(Request $rq, Response $rs, $args): Response
     {
 

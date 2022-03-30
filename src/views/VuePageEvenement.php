@@ -503,14 +503,13 @@ FIN;
         foreach ($this->tab as $utilisateur){
             $u_nom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
             $u_prenom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
-
-
+            $url_exclure = $this->container->router->pathFor('exclureEvenement',['p_user' => $utilisateur->p_user, 'p_event' => $utilisateur->p_event]);
             $html .= <<<FIN
                 <tr>
                  <td> $u_nom </td>
                  <td> $u_prenom </td>
                  <td> $utilisateur->p_user</td>
-                 <td><button class="bouton-rouge" onclick=""> Exclure </button> </td>
+                 <td><button class="bouton-rouge" onclick="window.location.href='$url_exclure'"> Exclure </button> </td>
                 </tr>
                
                 
