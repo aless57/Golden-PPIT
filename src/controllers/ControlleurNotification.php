@@ -7,6 +7,7 @@ use goldenppit\models\utilisateur;
 use goldenppit\views\VueNotification;
 use goldenppit\views\VuePageNotification;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ControlleurNotification
 {
@@ -21,7 +22,7 @@ class ControlleurNotification
         $this->container = $container;
     }
 
-    public function afficherNotifications(Response $rs): Response
+    public function afficherNotifications(Request $rq, Response $rs): Response
     {
         $nbNotifs = Notification::all()->count();
         $notifs = Notification::all();
@@ -33,11 +34,12 @@ class ControlleurNotification
     /**
      * GET
      * Affichage d'une notification
+     * @param Request $rq
      * @param Response $rs
      * @param $args
      * @return Response
      */
-    public function consulterNotification(Response $rs, $args): Response
+    public function consulterNotification(Request $rq, Response $rs, $args): Response
     {
         $id_not = $args['id_not'];
 
@@ -59,11 +61,12 @@ class ControlleurNotification
     /**
      * POST
      * Suppression d'une notification'
+     * @param Request $rq
      * @param Response $rs
      * @param $args
      * @return Response
      */
-    public function supprimerNotification(Response $rs, $args): Response
+    public function supprimerNotification(Request $rq, Response $rs, $args): Response
     {
         $notif = Notification::find($args['id_not']);
         $notif->delete();

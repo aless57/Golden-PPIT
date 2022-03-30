@@ -35,7 +35,6 @@ class VueAccueil
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
 
         $url_creationEv = $this->container->router->pathFor('creationEvenement');
-        $url_enregistrerEv = $this->container->router->pathFor('enregistrerEvenement');
         $url_afficherEv = $this->container->router->pathFor('afficherListe');
         $url_calendrier = $this->container->router->pathFor('calendar');
         $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
@@ -79,7 +78,7 @@ FIN;
             case 0:
             {
                 if (!isset($_SESSION['profile'])) {
-                $content .= <<<FIN
+                    $content .= <<<FIN
 <section>
     <div class="logo-accueil" >            
         <img src="images/logo-accueil.png" class="img-logo" alt="logo-accueil">
@@ -94,8 +93,8 @@ FIN;
         </div>
         
     </section>
-FIN;}
-                else{
+FIN;
+                } else {
                     $content .= <<<FIN
             <body>
                     <h1 class="text-center"> MENU </h1>
@@ -108,7 +107,8 @@ FIN;}
             
             
             </body>
-FIN;                }
+FIN;
+                }
                 break;
 
             }
@@ -144,7 +144,7 @@ FIN;
             }
             case 2:
             {
-                $content .=<<<FIN
+                $content .= <<<FIN
                     <div class ="message-erreur">
                         <h1>Cette adresse mail existe déjà ! </h1>
                         <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>

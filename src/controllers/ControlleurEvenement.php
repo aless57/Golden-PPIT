@@ -2,7 +2,6 @@
 
 namespace goldenppit\controllers;
 
-use Exception;
 use goldenppit\models\besoin;
 use goldenppit\models\evenement;
 use goldenppit\models\participe;
@@ -13,11 +12,9 @@ use goldenppit\models\souhaite;
 use goldenppit\models\notification;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueEvenement;
-use goldenppit\views\VueInvitationEvenement;
 use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Symfony\Component\Console\Input\Input;
 
 define("ENCOURS", "En cours");
 
@@ -25,7 +22,6 @@ define("ENCOURS", "En cours");
 class ControlleurEvenement
 {
     private $container;
-    private $today;
 
     /**
      * ControlleurEvenement constructor.
@@ -60,7 +56,8 @@ class ControlleurEvenement
         return $rs;
     }
 
-    public static function createBesoins($nom, $desc, $nombre, $event){
+    public static function createBesoins($nom, $desc, $nombre, $event): bool
+    {
         $b = new Besoin();
 
         if ($desc != null) {
@@ -164,7 +161,8 @@ class ControlleurEvenement
         return $rs;
     }
 
-    public function ajoutBesoin(Request $rq, Response $rs, $args): Response{
+    public function ajoutBesoin(Request $rq, Response $rs, $args): Response
+    {
         $id_ev = $args['id_ev'];
         $vue = new VuePageEvenement([$id_ev], $this->container);
         $rs->getBody()->write($vue->render(3));
@@ -173,7 +171,8 @@ class ControlleurEvenement
 
     }
 
-    public function modifBesoin($id_besoin, $nom, $desc, $nombre){
+    public function modifBesoin($id_besoin, $nom, $desc, $nombre): bool
+    {
         $b = Besoin::where('b_id', '=', $id_besoin)->first();
 
 
@@ -190,7 +189,8 @@ class ControlleurEvenement
 
     }
 
-    public function modifierBesoin(Request $rq, Response $rs, $args): Response{
+    public function modifierBesoin(Request $rq, Response $rs, $args): Response
+    {
         $id_ev = $args['id_ev'];
         $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
         $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
@@ -202,7 +202,8 @@ class ControlleurEvenement
     }
 
 
-    public function associerBesoin(Request $rq, Response $rs, $args): Response{
+    public function associerBesoin(Request $rq, Response $rs, $args): Response
+    {
         $id_ev = $args['id_ev'];
         $participants = participe::where('p_event', '=', $id_ev)->get()->all();
         $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
@@ -214,7 +215,8 @@ class ControlleurEvenement
     }
 
 
-    public function supprimerBesoin(Request $rq, Response $rs, $args): Response{
+    public function supprimerBesoin(Request $rq, Response $rs, $args): Response
+    {
         $id_ev = $args['id_ev'];
 
 
@@ -227,6 +229,7 @@ class ControlleurEvenement
         return $rs;
 
     }
+
     public function enregistrerSupprimerBesoin(Request $rq, Response $rs, $args): Response
     {
         $post = $rq->getParsedBody();
@@ -244,7 +247,6 @@ class ControlleurEvenement
     }
 
 
-
     /**
      * POST
      * Fonction de création de event
@@ -254,9 +256,9 @@ class ControlleurEvenement
      * @param $supprAuto
      * @param $lieu
      * @param $desc
-     * @throws Exception
+     * @return bool
      */
-    public static function createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)
+    public static function createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc): bool
     {
         $e = new Evenement();
 
@@ -319,7 +321,8 @@ class ControlleurEvenement
         return $rs;
     }
 
-    public function modifEvent($id_ev, $nom, $debut, $archiv, $supprAuto, $lieu, $desc){
+    public function modifEvent($id_ev, $nom, $debut, $archiv, $supprAuto, $lieu, $desc): bool
+    {
         $e = Evenement::where('e_id', '=', $id_ev)->first();
 
         if ($supprAuto != null) {
@@ -411,7 +414,6 @@ class ControlleurEvenement
      * @param Request $rq
      * @param Response $rs
      * @param $args
-     * @param Id de l'event à supprimer $event_id
      * @return Response
      */
     public function supprimerEvenement(Request $rq, Response $rs, $args): Response
@@ -459,7 +461,7 @@ class ControlleurEvenement
      */
     public function exclureEvenement(Request $rq, Response $rs, $args): Response
     {
-        $participe = participe::where([['p_user', '=',$args['p_user']], ['p_event','=',$args['p_event']]]);
+        $participe = participe::where([['p_user', '=', $args['p_user']], ['p_event', '=', $args['p_event']]]);
         $participe->delete();
         $url_accueil = $this->container->router->pathFor("listeParticipant", ['id_ev' => $args['p_event']]);
         return $rs->withRedirect($url_accueil);
@@ -467,10 +469,10 @@ class ControlleurEvenement
 
     public function invitEvent(Request $rq, Response $rs, $args): Response
     {
-        $nom_event = evenement::where('e_id','=', $args['id_event'])->first()->e_titre;
+        $nom_event = evenement::where('e_id', '=', $args['id_event'])->first()->e_titre;
         $n = new Notification();
         $n->n_objet = "Invitation à un évènement";
-        $n->n_contenu = "Vous avez reçu une invitation pour l'évènement : ".$nom_event;
+        $n->n_contenu = "Vous avez reçu une invitation pour l'évènement : " . $nom_event;
         $n->n_statut = "non lue";
         $n->n_type = "invitation";
         $n->n_expediteur = $args['expediteur'];
@@ -487,8 +489,8 @@ class ControlleurEvenement
         $user_email = $_SESSION['profile']['mail'];
         $listeNoEvenement = participe::where('p_user', '=', "$user_email")->get();
         $listeEvenement = [];
-        foreach ($listeNoEvenement as $num){
-            array_push($listeEvenement, evenement::where('e_id', '=',"$num->p_event")->get());
+        foreach ($listeNoEvenement as $num) {
+            $listeEvenement[] = evenement::where('e_id', '=', "$num->p_event")->get();
         }
         $vue = new VueEvenement($listeEvenement, $this->container);
 

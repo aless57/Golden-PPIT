@@ -85,12 +85,10 @@ FIN;
 
         }
 
-        switch ($select) {
-            case 0:
-                $content = $this->pageNotification();
-                break;
+        if ($select == 0) {
+            $content = $this->pageNotification();
         }
-        $html = <<<FIN
+        return <<<FIN
 <html lang="french">
 
 <head>
@@ -122,8 +120,6 @@ FIN;
     </footer>
 </html>
 FIN;
-
-        return $html;
     }
 
     public function pageNotification(): string
@@ -132,14 +128,12 @@ FIN;
         $objet = $this->tab[1];
         $contenu = $this->tab[2];
         $type = $this->tab[3];
-        $expediteur = $this->tab[4];
-        $destinateire = $this->tab[5];
         $nom_expediteur = $this->tab[6];
         $prenom_expediteur = $this->tab[7];
 
         $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
 
-        $html = <<<FIN
+        return <<<FIN
         <section class="page-evenement">
             <div class="container ">
             <div class=" details-bg">
@@ -185,7 +179,6 @@ FIN;
               
             </section>   
 FIN;
-        return $html;
     }
 
 

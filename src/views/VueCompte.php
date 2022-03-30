@@ -322,7 +322,7 @@ FIN;
             $ville = $this->tab[1]->v_nom;
             $notifMail = $this->tab[0]->u_notif_mail;
             $checked = "<input type=\"checkbox\" name=\"notif\" value=\"0\" />";
-            if($notifMail == 1) {
+            if ($notifMail == 1) {
                 $checked = "<input type=\"checkbox\" name=\"notif\" value=\"1\" checked/>";
             }
             //si l"utilisateur est connecté
