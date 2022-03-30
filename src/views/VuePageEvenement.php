@@ -123,8 +123,12 @@ FIN;
             case 4:
                 $content = $this->formulaireModifEvenement();
                 break;
+            case 6:
+                $content = $this->modifierBesoin();
+                break;
             case 7 :
                 $content = $this->associerBesoin();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -172,6 +176,7 @@ FIN;
         $participants = $this->tab[10];
         $url_associerBesoin = $this->container->router->pathFor('associerBesoin', ['id_ev'=> $id_ev]);
         $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
+        $url_modifierBesoin = $this->container->router->pathFor('modifierBesoin', ['id_ev'=> $id_ev]);
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $html = <<<FIN
         <h1 class="text-center">Les besoins de $nom</h1>
@@ -183,7 +188,7 @@ FIN;
             </div>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_ajoutBesoin'"> Ajouter un besoin </button>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_associerBesoin'"> Associer un besoin </button>
-            <button name="button" class="bouton-blanc" > Modifier un besoin </button>
+            <button name="button" class="bouton-blanc" onclick="window.location.href='$url_modifierBesoin'"> Modifier un besoin </button>
             <button name="button" class="bouton-blanc" > Supprimer un besoin </button>  
 </div>
 FIN;
@@ -298,6 +303,94 @@ FIN;
 		</form>
 </div>
 </div>
+FIN;
+
+        return $html;
+    }
+
+    public function modifierBesoin(): string {
+        $url_enregistrerModifierBesoin = $this->container->router->pathFor('enregistrerModifierBesoin', ['id_ev'=> $this->tab[0]]);
+
+        $besoins = $this->tab[1];
+        $nb_besoins = $this->tab[2];
+
+        for($i=0; $i< $nb_besoins ; $i++){
+            $nom_besoin = $besoins[$i]->b_objet;
+            $column .= <<<FIN
+                        <option> $nom_besoin </option>
+                    FIN;
+        }
+
+        $html = <<<FIN
+        <h1 class="text-center">Modifier un besoin</h1>
+        <div class="container">
+            <form name="modifBesoin" method="post" action="$url_enregistrerModifierBesoin" onsubmit="verif()">
+			<fieldset >
+				<div class="field"> 
+				    <select class="filtres" name="besoin_sele">
+				        <option></option>
+                        $column
+                    </select>
+                </div>
+                
+                <div class="field"> 
+				    <label> Nom * :</label>
+				    <input type="text" name="nom" placeholder="Nouveau nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
+                </div>
+				
+				<div class="field"> 
+				        <label> Nombre * : </label>
+                        <div class="quantity buttons_added">
+	                    <input type="button" value="-" class="minus" onclick = "dec()">
+	                    <input type="number" id = "nb" step="1" min="1" max="" name="nb" value="1" size="4">
+	                    <input type="button" value="+" class="plus" onclick="inc()">
+
+                        </div>
+  				</div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Nouvelle description" />
+				</div>
+				<span class="span text-right"> * : Champ obligatoire !</span>
+			</fieldset>
+            <div class="clearfix"/>
+            
+            <input type="submit" value="MODIFIER" name="submit" class="bouton-bleu" onclick=""/>
+		</form>
+</div>
+</div>
+
+<script>
+function inc() {
+  let number = document.getElementById('dec');
+  let val = document.getElementById('nb'); 
+  val.value = parseInt(val.value) + 1;
+}
+
+function dec() {
+  let number = document.getElementById('inc');
+    let val = document.getElementById('nb'); 
+	if (parseInt(val.value) > 0) {
+	  val.value = parseInt(val.value) - 1;
+  }
+}
+
+function verif()                                    
+{ 
+    var name = document.forms["modifBesoin"]["nom"];               
+    var desc = document.forms["modifBesoin"]["desc"];  
+
+
+    if (name.value == "")                                  
+    { 
+        alert("LE CHAMPS NOM EST OBLIGATOIRE !"); 
+        name.focus(); 
+        return false; 
+    }          
+    return true; 
+}
+</script>
 FIN;
 
         return $html;

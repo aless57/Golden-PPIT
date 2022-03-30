@@ -114,6 +114,24 @@ class ControlleurEvenement
 
     }
 
+
+    public function enregistrerModifierBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $besoin = filter_var($post['besoin_sele'], FILTER_SANITIZE_STRING);
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $nombre = filter_var($post['nb'], FILTER_SANITIZE_STRING);
+        $desc = filter_var($post['desc'], FILTER_SANITIZE_STRING);
+        $id_besoin = Besoin::where('b_objet', '=', $besoin)->first()->b_id;
+
+        $this->modifBesoin($id_besoin, $nom, $desc, $nombre);
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
+
     /**
      * POST
      * Enregistrement des informations du nouveau compte dans la base de données
@@ -155,6 +173,33 @@ class ControlleurEvenement
 
     }
 
+    public function modifBesoin($id_besoin, $nom, $desc, $nombre){
+        $b = Besoin::where('b_id', '=', $id_besoin)->first();
+
+
+        if ($desc != null) {
+            $b->b_desc = $desc;
+        }
+
+        $b->b_objet = $nom;
+        $b->b_nombre = $nombre;
+
+        $b->save();
+
+        return true;
+
+    }
+
+    public function modifierBesoin(Request $rq, Response $rs, $args): Response{
+        $id_ev = $args['id_ev'];
+        $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
+        $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
+        $vue = new VuePageEvenement([$id_ev, $besoins, $nb_besoins], $this->container);
+        $rs->getBody()->write($vue->render(6));
+
+        return $rs;
+
+    }
 
 
     public function associerBesoin(Request $rq, Response $rs, $args): Response{
