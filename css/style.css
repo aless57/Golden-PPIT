@@ -572,8 +572,9 @@ button.margin-0{
 
 .content {
     padding-top: 3%;
-    padding-left: 7%;
-    text-justify: initial
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: justify
 }
 .content-not {
     color: #4299C8;
