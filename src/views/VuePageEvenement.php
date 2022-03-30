@@ -496,7 +496,6 @@ FIN;
              
                     
 FIN;
-        var_dump($this->tab);
         foreach ($this->tab as $utilisateur){
             $u_nom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
             $u_prenom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
