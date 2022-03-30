@@ -357,6 +357,7 @@ FIN;
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
         $participant_s = "";
+        var_dump($_SESSION);
         if ($nb_participants > 1) {
             $participant_s = "participants";
         } else {
@@ -365,17 +366,14 @@ FIN;
         if($desc== null){
             $desc = "Le propriétaire n'a pas encore saisi de description pour l'événement !";
         }
-        $boutons =
-            <<<FIN
-                
-                <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
-            FIN;
+        $boutons = "";
         if ($proprio == $_SESSION['profile']['mail']) {//si l'utilisateur est propriétaire :
             $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
             $modifierEvenement = $this->container->router->pathFor('modifierEvenement', ['id_ev' => $id_ev]);
             $boutons .=
                 <<<FIN
                     <div class="dropdown">
+                      <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
                         <span> <a href="$url_besoins">Gérer les besoins</a></span>
@@ -387,7 +385,9 @@ FIN;
                     </div>
             FIN;
         } else {
+            $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
             $boutons .= <<<FIN
+                <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
                 <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
                 <button class="bouton-bleu">Suggérer une modification</button>
             FIN;

@@ -63,6 +63,7 @@ $app->post('/enregistrerModifEvenement/{id_ev}', ControlleurEvenement::class . '
 $app->get('/besoins_evenements/{id_ev}', ControlleurEvenement::class . ':pageBesoins')->setName('lesBesoins');
 $app->post('/enregistrerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerBesoin')->setName('enregistrerBesoin');
 $app->get('/ajout_besoin/{id_ev}', ControlleurEvenement::class . ':ajoutBesoin')->setName('ajout_besoin');
+$app->get('/demanderRejoindre/{id_ev}/{participant}', ControlleurEvenement::class . ':demanderRejoindre')->setName('demanderRejoindre');
 
 
 
