@@ -220,6 +220,24 @@ nav{
     border-radius: 10px;
     cursor:pointer;
 }
+
+.bouton-vert{
+    position: relative;
+    margin-top:2%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width:250px;
+    height : 40px;
+    font-size: 1rem;
+    padding: 1%;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #34C924 0%, #00561B 100%);
+    border: 2px solid #030233;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
 .bouton-rouge:hover{
     color:white;
 }

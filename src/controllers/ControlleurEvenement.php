@@ -396,10 +396,8 @@ class ControlleurEvenement
 
     public function inviterEvenement(Request $rq, Response $rs, $args): Response
     {
-        $event = Evenement::find($args['id_ev']);
-        //TODO Invitation en cours
-        $vue = new VuePageEvenement([], $this->container);
-        $rs->getBody()->write($vue->render(1));
+        $vue = new VuePageEvenement([$args['id_ev']], $this->container);
+        $rs->getBody()->write($vue->render(8));
         return $rs;
     }
 
@@ -435,6 +433,22 @@ class ControlleurEvenement
         $participe = participe::where([['p_user', '=',$args['p_user']], ['p_event','=',$args['p_event']]]);
         $participe->delete();
         $url_accueil = $this->container->router->pathFor("listeParticipant", ['id_ev' => $args['p_event']]);
+        return $rs->withRedirect($url_accueil);
+    }
+
+    public function invitEvent(Request $rq, Response $rs, $args): Response
+    {
+        $nom_event = evenement::where('e_id','=', $args['id_event'])->first()->e_titre;
+        $n = new Notification();
+        $n->n_objet = "Invitation à un évènement";
+        $n->n_contenu = "Vous avez reçu une invitation pour l'évènement : ".$nom_event;
+        $n->n_statut = "non lue";
+        $n->n_type = "invitation";
+        $n->n_expediteur = $args['expediteur'];
+        $n->n_destinataire = $args['destinataire'];
+        $n->n_event = $args['id_event'];
+        $n->save();
+        $url_accueil = $this->container->router->pathFor("accueil");
         return $rs->withRedirect($url_accueil);
     }
 

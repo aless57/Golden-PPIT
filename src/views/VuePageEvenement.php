@@ -111,9 +111,6 @@ FIN;
 FIN;
                 $content = $this->afficherListeParticipant();
                 break;
-            case 1:
-                $content = $this->invitationEvenement();
-                break;
             case 2:
                 $content = $this->lesBesoins();
                 break;
@@ -128,6 +125,9 @@ FIN;
                 break;
             case 7 :
                 $content = $this->associerBesoin();
+                break;
+            case 8:
+                $content = $this->invitationEvenement();
                 break;
         }
         $html = <<<FIN
@@ -482,9 +482,36 @@ FIN;
     public function invitationEvenement(): string
     {
         $html = <<<FIN
-        <h1>Invitation à un event</h1>
+                <div class = "container">
+                
+                <h1 class = "text-center"> Liste des membres invitables </h1> 
 
-        FIN;
+                    <table class="tabParticipants">
+                    <thead>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse mail </th>
+                    </thead>
+                    <tbody>
+                          
+FIN;
+        foreach (utilisateur::all() as $utilisateur){
+            $u_nom = $utilisateur->u_nom;
+            $u_prenom = $utilisateur->u_prenom;
+            $u_mail = $utilisateur->u_mail;
+            $url_invit = $this->container->router->pathFor('invitEvent',['id_event' => $this->tab[0], 'expediteur' => $_SESSION['profile']['mail'], 'destinataire' => $utilisateur->u_mail]);
+            $html .= <<<FIN
+                <tr>
+                 <td> $u_nom </td>
+                 <td> $u_prenom </td>
+                 <td> $u_mail</td>
+                 <td><button class="bouton-vert" onclick="window.location.href='$url_invit'"> Inviter </button> </td>
+                </tr>      
+            </div>
+
+FIN;
+        }
+        $html.= "</tbody></table></div>";
         return $html;
     }
 
