@@ -255,7 +255,7 @@ FIN;
                     $evenements .= <<<FIN
                 
                 <div id="$test" class="alignement-centre">
-                   <img src="images/black-cat.png" class="rightBouton">
+                   <img src="images/favourite.png" class="rightBouton">
                     <button id="$test_2" name="test" class="bouton-blanc margin-0" >$test</button>
                     <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
                 </div>   
@@ -275,10 +275,11 @@ FIN;
             }else{
                $evenements .= <<<FIN
             
-                <div id="$test" class="alignement">
-                    <button id="$test_2" name="test" class="bouton-blanc" >$test</button>
+                <div id="$test" class="alignement-centre">
+                   <img src="images/black-cat.png" class="rightBouton">
+                    <button id="$test_2" name="test" class="bouton-blanc margin-0" >$test</button>
+                    <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
                 </div>   
-            
             <script>    
                 var event = document.getElementById('$test_2');
                 event.addEventListener('click', function(event) {

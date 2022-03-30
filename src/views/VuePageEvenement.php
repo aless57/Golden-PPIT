@@ -145,6 +145,8 @@ FIN;
     </div>
     
 </body>
+    <div class="clearfix"></div>
+
 <footer>
     <div class="clearfix"></div>
         <div class="container text-center">
@@ -167,16 +169,20 @@ FIN;
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
         $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
-        $tab = $this->tabBesoin($nb_participants, $participants);
+        $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $html = <<<FIN
         <h1 class="text-center">Les besoins de $nom</h1>
-            <div class="tabBesoin-div">
+        <div class="container">
+        
+
+            <div class="tabBesoin">
                 $tab
             </div>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_ajoutBesoin'"> Ajouter un besoin </button>
             <button name="button" class="bouton-blanc" > Associer un besoin </button>
             <button name="button" class="bouton-blanc" > Modifier un besoin </button>
             <button name="button" class="bouton-blanc" > Supprimer un besoin </button>  
+</div>
 FIN;
         return $html;
     }
@@ -188,44 +194,93 @@ FIN;
 
         $html = <<<FIN
         <h1 class="text-center">Ajouter un besoin</h1>
+        <div class="container">
+       
             <form method="post" action="$url_enregistrerBesoin">
 			<fieldset >
 				<div class="field"> 
-				    <label> Nom * : $url_enregistrerBesoin et $this->tab[0] </label>
+				    <label> Nom * :</label>
 				    <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
                 </div>
 				
 				<div class="field"> 
-				    <label> Nombre * : </label>
-				    <input type="number" name="nb" placeholder="1" required="required"/>
-				</div>
+				        <label> Nombre * : </label>
+                        <div class="quantity buttons_added">
+	                    <input type="button" value="-" class="minus" onclick = "dec()">
+	                    <input type="number" id = "nb" step="1" min="1" max="" name="nb" value="1" size="4">
+	                    <input type="button" value="+" class="plus" onclick="inc()">
+
+                        </div>
+  				</div>
 				
 				<div class="field"> 
 				    <label> Description : </label>
 				    <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
 				</div>
+				<span class="span text-right"> * : Champ obligatoire !</span>
+
 			</fieldset>
 			
             <div class="clearfix"/>
             
 			<input type="submit" value="VALIDER" name="submit" class="bouton-bleu" />
 		</form>
+</div>
+</div>
+
+<script>
+function inc() {
+  let number = document.getElementById('dec');
+  let val = document.getElementById('nb'); 
+  val.value = parseInt(val.value) + 1;
+}
+
+function dec() {
+  let number = document.getElementById('inc');
+    let val = document.getElementById('nb'); 
+	if (parseInt(val.value) > 0) {
+	  val.value = parseInt(val.value) - 1;
+  }
+}
+</script>
 FIN;
 
         return $html;
     }
 
-    public function tabBesoin($nb_participants, $participants): string
+    public function tabBesoin($nb_participants, $participants, $id_ev): string
     {
         $row = "";
+        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function($join) {
+            $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
+        })
+            ->whereNull('participe_besoin.pb_besoin')->get();
 
+        var_dump($besoins_non_associes);
+        if($besoins_non_associes->count()!=0){
+            $column = "";
+
+            for($i=0; $i< $besoins_non_associes->count() ; $i++){
+                $nom_besoin = $besoins_non_associes[$i]->b_objet;
+                $column .= <<<FIN
+                        <td> $nom_besoin </td>
+                    FIN;
+            }
+
+            $row .= <<<Fin
+                    <tr>
+                       <td> Besoins non associés: </td>
+                       
+                      $column
+                    </tr>
+                Fin;
+        }
         for ($i = 0; $i < $nb_participants; $i++) {
             $column = "";
 
             $p_mail = $participants[$i]->p_user;
             $participant_nom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_nom;
             $participant_prenom = Utilisateur::where('u_mail', '=', $p_mail)->first()->u_prenom;
-
             $participe_au_besoin = Participe_Besoin::where('pb_user', '=', $p_mail);
 
             if ($participe_au_besoin->get()->count() != 0) {
@@ -242,6 +297,7 @@ FIN;
                         <td> Aucun besoin n'est associé.</td>
                     FIN;
             }
+
             $row .= <<<Fin
                     <tr>
                        <td> $participant_prenom $participant_nom</td>
@@ -308,7 +364,10 @@ FIN;
         if ($nb_participants > 1) {
             $participant_s = "participants";
         } else {
-            $participant_s = "participe";
+            $participant_s = "participant";
+        }
+        if($desc== null){
+            $desc = "Le propriétaire n'a pas encore saisi de description pour l'événement !";
         }
         $boutons =
             <<<FIN
@@ -342,7 +401,7 @@ FIN;
                 <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
 
             FIN;
-        $tab = $this->tabBesoin($nb_participants, $participants);
+        $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
         //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
         $html = <<<FIN
@@ -357,7 +416,7 @@ FIN;
                         
                         <div class="info">
                     <div class=" labels-details-ev"> 
-                        <h2> Nom de l'évènement : </h2>
+                        <h2> Nom de l'événement : </h2>
                         <h2 class="details-ev" > $nom </h2>
                     </div>
                     <div class=" labels-details-ev">
