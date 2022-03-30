@@ -17,6 +17,7 @@ use goldenppit\views\VueInvitationEvenement;
 use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Symfony\Component\Console\Input\Input;
 
 define("ENCOURS", "En cours");
 
@@ -101,11 +102,10 @@ class ControlleurEvenement
         $id_besoin = Besoin::where('b_objet', '=', $besoin)->first()->b_id;
 
         $participant = filter_var($post['participe_sele'], FILTER_SANITIZE_STRING);
-        $mail_participant = Utilisateur::where('u_nom', '=', $participant)->first()->u_mail;
         //avant l'exécution
 
         $participant_besoin = new participe_besoin();
-        $participant_besoin->pb_user = "test@gmail.com";
+        $participant_besoin->pb_user = $participant;
         $participant_besoin->pb_besoin = $id_besoin;
         $participant_besoin->save();
         $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
@@ -212,6 +212,38 @@ class ControlleurEvenement
         return $rs;
 
     }
+
+
+    public function supprimerBesoin(Request $rq, Response $rs, $args): Response{
+        $id_ev = $args['id_ev'];
+
+
+        //Récupéerer les données des participants et des besoins
+        $besoins = Besoin::where('b_event', '=', $id_ev)->get();
+        $nbBesoins = $besoins->count();
+        $vue = new VuePageEvenement([$id_ev, $besoins, $nbBesoins], $this->container);
+        $rs->getBody()->write($vue->render(5));
+
+        return $rs;
+
+    }
+    public function enregistrerSupprimerBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $besoin = filter_var($post['nomB'], FILTER_SANITIZE_STRING);
+        $id_besoin = Besoin::where('b_objet', '=', $besoin)->first();
+
+        //avant l'exécution
+
+        $id_besoin->delete();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
+
+
 
     /**
      * POST
@@ -338,9 +370,6 @@ class ControlleurEvenement
         //Récupéerer les données des participants et des besoins
         $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
         $participants = participe::where('p_event', '=', $id_ev)->get()->all();
-
-        $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
-        $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
         //récupérer les champs ici et les mettre entre les crochets
         $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $id_proprio, $proprio_nom, $proprio_prenom, $ville, $desc, $nb_participants, $participants], $this->container);
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement

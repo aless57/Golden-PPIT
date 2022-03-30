@@ -714,7 +714,7 @@ button.margin-0{
     border: solid #030233 2px;
     width:230px;
     z-index: 1;
-    top: -30px;
+    top: -20px;
     margin-left:3%;
 
 }
@@ -736,7 +736,7 @@ button.margin-0{
     color:#357EB7;
     background:white;
 }
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {display: flex;}
 
 
 .tabBesoin-div{

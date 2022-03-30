@@ -123,6 +123,9 @@ FIN;
             case 6:
                 $content = $this->modifierBesoin();
                 break;
+            case 5:
+                $content = $this->supprimerBesoin();
+                break;
             case 7 :
                 $content = $this->associerBesoin();
                 break;
@@ -177,6 +180,8 @@ FIN;
         $url_associerBesoin = $this->container->router->pathFor('associerBesoin', ['id_ev'=> $id_ev]);
         $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
         $url_modifierBesoin = $this->container->router->pathFor('modifierBesoin', ['id_ev'=> $id_ev]);
+
+        $url_suppBesoin = $this->container->router->pathFor('supprimerBesoin', ['id_ev'=> $id_ev]);
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $html = <<<FIN
         <h1 class="text-center">Les besoins de $nom</h1>
@@ -189,7 +194,7 @@ FIN;
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_ajoutBesoin'"> Ajouter un besoin </button>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_associerBesoin'"> Associer un besoin </button>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_modifierBesoin'"> Modifier un besoin </button>
-            <button name="button" class="bouton-blanc" > Supprimer un besoin </button>  
+            <button name="button" class="bouton-blanc"  onclick="window.location.href='$url_suppBesoin'" > Supprimer un besoin </button>  
 </div>
 FIN;
         return $html;
@@ -296,10 +301,8 @@ FIN;
                 </div>
 
 			</fieldset>
-			
             <div class="clearfix"/>
-            
-			<input type="submit" value="ASSOCIÉ" name="submit" class="bouton-bleu" />
+			<input type="submit" value="ASSOCIER" name="submit" class="bouton-bleu" />
 		</form>
 </div>
 </div>
@@ -307,6 +310,42 @@ FIN;
 
         return $html;
     }
+
+    public function supprimerBesoin():string {
+        $id_ev = $this->tab[0];
+        $besoins = $this->tab[1];
+        $nbBesoins = $this->tab[2];
+        $url_enregistrerSupprimerBesoin = $this->container->router->pathFor('enregistrerSupprimerBesoin', ['id_ev'=> $id_ev]);
+        $listeBesoins = "";
+
+        for($i = 0; $i< $nbBesoins; $i++){
+            $besoin = $besoins[$i]->b_objet;
+            $listeBesoins .= <<<FIN
+                        <option> $besoin </option>
+                    FIN;
+        }
+        $html = <<<Fin
+                 <h1 class="text-center">Supprimer un besoin</h1>
+                 
+                <div class = "container">
+                <form method="post" action="$url_enregistrerSupprimerBesoin">
+                <fieldset>
+                    <div class="field">
+                    <select class="filtres" name="nomB">
+                        $listeBesoins; 
+                    </select>
+                    
+                    </div>
+                    </fieldset>
+                    <input type="submit" value="Supprimer" name="submit" class="bouton-rouge" />
+                    </form>
+                </div> 
+ Fin;
+
+
+        return $html;
+    }
+
 
     public function modifierBesoin(): string {
         $url_enregistrerModifierBesoin = $this->container->router->pathFor('enregistrerModifierBesoin', ['id_ev'=> $this->tab[0]]);
@@ -473,6 +512,8 @@ FIN;
                     };
                 }
             }
+            
+            
         </script>
         FIN;
 
@@ -535,7 +576,6 @@ FIN;
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
         $participant_s = "";
-        var_dump($_SESSION);
         if ($nb_participants > 1) {
             $participant_s = "participants";
         } else {
@@ -550,8 +590,9 @@ FIN;
             $modifierEvenement = $this->container->router->pathFor('modifierEvenement', ['id_ev' => $id_ev]);
             $boutons .=
                 <<<FIN
-                    <div class="dropdown">
+                    
                       <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
+                      <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
                         <span> <a href="$url_besoins">Gérer les besoins</a></span>

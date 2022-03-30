@@ -103,7 +103,6 @@ FIN;}
                     <div class = "container">
                         <button class="bouton-blanc" onclick="window.location.href='$url_creationEv'">Créer un événement</button>
                         <button class="bouton-blanc" onclick="window.location.href='$url_afficherEv'">Consulter la liste des événements</button>
-                        <button class="bouton-blanc">Gérer mon événement</button>
                         <button class="bouton-blanc" onclick="window.location.href='$url_calendrier'">Voir le calendrier de mes événements</button>
                     </div>
             
@@ -124,7 +123,6 @@ FIN;                }
                     <div class = "container">
                         <button class="bouton-blanc" onclick="window.location.href='$url_creationEv'">Créer un événement</button>
                         <button class="bouton-blanc" onclick="window.location.href='$url_afficherEv'">Consulter la liste des événements</button>
-                        <button class="bouton-blanc">Gérer mon événement</button>
                         <button class="bouton-blanc" onclick="window.location.href='$url_calendrier'">Voir le calendrier de mes événements</button>
                     </div>
             
@@ -146,7 +144,13 @@ FIN;
             }
             case 2:
             {
-                $content .= "Probleme de connexion";
+                $content .=<<<FIN
+                    <div class ="message-erreur">
+                        <h1>Cette adresse mail existe déjà ! </h1>
+                        <h2> <a href ="$url_accueil" > Connectez vous ici ! </a> </h2>
+                    </div>
+                FIN;
+
                 break;
             }
         }
