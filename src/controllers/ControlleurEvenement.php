@@ -84,8 +84,7 @@ class ControlleurEvenement
         //avant l'exécution
 
         $this->createBesoins($nom, $desc, $nb, $get);//si tout est bon, on affiche la page de l'évenement
-        $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
-        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
 
         return $rs->withRedirect($url_accueil);
 

@@ -190,12 +190,9 @@ FIN;
 
     public function ajoutBesoin(): string {
         $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev'=> $this->tab[0]]);
-
-
         $html = <<<FIN
         <h1 class="text-center">Ajouter un besoin</h1>
         <div class="container">
-       
             <form method="post" action="$url_enregistrerBesoin">
 			<fieldset >
 				<div class="field"> 
@@ -256,7 +253,6 @@ FIN;
         })
             ->whereNull('participe_besoin.pb_besoin')->get();
 
-        var_dump($besoins_non_associes);
         if($besoins_non_associes->count()!=0){
             $column = "";
 

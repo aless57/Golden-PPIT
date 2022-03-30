@@ -540,10 +540,16 @@ button.margin-0{
     right:5%;
     background-color: transparent;
 }
-.btn-supp{
-    background-color: transparent;
+.btn-supp {
+    background-color: black;
     border: none;
-    cursor: pointer;
+    height: 40px;
+    padding: 5px 15px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .rightBouton{
@@ -552,22 +558,55 @@ button.margin-0{
     left: 5%;
 }
 
-
-
-.details-ev{
+.details-not {
     display: inline-block;
     margin-left: auto;
 }
-.info{
-   padding-top: 5%;
+
+
+.content {
+    padding-top: 3%;
+    padding-left: 7%;
+}
+.content-not {
+    color: #4299C8;
+}
+
+.label-content-not{
+    font-size: 125%;
+}
+
+.labels-details-not {
+    position: relative;
+    margin-top: 3%;
+    display: flex;
+    width: 60%;
+    height: auto;
+}
+
+
+.details-ev {
+    display: inline-block;
+    margin-left: auto;
+}
+.info {
+    padding-top: 3%;
+    padding-left: 30% ;
 }
 .details-bg{
     height: 400px;
     display: block;
     background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
-    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); 
     border-radius: 10px;
+}
 
+.details-bg-not-contenu {
+    height: 400px;
+    display: block;
+    background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
+    box-shadow: 2px 2px 2px 2px #357EB7;
+    border-radius: 10px;
 }
 
 

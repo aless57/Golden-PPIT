@@ -144,31 +144,45 @@ FIN;
             <div class="container ">
             <div class=" details-bg">
                     <div class="img-ev">
-                        </div>
+
+                    </div>
                         
-                        <div class="info">
-                    <div class=" labels-details-not"> 
-                        <h2> Objet : </h2>
-                        <h2 class="details-not" > $objet </h2>
+                    <div class="info">
+                    <div class=" labels-details-not">
+                        <h2> Notification de type : </h2>
+                        <h2 class="details-not"> $type </h2>
                     </div>
                     <div class=" labels-details-not">
                         <h2> Expéditeur : </h2>
                         <h2 class="details-not"> $prenom_expediteur $nom_expediteur </h2>
                     </div>
-                    <div class=" labels-details-not">
-                        <h2> Notification de type : </h2>
-                        <h2 class="details-not"> $type </h2>
+
+                    <div class="labels-details-not"> 
+                        <h2> Objet : </h2>
+                        <h2 class="details-not" > $objet </h2>
                     </div>
                     
-                    <div class=" labels-details-not">
-                        <h2> Contenu : </h2>
-                        <h2 class="details-not"> $contenu </h2>
+                    <button class="btn-supp" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+                    
+                    </div>
+
+            </div>
+            </div>
+
+            <div class="container">
+            <div class="details-bg-not-contenu">
+                        
+                    <div class="content">
+                 
+                    <div class="label-content-not">
+                        <h2> Contenu du message : </h2>
+                        <h2 class="content-not"> $contenu </h2>
                     </div>
                     </div>
 
             </div>
             </div>
-               <button class="supp" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+              
               
             </section>   
 FIN;
