@@ -242,17 +242,16 @@ FIN;
         $evenements = "";
         $test = "";
         //var_dump($this->tab[1]);
-        
-    
-        
+
+
         //TODO chopper les infos à partir de la bdd
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
             $test_2 = $this->tab[1][$i]->e_id;
             $url_event = $this->container->router->pathFor("evenement", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
-            if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']){
-                    $evenements .= <<<FIN
+            if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']) {
+                $evenements .= <<<FIN
                 
                 <div id="$test" class="alignement-centre">
                    <img src="images/favourite.png" class="rightBouton">
@@ -272,8 +271,8 @@ FIN;
             </script>
             
 FIN;
-            }else{
-               $evenements .= <<<FIN
+            } else {
+                $evenements .= <<<FIN
             
                 <div id="$test" class="alignement-centre">
                    <img src="images/black-cat.png" class="rightBouton">
@@ -291,7 +290,8 @@ FIN;
             
 FIN;
 
-        }}
+            }
+        }
 
         $html = <<<FIN
             <body>
@@ -416,7 +416,7 @@ FIN;
         return $html;
     }
 
-    public function afficherCalendrier() : string
+    public function afficherCalendrier(): string
     {
 
         $html = <<<FIN
@@ -447,7 +447,7 @@ FIN;
         </script>
 </div>
 FIN;
-        foreach ($this->tab as $event){
+        foreach ($this->tab as $event) {
             $titre = $event[0]->e_titre;
             $from = $event[0]->e_date;
             $to = $event[0]->e_archive;

@@ -51,6 +51,7 @@ $app->get('/evenement/{id_ev}', ControlleurEvenement::class . ':evenement')->set
 $app->get('/consulterEvenement', ControlleurEvenement::class . ':consulterEv')->setName('afficherListe');
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
+$app->get('/exclureEvenement/{p_user}/{p_event}', ControlleurEvenement::class . ':exclureEvenement')->setName('exclureEvenement');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/inviterEvenement/{id_ev}', ControlleurEvenement::class . ':inviterEvenement')->setName('inviterEvenement');
