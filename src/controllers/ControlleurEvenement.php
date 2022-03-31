@@ -51,10 +51,12 @@ class ControlleurEvenement
     {
         $nbEvent = Evenement::all()->count();
         $nomsEvent = Evenement::all();
-        $vue = new VueEvenement([$nbEvent, $nomsEvent], $this->container);
+        $villesEvent = Ville::all();
+        $vue = new VueEvenement([$nbEvent, $nomsEvent, $villesEvent], $this->container);
         $rs->getBody()->write($vue->render(2)); //on ouvre la page d'un événement
         return $rs;
     }
+
 
     public static function createBesoins($nom, $desc, $nombre, $event){
         $b = new Besoin();
@@ -389,6 +391,8 @@ class ControlleurEvenement
         $rs->getBody()->write($vue->render(1));
         return $rs;
     }
+
+
 
 
 }

@@ -2,8 +2,6 @@
 
 namespace goldenppit\views;
 
-use goldenppit\models\ville;
-
 class VueEvenement
 {
     private $tab;
@@ -241,16 +239,25 @@ FIN;
 
         $evenements = "";
         $test = "";
-        //var_dump($this->tab[1]);
-        
-    
+        $villes ="";
+
+        $tabVilles = [];
         
         //TODO chopper les infos à partir de la bdd
+        //TODO départements
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
             $test_2 = $this->tab[1][$i]->e_id;
             $url_event = $this->container->router->pathFor("evenement", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
+            $ville = $this->tab[2][$this->tab[1][$i]->e_ville ]->v_nom;
+            if(!in_array($ville, $tabVilles)) {
+                $villes .= <<<FIN
+                <option class="opt" value="$ville">$ville</option>
+                FIN;
+                array_push($tabVilles, $ville);
+            }
+
             if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']){
                     $evenements .= <<<FIN
                 
@@ -310,7 +317,14 @@ FIN;
                       <div class="mes-evenements">
                             <label for="proprietaire">Mes événements</label>
                                 <input type="checkbox" id="proprietaire" name="proprietaire">
+                                
+                             
                         </div>
+                        <label for="villes">Par villes :</label>
+                                <select id="villes" class="filtres" name="villes">
+                                    <option class="opt" value="">Choisir une ville</option>
+                                    $villes
+                                </select>
                                 
                         </div>
                     </div>
@@ -409,6 +423,7 @@ FIN;
                                     });
                                 }
                         });
+                        console.log(document.getElementById("villes").innerHTML);
                     </script>
                     
             </body>
