@@ -314,7 +314,8 @@ class ControlleurEvenement
      * @param Request $rq
      * @param Response $rs
      * @param $args [id_ev, participant]
-     * @return Response 
+     * @return Response  
+     *
      */
     public function EnregistrerproposerUnBesoin(Request $rq, Response $rs, $args): Response
     {
