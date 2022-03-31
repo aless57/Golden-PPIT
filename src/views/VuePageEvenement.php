@@ -206,66 +206,62 @@ FIN;
 
     public function proposerUnBesoin(): string
     {
-        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
+        $id_ev = $this->tab[0];
+        $url_enregistrerPropositionBesoin = $this->container->router->pathFor('EnregistrerproposerUnBesoin', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
+
         $html = <<<FIN
-        <h1 class="text-center">Ajouter un besoin</h1>
+        <h1 class="text-center">Suggestion d'un besoin</h1>
         <div class="container">
-            <form method="post" action="$url_enregistrerBesoin">
-			<fieldset >
-				<div class="field"> 
-				    <label> Nom * :</label>
-				    <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
+
+            <form method="get" action="$url_enregistrerPropositionBesoin">
+				
+
+                <div class="field-suggest-bname">
+                    <div class="suggest-bname"> 
+				        <label> Nom * : </label> 
+                         <fieldset>
+				        <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
+                        <fieldset>
+                    </div>
                 </div>
-				
-				<div class="field"> 
-				        <label> Nombre * : </label>
-                        <div class="quantity buttons_added">
-	                    <input type="button" value="-" class="minus" onclick = "dec()">
-	                    <input type="number" id = "nb" step="1" min="1" max="" name="nb" value="1" size="4">
-	                    <input type="button" value="+" class="plus" onclick="inc()">
 
-                        </div>
-  				</div>
+               				
 				
-				<div class="field"> 
-				    <label> Description : </label>
-				    <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
-				</div>
-				<span class="span text-right"> * : Champ obligatoire !</span>
+				<div class="suggest-bdesc"> 
+				    <label>Description : </label>
+                    <div class="field-suggest-bdesc">
+                        <fieldset>
+				        <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
+                        </fieldset>
+                    </div>
+                </div>
+                    
+               
+				<div class="champ-ob">
+				<span> * : Champ obligatoire !</span>
+                </div>
 
-			</fieldset>
+
 			
-            <div class="clearfix"/>
+            <div class="clearfix"/><br>
             
-			<input type="submit" value="VALIDER" name="submit" class="bouton-bleu" />
+			<br><br>
+            <input type="submit" value="ANNULER" name="submit-annuler" class="bouton-rouge-2" />
+            <input type="submit" value="VALIDER" name="submit" class="bouton-bleu" />
+           
 		</form>
     </div>
     </div>
 
-    <script>
-    function inc() {
-        let number = document.getElementById('dec');
-        let val = document.getElementById('nb'); 
-        val.value = parseInt(val.value) + 1;
-    }
-
-    function dec() {
-        let number = document.getElementById('inc');
-        let val = document.getElementById('nb'); 
-	    if (parseInt(val.value) > 0) {
-	        val.value = parseInt(val.value) - 1;
-        }
-    }
-</script>
 FIN;
         return $html;
     }
 
     public function ajoutBesoin(): string
     {
-        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
+        $url_enregistrerBesoin = $this->container->router->pathFor('EnregistrerproposerUnBesoin', ['id_ev' => $this->tab[0]]);
         $html = <<<FIN
-        <h1 class="text-center">Ajouter un besoin</h1>
+        <h1 class="text-center">Suggérer un besoin</h1>
         <div class="container">
             <form method="post" action="$url_enregistrerBesoin">
 			<fieldset >
@@ -630,7 +626,7 @@ FIN;
 
 
         $url_quitter = $this->container->router->pathFor('quitterEvenement', ['id_ev' => $id_ev]);
-        $url_proposer_Un_Besoin = $this->container->router->pathFor('proposerUnBesoin', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
+        $url_proposer_Un_Besoin = $this->container->router->pathFor('proposerUnBesoin', ['id_ev' => $id_ev]);
         $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
         $url_inviter = $this->container->router->pathFor('inviterEvenement', ['id_ev' => $id_ev]);
         $url_besoins = $this->container->router->pathFor('lesBesoins', ['id_ev' => $id_ev]);

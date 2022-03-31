@@ -204,6 +204,9 @@ nav{
     color:white;
 }
 
+
+
+
 .bouton-rouge{
     position: relative;
     margin-top:2%;
@@ -418,15 +421,19 @@ fieldset input.desc{
     align-items: center;
 }
 
-input[type= "checkbox"]  {
-    width :20px;
-    height : 20px;
+
+
+
+input[type= "checkbox"] {
+    width: 20px;
+    height: 20px;
     border: 2px solid #030233;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
-    cursor : pointer;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+    ;
+    cursor: pointer;
     padding: 10px;
 }
 input[type = "checkbox"]:checked{
@@ -738,6 +745,48 @@ button.margin-0{
 }
 .dropdown:hover .dropdown-content {display: flex;}
 
+.suggest-bname {
+    position: relative;
+    padding-top: 3%;
+    padding-left: 0%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    font-size: 175%;
+}
+
+
+.field-suggest-bname {
+    padding-top: 2%;
+    padding-left: 30%;
+    padding-right: 34%;
+}
+
+.suggest-bdesc {
+    position: relative;
+    padding-top: 3%;
+    padding-left: 25%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    font-size: 175%;
+}
+
+
+.champ-ob {
+    padding-top: 2%;
+    padding-left: 52%;
+}
+
+.field-suggest-bdesc {
+    padding-top: 2%;
+    padding-left: 0%;
+    padding-right: 52%;
+}
+
+
 
 .tabBesoin-div{
     display:flex;
@@ -832,6 +881,24 @@ tr td:nth-child(1){
 
 
 }
+
+.bouton-rouge-2 {
+    position: relative;
+    margin-top: 2%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width: auto;
+    height: auto;
+    font-size: 1rem;
+    padding: 1%;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #fd5c63 0%, #960018 100%);
+    border: 2px solid #030233;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 
 .tab-param{
     align-content: center;

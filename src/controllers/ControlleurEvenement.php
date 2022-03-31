@@ -302,6 +302,23 @@ class ControlleurEvenement
      */
     public function proposerUnBesoin(Request $rq, Response $rs, $args): Response
     {
+        $vue = new VuePageEvenement([$args['id_ev']], $this->container);
+        $rs->getBody()->write($vue->render(9));
+        return $rs;
+    }
+
+
+    /**
+     * POST
+     * Enregistre la proposition d'un nouveau besoin
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args [id_ev, participant]
+     * @return Response 
+     */
+    public function EnregistrerproposerUnBesoin(Request $rq, Response $rs, $args): Response
+    {
+        
         $id_ev = $args['id_ev'];
         $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
         $user_on_session_email = $_SESSION['profile']['mail'];
@@ -309,7 +326,8 @@ class ControlleurEvenement
 
         $notification = new Notification();
         $notification->n_objet = "Suggestion d'un besoin";
-        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'];
+        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'] .
+                                    "La description du besoin : ";
         $notification->n_statut = "nonLue";
         $notification->n_type = "suggestion besoin";
         $notification->n_expediteur = $user_on_session_email;
@@ -317,8 +335,10 @@ class ControlleurEvenement
         $notification->n_destinataire = $id_proprio; 
         $notification->n_event = $id_ev;
         $notification->save();
-        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
         return $rs->withRedirect($url_accueil);
+                
     }
 
     /**

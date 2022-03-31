@@ -73,7 +73,9 @@ $app->get('/modifierBesoin/{id_ev}', ControlleurEvenement::class . ':modifierBes
 $app->get('/demanderRejoindre/{id_ev}/{participant}', ControlleurEvenement::class . ':demanderRejoindre')->setName('demanderRejoindre');
 $app->post('/enregistrerSupprimerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerSupprimerBesoin')->setName('enregistrerSupprimerBesoin');
 $app->get('/supprimerBesoin/{id_ev}', ControlleurEvenement::class . ':supprimerBesoin')->setName('supprimerBesoin');
-$app->get('/proposerUnBesoin/{id_ev}/{participant}', ControlleurEvenement::class . ':proposerUnBesoin')->setName('proposerUnBesoin');
+$app->get('/proposerUnBesoin/{id_ev}', ControlleurEvenement::class . ':proposerUnBesoin')->setName('proposerUnBesoin');
+$app->get('/EnregistrerproposerUnBesoin/{id_ev}/{participant}', ControlleurEvenement::class . ':EnregistrerproposerUnBesoin')->setName('EnregistrerproposerUnBesoin');
+
 
 //Chemin notification
 $app->get('/afficherNotifications', ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
