@@ -78,6 +78,7 @@ $app->get('/supprimerBesoin/{id_ev}', ControlleurEvenement::class . ':supprimerB
 $app->get('/afficherNotifications', ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
 $app->get('/consulterNotification/{id_not}', ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
 $app->get('/supprimerNotification/{id_not}', ControlleurNotification::class . ':supprimerNotification')->setName('supprimerNotification');
+$app->get('/rejoindreEvenement/{id_not}', ControlleurNotification::class . ':rejoindreEvenement')->setName('rejoindreEvenement');
 
 try {
     $app->run();

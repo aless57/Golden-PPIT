@@ -130,8 +130,15 @@ FIN;
         $type = $this->tab[3];
         $nom_expediteur = $this->tab[6];
         $prenom_expediteur = $this->tab[7];
+        $id_event = $this->tab[8];
 
         $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
+        $url_rejoindre = $this->container->router->pathFor('rejoindreEvenement', ['id_not' => $id_not]);
+
+        $content = "";
+        if ($type == "invitation") {
+            $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Rejoindre</button>";
+        }
 
         return <<<FIN
         <section class="page-evenement">
@@ -157,6 +164,9 @@ FIN;
                     </div>
                     
                     <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+                    $content
+                    
+                     <?php 
                     
                     </div>
 
