@@ -325,5 +325,14 @@ class ControlleurEvenement
         return $rs;
     }
 
+    public function nousContacter(Request $rq, Response $rs, $args): Response
+    {
+
+        $vue = new VueEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(4));
+        return $rs;
+    }
+
+
 
 }

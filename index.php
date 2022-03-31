@@ -63,6 +63,7 @@ $app->get('/besoins_evenements/{id_ev}', ControlleurEvenement::class . ':pageBes
 $app->post('/enregistrerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerBesoin')->setName('enregistrerBesoin');
 $app->get('/ajout_besoin/{id_ev}', ControlleurEvenement::class . ':ajoutBesoin')->setName('ajout_besoin');
 
+$app->get('/nousContacter', ControlleurEvenement::class . ':nousContacter')->setName('nousContacter');
 
 
 //Chemin notification
