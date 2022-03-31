@@ -535,12 +535,35 @@ class ControlleurEvenement
         return $rs;
     }
 
+    public function proposerUnBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $id_ev = $args['id_ev'];
+        $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
+        $user_on_session_email = $_SESSION['profile']['mail'];
+
+
+        $notification = new Notification();
+        $notification->n_objet = "Suggestion d'un besoin";
+        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'];
+        $notification->n_statut = "nonLue";
+        $notification->n_type = "suggestion besoin";
+        $notification->n_expediteur = $user_on_session_email;
+        
+        $notification->n_destinataire = $id_proprio; 
+        $notification->n_event = $id_ev;
+        $notification->save();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+        return $rs->withRedirect($url_accueil);
+
+    }
+
+
     public function demanderRejoindre(Request $rq, Response $rs, $args): Response
     {
         $notification = new Notification();
         $notification->n_objet = "DemandeARejoindre";
         $notification->n_contenu = "L'utilisateur " . $args['participant'] . " veut rejoindre l'événement " . $args['id_ev'];
-        $notification->n_statue = "nonLue";
+        $notification->n_statue = "non lue";
         $notification->n_type = "invitation";
         //TODO A faire
         $notification->n_expetideur = "DemandeARejoindre";

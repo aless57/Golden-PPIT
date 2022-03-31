@@ -132,6 +132,9 @@ FIN;
             case 8:
                 $content = $this->invitationEvenement();
                 break;
+            case 9:
+                $content = $this->proposerUnBesoin();
+                break;
         }
         $html = <<<FIN
 <html lang="french">
@@ -201,6 +204,63 @@ FIN;
     }
 
 
+    public function proposerUnBesoin(): string
+    {
+        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
+        $html = <<<FIN
+        <h1 class="text-center">Ajouter un besoin</h1>
+        <div class="container">
+            <form method="post" action="$url_enregistrerBesoin">
+			<fieldset >
+				<div class="field"> 
+				    <label> Nom * :</label>
+				    <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
+                </div>
+				
+				<div class="field"> 
+				        <label> Nombre * : </label>
+                        <div class="quantity buttons_added">
+	                    <input type="button" value="-" class="minus" onclick = "dec()">
+	                    <input type="number" id = "nb" step="1" min="1" max="" name="nb" value="1" size="4">
+	                    <input type="button" value="+" class="plus" onclick="inc()">
+
+                        </div>
+  				</div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
+				</div>
+				<span class="span text-right"> * : Champ obligatoire !</span>
+
+			</fieldset>
+			
+            <div class="clearfix"/>
+            
+			<input type="submit" value="VALIDER" name="submit" class="bouton-bleu" />
+		</form>
+    </div>
+    </div>
+
+    <script>
+    function inc() {
+        let number = document.getElementById('dec');
+        let val = document.getElementById('nb'); 
+        val.value = parseInt(val.value) + 1;
+    }
+
+    function dec() {
+        let number = document.getElementById('inc');
+        let val = document.getElementById('nb'); 
+	    if (parseInt(val.value) > 0) {
+	        val.value = parseInt(val.value) - 1;
+        }
+    }
+</script>
+FIN;
+        return $html;
+    }
+
     public function ajoutBesoin(): string
     {
         $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
@@ -259,6 +319,7 @@ FIN;
         return $html;
     }
 
+    
 
     public function associerBesoin(): string
     {
@@ -564,9 +625,10 @@ FIN;
 
     public function pageEvenement(): string
     {
-        $url_quitter = $this->container->router->pathFor('quitterEvenement');
-        $id_ev = $this->tab[0];
 
+        $id_ev = $this->tab[0];
+        $url_quitter = $this->container->router->pathFor('quitterEvenement');
+        $url_proposer_Un_Besoin = $this->container->router->pathFor('proposerUnBesoin', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
         $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
         $url_inviter = $this->container->router->pathFor('inviterEvenement', ['id_ev' => $id_ev]);
         $url_besoins = $this->container->router->pathFor('lesBesoins', ['id_ev' => $id_ev]);
@@ -613,7 +675,7 @@ FIN;
             $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
             $boutons .= <<<FIN
                 <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
-                <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
+                <button class="bouton-bleu" onclick="window.location.href='$url_proposer_Un_Besoin'">Suggérer un besoin</button>
                 <button class="bouton-bleu">Suggérer une modification</button>
             FIN;
 
