@@ -298,7 +298,7 @@ class ControlleurEvenement
      * @param Request $rq
      * @param Response $rs
      * @param $args [id_ev, participant]
-     * @return Response 
+     * @return Response
      */
     public function proposerUnBesoin(Request $rq, Response $rs, $args): Response
     {
@@ -331,8 +331,8 @@ class ControlleurEvenement
         $notification->n_statut = "nonLue";
         $notification->n_type = "suggestion besoin";
         $notification->n_expediteur = $user_on_session_email;
-        
-        $notification->n_destinataire = $id_proprio; 
+
+        $notification->n_destinataire = $id_proprio;
         $notification->n_event = $id_ev;
         $notification->save();
 
@@ -566,8 +566,8 @@ class ControlleurEvenement
         return $rs;
     }
 
-   
-    
+
+
     /**
      * GET
      * Utilisateur quitte un evenement
@@ -585,8 +585,7 @@ class ControlleurEvenement
 
         $participe = participe::where([['p_user', '=', $user_email], ['p_event', '=', $id_ev ]]);
         $participe->delete();
-
-        $url_accueil = $this->container->router->pathFor('accueil');
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
         return $rs->withRedirect($url_accueil);
     }
 
@@ -611,6 +610,15 @@ class ControlleurEvenement
         return $rs->withRedirect($url_accueil);
     }
 
+
+
+    public function nousContacter(Request $rq, Response $rs, $args): Response
+    {
+
+        $vue = new VueEvenement([], $this->container);
+        $rs->getBody()->write($vue->render(4));
+        return $rs;
+    }
 
 
 

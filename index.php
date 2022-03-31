@@ -77,6 +77,9 @@ $app->get('/proposerUnBesoin/{id_ev}', ControlleurEvenement::class . ':proposerU
 $app->get('/EnregistrerproposerUnBesoin/{id_ev}/{participant}', ControlleurEvenement::class . ':EnregistrerproposerUnBesoin')->setName('EnregistrerproposerUnBesoin');
 
 
+$app->get('/nousContacter', ControlleurEvenement::class . ':nousContacter')->setName('nousContacter');
+
+
 //Chemin notification
 $app->get('/afficherNotifications', ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
 $app->get('/consulterNotification/{id_not}', ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
