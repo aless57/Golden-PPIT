@@ -239,9 +239,12 @@ FIN;
 
         $evenements = "";
         $test = "";
-        $villes ="";
 
+        $villes ="";
         $tabVilles = [];
+
+        $tabDepartements = [];
+        $departements="";
 
         //TODO chopper les infos à partir de la bdd
         //TODO départements
@@ -250,14 +253,25 @@ FIN;
             $test_2 = $this->tab[1][$i]->e_id;
             $url_event = $this->container->router->pathFor("evenement", ['id_ev' => $test_2]);
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
-            $ville = $this->tab[2][$this->tab[1][$i]->e_ville ]->v_nom;
+            $codeVille = $this->tab[1][$i]->e_ville;
+            $ville = $this->tab[2][$codeVille]->v_nom;
             if(!in_array($ville, $tabVilles)) {
                 $villes .= <<<FIN
-                <option class="opt" value="$ville">$ville</option>
+                <option class="opt" value="$codeVille">$ville</option>
                 
                 FIN;
                 array_push($tabVilles, $ville);
             }
+            $departement = $this->tab[2][$codeVille]->v_dep;
+            if(!in_array($departement, $tabDepartements)) {
+                $departements .= <<<FIN
+                <option class="opt" value="$departement">$departement</option>
+                
+                FIN;
+                array_push($tabDepartements, $departement);
+            }
+
+
 
             if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']){
                     $evenements .= <<<FIN
@@ -279,7 +293,7 @@ FIN;
                                    
             </script>
             
-FIN;
+            FIN;
             } else {
                 $evenements .= <<<FIN
             
@@ -297,7 +311,7 @@ FIN;
                    
             </script>
             
-FIN;
+            FIN;
 
             }
         }
@@ -323,10 +337,16 @@ FIN;
                              
                         </div>
                         <label for="villes">Par villes :</label>
-                                <select id="villes" class="filtres" name="villes">
-                                    <option class="opt" value="">Choisir une ville</option>
-                                    $villes
-                                </select>
+                        <select id="villes" class="filtres" name="villes">
+                            <option class="opt" value="default">Choisir une ville</option>
+                            $villes
+                        </select>
+                        
+                        <label for="departements">Par départements :</label>
+                        <select id="departements" class="filtres" name="departements">
+                            <option class="opt" value="default">Choisir un département</option>
+                            $departements
+                        </select>
                                 
                         </div>
                     </div>
@@ -337,10 +357,11 @@ FIN;
                     
                     <script>
                         var tab = {$this->tab[1]};
+                        var tab2 = {$this->tab[2]};
                         console.log(tab);
-
                         let sel = document.getElementById("filtres");
                         sel.addEventListener('change', function() {
+                            console.log(this.value);
                             switch(this.value) {
                                 case 'A-Z':
                                     tab.sort(function(a,b) {
@@ -409,6 +430,18 @@ FIN;
                                     }
                                     );
                                 break;
+                                
+                                default :
+                                    var html;
+                                    console.log("saucisse");
+                                    {$this->tab[1]}.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                    })
+                                    break;
+                                    
+                                    
                             }
                         });
 
@@ -425,11 +458,57 @@ FIN;
                                     });
                                 }
                         });
-                        console.log(document.getElementById("villes").innerHTML);
+                        
+                        document.getElementById("villes").addEventListener('change', function() {
+                            switch(this.value) {
+                                case "default":
+                                    tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                        document.getElementById(element.e_titre).style = "";
+                                    })
+                                    break;
+                                default :
+                                    tab.forEach(element => {
+                                        if(element.e_ville != this.value) {
+                                            document.getElementById(element.e_titre).style = "display:none";
+                                        } else {
+                                            document.getElementById(element.e_titre).style = "";
+                                        }
+                                    });
+                            }
+                            
+                        });
+                        
+                        document.getElementById("departements").addEventListener('change', function() {
+                            switch(this.value) {
+                                case "default":
+                                    tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                        document.getElementById(element.e_titre).style = "";
+                                    })
+                                    break;
+                                default :
+                                    tab.forEach(element => {
+                                        if(tab2[element.e_ville].v_dep != this.value) {
+                                            document.getElementById(element.e_titre).style = "display:none";
+                                        } else {
+                                            document.getElementById(element.e_titre).style = "";
+                                        }
+                                    });
+                            }
+                        });
+                        
+                        
+                        
                     </script>
                     
             </body>
-FIN;
+            
+       FIN;
         return $html;
     }
 
