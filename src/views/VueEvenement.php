@@ -242,7 +242,7 @@ FIN;
         $villes ="";
 
         $tabVilles = [];
-        
+
         //TODO chopper les infos à partir de la bdd
         //TODO départements
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
@@ -254,6 +254,7 @@ FIN;
             if(!in_array($ville, $tabVilles)) {
                 $villes .= <<<FIN
                 <option class="opt" value="$ville">$ville</option>
+                
                 FIN;
                 array_push($tabVilles, $ville);
             }
@@ -279,8 +280,8 @@ FIN;
             </script>
             
 FIN;
-            }else{
-               $evenements .= <<<FIN
+            } else {
+                $evenements .= <<<FIN
             
                 <div id="$test" class="alignement-centre">
                    <img src="images/black-cat.png" class="rightBouton">
@@ -298,7 +299,8 @@ FIN;
             
 FIN;
 
-        }}
+            }
+        }
 
         $html = <<<FIN
             <body>
@@ -431,7 +433,7 @@ FIN;
         return $html;
     }
 
-    public function afficherCalendrier() : string
+    public function afficherCalendrier(): string
     {
 
         $html = <<<FIN
@@ -462,7 +464,7 @@ FIN;
         </script>
 </div>
 FIN;
-        foreach ($this->tab as $event){
+        foreach ($this->tab as $event) {
             $titre = $event[0]->e_titre;
             $from = $event[0]->e_date;
             $to = $event[0]->e_archive;

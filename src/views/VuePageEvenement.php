@@ -111,9 +111,6 @@ FIN;
 FIN;
                 $content = $this->afficherListeParticipant();
                 break;
-            case 1:
-                $content = $this->invitationEvenement();
-                break;
             case 2:
                 $content = $this->lesBesoins();
                 break;
@@ -122,6 +119,18 @@ FIN;
                 break;
             case 4:
                 $content = $this->formulaireModifEvenement();
+                break;
+            case 6:
+                $content = $this->modifierBesoin();
+                break;
+            case 5:
+                $content = $this->supprimerBesoin();
+                break;
+            case 7 :
+                $content = $this->associerBesoin();
+                break;
+            case 8:
+                $content = $this->invitationEvenement();
                 break;
         }
         $html = <<<FIN
@@ -168,7 +177,11 @@ FIN;
         $nom = $this->tab[1];
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
-        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
+        $url_associerBesoin = $this->container->router->pathFor('associerBesoin', ['id_ev' => $id_ev]);
+        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev' => $id_ev]);
+        $url_modifierBesoin = $this->container->router->pathFor('modifierBesoin', ['id_ev' => $id_ev]);
+
+        $url_suppBesoin = $this->container->router->pathFor('supprimerBesoin', ['id_ev' => $id_ev]);
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $html = <<<FIN
         <h1 class="text-center">Les besoins de $nom</h1>
@@ -179,23 +192,21 @@ FIN;
                 $tab
             </div>
             <button name="button" class="bouton-blanc" onclick="window.location.href='$url_ajoutBesoin'"> Ajouter un besoin </button>
-            <button name="button" class="bouton-blanc" > Associer un besoin </button>
-            <button name="button" class="bouton-blanc" > Modifier un besoin </button>
-            <button name="button" class="bouton-blanc" > Supprimer un besoin </button>  
+            <button name="button" class="bouton-blanc" onclick="window.location.href='$url_associerBesoin'"> Associer un besoin </button>
+            <button name="button" class="bouton-blanc" onclick="window.location.href='$url_modifierBesoin'"> Modifier un besoin </button>
+            <button name="button" class="bouton-blanc"  onclick="window.location.href='$url_suppBesoin'" > Supprimer un besoin </button>  
 </div>
 FIN;
         return $html;
     }
 
 
-    public function ajoutBesoin(): string {
-        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev'=> $this->tab[0]]);
-
-
+    public function ajoutBesoin(): string
+    {
+        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
         $html = <<<FIN
         <h1 class="text-center">Ajouter un besoin</h1>
         <div class="container">
-       
             <form method="post" action="$url_enregistrerBesoin">
 			<fieldset >
 				<div class="field"> 
@@ -248,19 +259,198 @@ FIN;
         return $html;
     }
 
-    public function tabBesoin($nb_participants, $participants, $id_ev): string
+
+    public function associerBesoin(): string
     {
-        $row = "";
-        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function($join) {
+        $url_enregistrerAssocierBesoin = $this->container->router->pathFor('enregistrerAssocierBesoin', ['id_ev' => $this->tab[0]]);
+        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function ($join) {
             $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
         })
             ->whereNull('participe_besoin.pb_besoin')->get();
 
-        var_dump($besoins_non_associes);
-        if($besoins_non_associes->count()!=0){
+        for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
+            $nom_besoin = $besoins_non_associes[$i]->b_objet;
+            $column .= <<<FIN
+                        <option> $nom_besoin </option>
+                    FIN;
+        }
+
+        $participants = $this->tab[1];
+        $nb_participants = $this->tab[2];
+
+        for ($i = 0; $i < $nb_participants; $i++) {
+            $p_mail = $participants[$i]->p_user;
+            $column2 .= <<<FIN
+                        <option> $p_mail </option>
+                    FIN;
+        }
+
+        $html = <<<FIN
+        <h1 class="text-center">Associer un besoin</h1>
+        <div class="container">
+            <form method="post" action="$url_enregistrerAssocierBesoin">
+			<fieldset >
+				<div class="field"> 
+				    <select class="filtres" name="besoin_sele">
+                        $column
+                    </select>
+                </div>
+                
+                <div class="field"> 
+				    <select class="filtres" name="participe_sele">
+                        $column2
+                    </select>
+                </div>
+
+			</fieldset>
+            <div class="clearfix"/>
+			<input type="submit" value="ASSOCIER" name="submit" class="bouton-bleu" />
+		</form>
+</div>
+</div>
+FIN;
+
+        return $html;
+    }
+
+    public function supprimerBesoin(): string
+    {
+        $id_ev = $this->tab[0];
+        $besoins = $this->tab[1];
+        $nbBesoins = $this->tab[2];
+        $url_enregistrerSupprimerBesoin = $this->container->router->pathFor('enregistrerSupprimerBesoin', ['id_ev' => $id_ev]);
+        $listeBesoins = "";
+
+        for ($i = 0; $i < $nbBesoins; $i++) {
+            $besoin = $besoins[$i]->b_objet;
+            $listeBesoins .= <<<FIN
+                        <option> $besoin </option>
+                    FIN;
+        }
+        $html = <<<Fin
+                 <h1 class="text-center">Supprimer un besoin</h1>
+                 
+                <div class = "container">
+                <form method="post" action="$url_enregistrerSupprimerBesoin">
+                <fieldset>
+                    <div class="field">
+                    <select class="filtres" name="nomB">
+                        $listeBesoins; 
+                    </select>
+                    
+                    </div>
+                    </fieldset>
+                    <input type="submit" value="Supprimer" name="submit" class="bouton-rouge" />
+                    </form>
+                </div> 
+ Fin;
+
+
+        return $html;
+    }
+
+
+    public function modifierBesoin(): string
+    {
+        $url_enregistrerModifierBesoin = $this->container->router->pathFor('enregistrerModifierBesoin', ['id_ev' => $this->tab[0]]);
+
+        $besoins = $this->tab[1];
+        $nb_besoins = $this->tab[2];
+
+        for ($i = 0; $i < $nb_besoins; $i++) {
+            $nom_besoin = $besoins[$i]->b_objet;
+            $column .= <<<FIN
+                        <option> $nom_besoin </option>
+                    FIN;
+        }
+
+        $html = <<<FIN
+        <h1 class="text-center">Modifier un besoin</h1>
+        <div class="container">
+            <form name="modifBesoin" method="post" action="$url_enregistrerModifierBesoin" onsubmit="verif()">
+			<fieldset >
+				<div class="field"> 
+				    <select class="filtres" name="besoin_sele">
+				        <option></option>
+                        $column
+                    </select>
+                </div>
+                
+                <div class="field"> 
+				    <label> Nom * :</label>
+				    <input type="text" name="nom" placeholder="Nouveau nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
+                </div>
+				
+				<div class="field"> 
+				        <label> Nombre * : </label>
+                        <div class="quantity buttons_added">
+	                    <input type="button" value="-" class="minus" onclick = "dec()">
+	                    <input type="number" id = "nb" step="1" min="1" max="" name="nb" value="1" size="4">
+	                    <input type="button" value="+" class="plus" onclick="inc()">
+
+                        </div>
+  				</div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Nouvelle description" />
+				</div>
+				<span class="span text-right"> * : Champ obligatoire !</span>
+			</fieldset>
+            <div class="clearfix"/>
+            
+            <input type="submit" value="MODIFIER" name="submit" class="bouton-bleu" onclick=""/>
+		</form>
+</div>
+</div>
+
+<script>
+function inc() {
+  let number = document.getElementById('dec');
+  let val = document.getElementById('nb'); 
+  val.value = parseInt(val.value) + 1;
+}
+
+function dec() {
+  let number = document.getElementById('inc');
+    let val = document.getElementById('nb'); 
+	if (parseInt(val.value) > 0) {
+	  val.value = parseInt(val.value) - 1;
+  }
+}
+
+function verif()                                    
+{ 
+    var name = document.forms["modifBesoin"]["nom"];               
+    var desc = document.forms["modifBesoin"]["desc"];  
+
+
+    if (name.value == "")                                  
+    { 
+        alert("LE CHAMPS NOM EST OBLIGATOIRE !"); 
+        name.focus(); 
+        return false; 
+    }          
+    return true; 
+}
+</script>
+FIN;
+
+        return $html;
+    }
+
+    public function tabBesoin($nb_participants, $participants, $id_ev): string
+    {
+        $row = "";
+        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function ($join) {
+            $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
+        })
+            ->whereNull('participe_besoin.pb_besoin')->get();
+
+        if ($besoins_non_associes->count() != 0) {
             $column = "";
 
-            for($i=0; $i< $besoins_non_associes->count() ; $i++){
+            for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
                 $nom_besoin = $besoins_non_associes[$i]->b_objet;
                 $column .= <<<FIN
                         <td> $nom_besoin </td>
@@ -326,6 +516,8 @@ FIN;
                     };
                 }
             }
+            
+            
         </script>
         FIN;
 
@@ -335,9 +527,38 @@ FIN;
     public function invitationEvenement(): string
     {
         $html = <<<FIN
-        <h1>Invitation à un event</h1>
+                <div class = "container">
+                
+                <h1 class = "text-center"> Liste des membres invitables </h1> 
 
-        FIN;
+                    <table class="tabParticipants">
+                    <thead>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse mail </th>
+                    </thead>
+                    <tbody>
+                          
+FIN;
+        foreach (utilisateur::all() as $utilisateur) {
+            $u_nom = $utilisateur->u_nom;
+            $u_prenom = $utilisateur->u_prenom;
+            $u_mail = $utilisateur->u_mail;
+            $u_statut = $utilisateur->u_statut;
+            if ($u_statut != "supprime") {
+                $url_invit = $this->container->router->pathFor('invitEvent', ['id_event' => $this->tab[0], 'expediteur' => $_SESSION['profile']['mail'], 'destinataire' => $utilisateur->u_mail]);
+                $html .= <<<FIN
+                <tr>
+                 <td> $u_nom </td>
+                 <td> $u_prenom </td>
+                 <td> $u_mail</td>
+                 <td><button class="bouton-vert" onclick="window.location.href='$url_invit'"> Inviter </button> </td>
+                </tr>      
+            </div>
+FIN;
+            }
+        }
+        $html .= "</tbody></table></div>";
         return $html;
     }
 
@@ -366,20 +587,18 @@ FIN;
         } else {
             $participant_s = "participant";
         }
-        if($desc== null){
+        if ($desc == null) {
             $desc = "Le propriétaire n'a pas encore saisi de description pour l'événement !";
         }
-        $boutons =
-            <<<FIN
-                
-                <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
-            FIN;
+        $boutons = "";
         if ($proprio == $_SESSION['profile']['mail']) {//si l'utilisateur est propriétaire :
             $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
             $modifierEvenement = $this->container->router->pathFor('modifierEvenement', ['id_ev' => $id_ev]);
             $boutons .=
                 <<<FIN
-                    <div class="dropdown">
+                    
+                      <button class="bouton-bleu" onclick="window.location.href='$url_inviter'">Inviter</button>
+                      <div class="dropdown">
                       <button class="bouton-bleu">Paramètres</button>
                       <div class="dropdown-content">
                         <span> <a href="$url_besoins">Gérer les besoins</a></span>
@@ -391,7 +610,9 @@ FIN;
                     </div>
             FIN;
         } else {
+            $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
             $boutons .= <<<FIN
+                <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
                 <button class="bouton-bleu" onclick="window.location.href='#'">Suggérer un besoin</button>
                 <button class="bouton-bleu">Suggérer une modification</button>
             FIN;
@@ -500,17 +721,16 @@ FIN;
              
                     
 FIN;
-        foreach ($this->tab as $utilisateur){
-            $u_nom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
-            $u_prenom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
-
-
+        foreach ($this->tab as $utilisateur) {
+            $u_nom = utilisateur::where('u_mail', '=', "$utilisateur->p_user")->first()->u_nom;
+            $u_prenom = utilisateur::where('u_mail', '=', "$utilisateur->p_user")->first()->u_prenom;
+            $url_exclure = $this->container->router->pathFor('exclureEvenement', ['p_user' => $utilisateur->p_user, 'p_event' => $utilisateur->p_event]);
             $html .= <<<FIN
                 <tr>
                  <td> $u_nom </td>
                  <td> $u_prenom </td>
                  <td> $utilisateur->p_user</td>
-                 <td><button class="bouton-rouge" onclick=""> Exclure </button> </td>
+                 <td><button class="bouton-rouge" onclick="window.location.href='$url_exclure'"> Exclure </button> </td>
                 </tr>
                
                 
@@ -519,7 +739,7 @@ FIN;
 FIN;
         }
 
-        $html.= "</tbody></table></div>";
+        $html .= "</tbody></table></div>";
         return $html;
     }
 
@@ -530,7 +750,7 @@ FIN;
     public function formulaireModifEvenement(): string
     {
         $id_ev = $this->tab[0];
-        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement',['id_ev' => $id_ev]);
+        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement', ['id_ev' => $id_ev]);
         $id_ev = $this->tab[0];
         $nom = $this->tab[1];
         $date_deb = $this->tab[2];

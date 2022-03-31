@@ -220,6 +220,24 @@ nav{
     border-radius: 10px;
     cursor:pointer;
 }
+
+.bouton-vert{
+    position: relative;
+    margin-top:2%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width:250px;
+    height : 40px;
+    font-size: 1rem;
+    padding: 1%;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #34C924 0%, #00561B 100%);
+    border: 2px solid #030233;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
 .bouton-rouge:hover{
     color:white;
 }
@@ -540,10 +558,22 @@ button.margin-0{
     right:5%;
     background-color: transparent;
 }
-.btn-supp{
-    background-color: transparent;
+.btn-supp {
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.btn-supp-not {
+    background-color: black;
     border: none;
-    cursor: pointer;
+    height: 40px;
+    padding: 5px 15px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .rightBouton{
@@ -552,22 +582,57 @@ button.margin-0{
     left: 5%;
 }
 
-
-
-.details-ev{
+.details-not {
     display: inline-block;
     margin-left: auto;
 }
-.info{
-   padding-top: 5%;
+
+
+.content {
+    padding-top: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: justify
+}
+.content-not {
+    color: #4299C8;
+}
+
+.label-content-not{
+    font-size: 125%;
+}
+
+.labels-details-not {
+    position: relative;
+    margin-top: 3%;
+    display: flex;
+    width: 60%;
+    height: auto;
+}
+
+
+.details-ev {
+    display: inline-block;
+    margin-left: auto;
+}
+.info {
+    padding-top: 3%;
+    padding-left: 30% ;
 }
 .details-bg{
     height: 400px;
     display: block;
     background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
-    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); 
     border-radius: 10px;
+}
 
+.details-bg-not-contenu {
+    height: 400px;
+    display: block;
+    background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
+    box-shadow: 2px 2px 2px 2px #357EB7;
+    border-radius: 10px;
 }
 
 
@@ -649,7 +714,7 @@ button.margin-0{
     border: solid #030233 2px;
     width:230px;
     z-index: 1;
-    top: -30px;
+    top: -20px;
     margin-left:3%;
 
 }
@@ -671,7 +736,7 @@ button.margin-0{
     color:#357EB7;
     background:white;
 }
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {display: flex;}
 
 
 .tabBesoin-div{

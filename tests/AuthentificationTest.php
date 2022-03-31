@@ -2,6 +2,7 @@
 
 namespace goldenppit\controllers;
 require('../../index.php');
+
 use PHPUnit\Framework\TestCase;
 
 class AuthentificationTest extends TestCase

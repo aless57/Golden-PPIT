@@ -25,5 +25,5 @@ class utilisateur extends Model
     protected $table = 'utilisateur';
     protected $primaryKey = 'u_mail';
     public $timestamps = false;
-
+    public $incrementing = false;
 }

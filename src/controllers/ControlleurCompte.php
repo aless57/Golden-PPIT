@@ -94,20 +94,19 @@ class ControlleurCompte
         $vue = new VueAccueil([], $this->container);
         if (Authentification::createUser($mail, $mdp, $mdpconfirm, $nom, $prenom, $naissance, $tel, $photo, $notif, $adr, $cp)) {
 
-            if($_SESSION['inscriptionOK'] == "ville") {
+            if ($_SESSION['inscriptionOK'] == "ville") {
                 session_destroy();
                 $_SESSION = [];
                 $vue = new VueCompte([], $this->container);
                 $rs->getBody()->write($vue->render(6));
                 return $rs;
-            } else if($_SESSION['inscriptionOK'] == "mdp") {
+            } else if ($_SESSION['inscriptionOK'] == "mdp") {
                 session_destroy();
                 $_SESSION = [];
                 $vue = new VueCompte([], $this->container);
                 $rs->getBody()->write($vue->render(7));
                 return $rs;
-            }
-            else {
+            } else {
                 Authentification::authenticate($mail, $mdp);
                 $url_accueil = $this->container->router->pathFor("accueil");
                 return $rs->withRedirect($url_accueil);
@@ -297,7 +296,7 @@ class ControlleurCompte
         $compte = Utilisateur::where("u_mail", "=", $_SESSION['profile']['mail'])->first();
         $ville = Ville::where('v_id', '=', $compte->u_ville)->first();
 
-        $vue = new VueCompte([$compte,$ville], $this->container);
+        $vue = new VueCompte([$compte, $ville], $this->container);
         $rs->getBody()->write($vue->render(2));
         return $rs;
     }
@@ -346,10 +345,12 @@ class ControlleurCompte
     {
         session_destroy();
         $user = Utilisateur::find($_SESSION['profile']['mail']);
-        $user->delete();
+        //$user->delete();
+        $user->u_statut = "supprime";
         setcookie("mail", '-1', time() + 60 * 60 * 24 * 30, "/");
         session_destroy();
         $_SESSION = [];
+        $user->save();
         $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);
     }
@@ -396,7 +397,7 @@ class ControlleurCompte
      */
     public function resetPW(Request $rq, Response $rs, $args): Response
     {
-        if(isset($_POST['newPassWord']) && isset($_POST['token'])){
+        if (isset($_POST['newPassWord']) && isset($_POST['token'])) {
             $hpw = password_hash($_POST['newPassWord'], PASSWORD_DEFAULT);
             $user = Utilisateur::where('token', '=', $_GET['token'])->first();
             $user->u_mdp = $hpw;

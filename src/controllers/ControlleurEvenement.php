@@ -2,15 +2,16 @@
 
 namespace goldenppit\controllers;
 
-use Exception;
 use goldenppit\models\besoin;
 use goldenppit\models\evenement;
 use goldenppit\models\participe;
+use goldenppit\models\participe_besoin;
 use goldenppit\models\utilisateur;
 use goldenppit\models\ville;
+use goldenppit\models\souhaite;
+use goldenppit\models\notification;
 use goldenppit\views\VueAccueil;
 use goldenppit\views\VueEvenement;
-use goldenppit\views\VueInvitationEvenement;
 use goldenppit\views\VuePageEvenement;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,7 +22,6 @@ define("ENCOURS", "En cours");
 class ControlleurEvenement
 {
     private $container;
-    private $today;
 
     /**
      * ControlleurEvenement constructor.
@@ -58,7 +58,9 @@ class ControlleurEvenement
     }
 
 
-    public static function createBesoins($nom, $desc, $nombre, $event){
+    public static function createBesoins($nom, $desc, $nombre, $event): bool
+    {
+
         $b = new Besoin();
 
         if ($desc != null) {
@@ -86,8 +88,45 @@ class ControlleurEvenement
         //avant l'exécution
 
         $this->createBesoins($nom, $desc, $nb, $get);//si tout est bon, on affiche la page de l'évenement
-        $id_ev = Evenement::where('e_titre', '=', $nom)->first()->e_id;
-        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $id_ev]);
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
+
+    public function enregistrerAssocierBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $besoin = filter_var($post['besoin_sele'], FILTER_SANITIZE_STRING);
+        $id_besoin = Besoin::where('b_objet', '=', $besoin)->first()->b_id;
+
+        $participant = filter_var($post['participe_sele'], FILTER_SANITIZE_STRING);
+        //avant l'exécution
+
+        $participant_besoin = new participe_besoin();
+        $participant_besoin->pb_user = $participant;
+        $participant_besoin->pb_besoin = $id_besoin;
+        $participant_besoin->save();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
+
+
+    public function enregistrerModifierBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $besoin = filter_var($post['besoin_sele'], FILTER_SANITIZE_STRING);
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $nombre = filter_var($post['nb'], FILTER_SANITIZE_STRING);
+        $desc = filter_var($post['desc'], FILTER_SANITIZE_STRING);
+        $id_besoin = Besoin::where('b_objet', '=', $besoin)->first()->b_id;
+
+        $this->modifBesoin($id_besoin, $nom, $desc, $nombre);
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
 
         return $rs->withRedirect($url_accueil);
 
@@ -125,7 +164,8 @@ class ControlleurEvenement
         return $rs;
     }
 
-    public function ajoutBesoin(Request $rq, Response $rs, $args): Response{
+    public function ajoutBesoin(Request $rq, Response $rs, $args): Response
+    {
         $id_ev = $args['id_ev'];
         $vue = new VuePageEvenement([$id_ev], $this->container);
         $rs->getBody()->write($vue->render(3));
@@ -133,6 +173,82 @@ class ControlleurEvenement
         return $rs;
 
     }
+
+    public function modifBesoin($id_besoin, $nom, $desc, $nombre): bool
+    {
+        $b = Besoin::where('b_id', '=', $id_besoin)->first();
+
+
+        if ($desc != null) {
+            $b->b_desc = $desc;
+        }
+
+        $b->b_objet = $nom;
+        $b->b_nombre = $nombre;
+
+        $b->save();
+
+        return true;
+
+    }
+
+    public function modifierBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $id_ev = $args['id_ev'];
+        $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
+        $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
+        $vue = new VuePageEvenement([$id_ev, $besoins, $nb_besoins], $this->container);
+        $rs->getBody()->write($vue->render(6));
+
+        return $rs;
+
+    }
+
+
+    public function associerBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $id_ev = $args['id_ev'];
+        $participants = participe::where('p_event', '=', $id_ev)->get()->all();
+        $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
+        $vue = new VuePageEvenement([$id_ev, $participants, $nb_participants], $this->container);
+        $rs->getBody()->write($vue->render(7));
+
+        return $rs;
+
+    }
+
+
+    public function supprimerBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $id_ev = $args['id_ev'];
+
+
+        //Récupéerer les données des participants et des besoins
+        $besoins = Besoin::where('b_event', '=', $id_ev)->get();
+        $nbBesoins = $besoins->count();
+        $vue = new VuePageEvenement([$id_ev, $besoins, $nbBesoins], $this->container);
+        $rs->getBody()->write($vue->render(5));
+
+        return $rs;
+
+    }
+
+    public function enregistrerSupprimerBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $besoin = filter_var($post['nomB'], FILTER_SANITIZE_STRING);
+        $id_besoin = Besoin::where('b_objet', '=', $besoin)->first();
+
+        //avant l'exécution
+
+        $id_besoin->delete();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+
+        return $rs->withRedirect($url_accueil);
+
+    }
+
 
     /**
      * POST
@@ -143,9 +259,9 @@ class ControlleurEvenement
      * @param $supprAuto
      * @param $lieu
      * @param $desc
-     * @throws Exception
+     * @return bool
      */
-    public static function createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc)
+    public static function createEvent($nom, $debut, $archiv, $supprAuto, $lieu, $desc): bool
     {
         $e = new Evenement();
 
@@ -208,7 +324,8 @@ class ControlleurEvenement
         return $rs;
     }
 
-    public function modifEvent($id_ev, $nom, $debut, $archiv, $supprAuto, $lieu, $desc){
+    public function modifEvent($id_ev, $nom, $debut, $archiv, $supprAuto, $lieu, $desc): bool
+    {
         $e = Evenement::where('e_id', '=', $id_ev)->first();
 
         if ($supprAuto != null) {
@@ -259,9 +376,6 @@ class ControlleurEvenement
         //Récupéerer les données des participants et des besoins
         $nb_participants = participe::where('p_event', '=', $id_ev)->get()->count();
         $participants = participe::where('p_event', '=', $id_ev)->get()->all();
-
-        $nb_besoins = Besoin::where('b_event', '=', $id_ev)->get()->count();
-        $besoins = Besoin::where('b_event', '=', $id_ev)->get()->all();
         //récupérer les champs ici et les mettre entre les crochets
         $vue = new VuePageEvenement([$id_ev, $nom_ev, $date_deb, $date_fin, $id_proprio, $proprio_nom, $proprio_prenom, $ville, $desc, $nb_participants, $participants], $this->container);
         $rs->getBody()->write($vue->render(0)); //on ouvre la page d'un événement
@@ -303,7 +417,6 @@ class ControlleurEvenement
      * @param Request $rq
      * @param Response $rs
      * @param $args
-     * @param Id de l'event à supprimer $event_id
      * @return Response
      */
     public function supprimerEvenement(Request $rq, Response $rs, $args): Response
@@ -317,10 +430,8 @@ class ControlleurEvenement
 
     public function inviterEvenement(Request $rq, Response $rs, $args): Response
     {
-        $event = Evenement::find($args['id_ev']);
-        //TODO Invitation en cours
-        $vue = new VuePageEvenement([], $this->container);
-        $rs->getBody()->write($vue->render(1));
+        $vue = new VuePageEvenement([$args['id_ev']], $this->container);
+        $rs->getBody()->write($vue->render(8));
         return $rs;
     }
 
@@ -343,14 +454,46 @@ class ControlleurEvenement
         return $rs->withRedirect($url_accueil);
     }
 
+    /**
+     * POST
+     * Utilisateur exclue d'un evenement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function exclureEvenement(Request $rq, Response $rs, $args): Response
+    {
+        $participe = participe::where([['p_user', '=', $args['p_user']], ['p_event', '=', $args['p_event']]]);
+        $participe->delete();
+        $url_accueil = $this->container->router->pathFor("listeParticipant", ['id_ev' => $args['p_event']]);
+        return $rs->withRedirect($url_accueil);
+    }
+
+    public function invitEvent(Request $rq, Response $rs, $args): Response
+    {
+        $nom_event = evenement::where('e_id', '=', $args['id_event'])->first()->e_titre;
+        $n = new Notification();
+        $n->n_objet = "Invitation à un évènement";
+        $n->n_contenu = "Vous avez reçu une invitation pour l'évènement : " . $nom_event;
+        $n->n_statut = "non lue";
+        $n->n_type = "invitation";
+        $n->n_expediteur = $args['expediteur'];
+        $n->n_destinataire = $args['destinataire'];
+        $n->n_event = $args['id_event'];
+        $n->save();
+        $url_accueil = $this->container->router->pathFor("accueil");
+        return $rs->withRedirect($url_accueil);
+    }
+
     public function afficherCalendrier(Request $rq, Response $rs, $args): Response
     {
 
         $user_email = $_SESSION['profile']['mail'];
         $listeNoEvenement = participe::where('p_user', '=', "$user_email")->get();
         $listeEvenement = [];
-        foreach ($listeNoEvenement as $num){
-            array_push($listeEvenement, evenement::where('e_id', '=',"$num->p_event")->get());
+        foreach ($listeNoEvenement as $num) {
+            $listeEvenement[] = evenement::where('e_id', '=', "$num->p_event")->get();
         }
         $vue = new VueEvenement($listeEvenement, $this->container);
 
@@ -390,6 +533,26 @@ class ControlleurEvenement
         $vue = new VuePageEvenement($event, $this->container);
         $rs->getBody()->write($vue->render(1));
         return $rs;
+    }
+
+    public function demanderRejoindre(Request $rq, Response $rs, $args): Response
+    {
+        $notification = new Notification();
+        $notification->n_objet = "DemandeARejoindre";
+        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " veut rejoindre l'événement " . $args['id_ev'];
+        $notification->n_statue = "nonLue";
+        $notification->n_type = "invitation";
+        //TODO A faire
+        $notification->n_expetideur = "DemandeARejoindre";
+        $notification->n_destinataire = "DemandeARejoindre";
+        $notification->n_event = $args['id_ev'];
+        $notification->save();
+        $souhaite = new Souhaite();
+        $souhaite->s_event = $args['id_ev'];
+        $souhaite->s_user = $args['participant'];
+        $souhaite->save();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+        return $rs->withRedirect($url_accueil);
     }
 
 

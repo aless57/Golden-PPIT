@@ -40,6 +40,8 @@ $app->get('/inscription', ControlleurCompte::class . ':inscription')->setName('f
 $app->post('/inscription', ControlleurCompte::class . ':enregistrerInscription')->setName('enregistrerInscription');
 $app->get('/modifierCompte', ControlleurCompte::class . ':modifierCompte')->setName('formModifierCompte');
 $app->post('/modifierCompte', ControlleurCompte::class . ':enregistrerModif')->setName('enregistrerModifierCompte');
+$app->get('/supprimerCompte', ControlleurCompte::class . ':supprimerCompte')->setName('supprimerCompte');
+
 $app->get('/motDePasseOublie', ControlleurCompte::class . ':motDePasseOublie')->setName('formMotDePasseOublie');
 $app->post('/motDePasseOublie', ControlleurCompte::class . ':sendMail')->setName('envoyerLien');
 $app->get('/reinitialiserMDP', ControlleurCompte::class . ':reinitialiserMDP')->setName('formResetMDP');
@@ -51,6 +53,8 @@ $app->get('/evenement/{id_ev}', ControlleurEvenement::class . ':evenement')->set
 $app->get('/consulterEvenement', ControlleurEvenement::class . ':consulterEv')->setName('afficherListe');
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
 $app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
+$app->get('/exclureEvenement/{p_user}/{p_event}', ControlleurEvenement::class . ':exclureEvenement')->setName('exclureEvenement');
+$app->get('/invitEvent/{id_event}/{expediteur}/{destinataire}', ControlleurEvenement::class . ':invitEvent')->setName('invitEvent');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
 $app->get('/supprimerEvenement/{id_ev}', ControlleurEvenement::class . ':supprimerEvenement')->setName('supprimerEvenement');
 $app->get('/inviterEvenement/{id_ev}', ControlleurEvenement::class . ':inviterEvenement')->setName('inviterEvenement');
@@ -62,8 +66,13 @@ $app->post('/enregistrerModifEvenement/{id_ev}', ControlleurEvenement::class . '
 $app->get('/besoins_evenements/{id_ev}', ControlleurEvenement::class . ':pageBesoins')->setName('lesBesoins');
 $app->post('/enregistrerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerBesoin')->setName('enregistrerBesoin');
 $app->get('/ajout_besoin/{id_ev}', ControlleurEvenement::class . ':ajoutBesoin')->setName('ajout_besoin');
-
-
+$app->post('/enregistrerAssocierBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerAssocierBesoin')->setName('enregistrerAssocierBesoin');
+$app->get('/associerBesoin/{id_ev}', ControlleurEvenement::class . ':associerBesoin')->setName('associerBesoin');
+$app->post('/enregistrerModifierBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerModifierBesoin')->setName('enregistrerModifierBesoin');
+$app->get('/modifierBesoin/{id_ev}', ControlleurEvenement::class . ':modifierBesoin')->setName('modifierBesoin');
+$app->get('/demanderRejoindre/{id_ev}/{participant}', ControlleurEvenement::class . ':demanderRejoindre')->setName('demanderRejoindre');
+$app->post('/enregistrerSupprimerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerSupprimerBesoin')->setName('enregistrerSupprimerBesoin');
+$app->get('/supprimerBesoin/{id_ev}', ControlleurEvenement::class . ':supprimerBesoin')->setName('supprimerBesoin');
 
 //Chemin notification
 $app->get('/afficherNotifications', ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');

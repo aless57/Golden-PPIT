@@ -314,6 +314,7 @@ FIN;
     {
         $url_accueil = $this->container->router->pathFor('racine');
         $url_enregistrerModification = $this->container->router->pathFor('enregistrerModifierCompte');
+        $url_supprimer = $this->container->router->pathFor('supprimerCompte');
         if (isset($_SESSION['profile'])) {
             $nom = $this->tab[0]->u_nom;
             $prenom = $this->tab[0]->u_prenom;
@@ -322,7 +323,7 @@ FIN;
             $ville = $this->tab[1]->v_nom;
             $notifMail = $this->tab[0]->u_notif_mail;
             $checked = "<input type=\"checkbox\" name=\"notif\" value=\"0\" />";
-            if($notifMail == 1) {
+            if ($notifMail == 1) {
                 $checked = "<input type=\"checkbox\" name=\"notif\" value=\"1\" checked/>";
             }
             //si l"utilisateur est connecté
@@ -363,6 +364,7 @@ FIN;
                 <div class="text-right">
                 <input type="submit" value="Modifier mes informations" name="submit" class="bouton-bleu " />
                 <div class="clearfix"></div>
+                <input type="button" value="Supprimer mon compte" name="supprimer" class="bouton-rouge" onclick="window.location.href='$url_supprimer'"/>
                 </div>
             </fieldset> 
           </form>

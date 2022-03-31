@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class ControlleurNotification
 {
     private $container;
-    private $today;
 
     /**
      * ControlleurNotification constructor.
@@ -23,7 +22,7 @@ class ControlleurNotification
         $this->container = $container;
     }
 
-    public function afficherNotifications(Request $rq, Response $rs, $args): Response
+    public function afficherNotifications(Request $rq, Response $rs): Response
     {
         $nbNotifs = Notification::all()->count();
         $notifs = Notification::all();
@@ -65,7 +64,6 @@ class ControlleurNotification
      * @param Request $rq
      * @param Response $rs
      * @param $args
-     * @param Id de la notification à supprimer $id_not
      * @return Response
      */
     public function supprimerNotification(Request $rq, Response $rs, $args): Response

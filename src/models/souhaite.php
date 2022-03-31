@@ -4,6 +4,10 @@ namespace goldenppit\models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed $s_event
+ * @property mixed $s_user
+ */
 class souhaite extends Model
 {
 

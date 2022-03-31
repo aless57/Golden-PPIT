@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : ven. 18 mars 2022 à 12:10
--- Version du serveur : 10.4.20-MariaDB
--- Version de PHP : 8.0.9
+-- Hôte : 127.0.0.1
+-- Généré le : mer. 30 mars 2022 à 21:23
+-- Version du serveur : 10.4.22-MariaDB
+-- Version de PHP : 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -93,19 +93,19 @@ CREATE TABLE `notification` (
 --
 
 CREATE TABLE `participe` (
-    `p_user` varchar(50) NOT NULL COMMENT 'L''utilisateur qui participe à l''évènement.\r\nComposante de la clé primaire. Clé étrangère sur la table utilisateur.',
-    `p_event` int(5) NOT NULL COMMENT 'L''évènement auquel participe un utilisateur. Composante de la clé primaire.\r\nClé étrangère sur la table evenement.'
+  `p_user` varchar(50) NOT NULL COMMENT 'L''utilisateur qui participe à l''évènement.\r\nComposante de la clé primaire. Clé étrangère sur la table utilisateur.',
+  `p_event` int(5) NOT NULL COMMENT 'L''évènement auquel participe un utilisateur. Composante de la clé primaire.\r\nClé étrangère sur la table evenement.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `participe_besoin`
+-- Structure de la table `participe_besoin`
 --
 
-CREATE TABLE `participe_besoin`(
-    `pb_user` varchar(50) NOT NULL COMMENT 'L''utilisateur qui se charge du besoin. \r\n Composante de la clé primaire. Clé étrangère sur la table utilisateur.',
-    `pb_besoin` int(5) NOT NULL COMMENT 'Le besoin associé à l''utilisateur . \r\n Composante de la clé primaire. Clé étrangère sur la table besoin.'
+CREATE TABLE `participe_besoin` (
+  `pb_user` varchar(50) NOT NULL COMMENT 'L''utilisateur qui se charge du besoin. \r\n Composante de la clé primaire. Clé étrangère sur la table utilisateur.',
+  `pb_besoin` int(5) NOT NULL COMMENT 'Le besoin associé à l''utilisateur . \r\n Composante de la clé primaire. Clé étrangère sur la table besoin.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -117,7 +117,8 @@ CREATE TABLE `participe_besoin`(
 CREATE TABLE `souhaite` (
   `s_notif` int(5) NOT NULL COMMENT 'La notification liée au souhait d''un utilisateur.\r\nComposante de la clé primaire. Clé étrangère sur la table notification.',
   `s_event` int(5) NOT NULL COMMENT 'L''évènement lié au souhait d''un utilisateur.\r\nComposante de la clé primaire. Clé étrangère sur la table evenement.',
-  `s_besoin` int(5) NOT NULL COMMENT 'Le besoin lié au souhait d''un utilisateur.\r\nClé étrangère sur la table besoin.'
+  `s_besoin` int(5) DEFAULT NULL COMMENT 'Le besoin lié au souhait d''un utilisateur.\r\nClé étrangère sur la table besoin.',
+  `s_user` varchar(50) NOT NULL COMMENT 'L''utilisateur lié à la requète. Clé étrangère sur la table utilisateur.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -138,13 +139,6 @@ CREATE TABLE `utilisateur` (
   `u_statut` varchar(50) NOT NULL COMMENT 'Le statut de l''utilisateur.\r\nSupprimé, administrateur ou simple utilisateur.',
   `u_ville` int(5) DEFAULT NULL COMMENT 'L''ID de la ville de l''utilisateur.\r\nClé étrangère sur la table ville.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`u_mail`, `u_mdp`, `u_nom`, `u_prenom`, `u_naissance`, `u_tel`, `u_photo`, `u_notif_mail`, `u_statut`, `u_ville`) VALUES
-('aaaaaaaa@gmail.com', '$2y$10$Q4xzg7kIDhTBJunf5EsdN.Sr7QPPCJ3Cp3yb/lnPBXriW/8ST95yS', 'aaaaaaaaaa', 'aaaaaaaaaaaaaaaaa', '2022-03-01', NULL, 'aaaaa', 0, 'membre', NULL);
 
 -- --------------------------------------------------------
 
@@ -39433,16 +39427,17 @@ ALTER TABLE `notification`
 -- Index pour la table `participe`
 --
 ALTER TABLE `participe`
-    ADD PRIMARY KEY (`p_user`,`p_event`),
+  ADD PRIMARY KEY (`p_user`,`p_event`),
   ADD KEY `p_user` (`p_user`),
   ADD KEY `p_event` (`p_event`);
+
 --
--- Indexes for table `participe_besoin`
+-- Index pour la table `participe_besoin`
 --
 ALTER TABLE `participe_besoin`
-    ADD PRIMARY KEY (`pb_user`,`pb_besoin`),
-    ADD KEY `pb_user` (`pb_user`),
-    ADD KEY `pb_besoin` (`pb_besoin`);
+  ADD PRIMARY KEY (`pb_user`,`pb_besoin`),
+  ADD KEY `pb_user` (`pb_user`),
+  ADD KEY `pb_besoin` (`pb_besoin`);
 
 --
 -- Index pour la table `souhaite`
@@ -39451,7 +39446,8 @@ ALTER TABLE `souhaite`
   ADD PRIMARY KEY (`s_notif`,`s_event`),
   ADD KEY `s_notif` (`s_notif`),
   ADD KEY `s_event` (`s_event`),
-  ADD KEY `s_besoin` (`s_besoin`);
+  ADD KEY `s_besoin` (`s_besoin`),
+  ADD KEY `s_user` (`s_user`);
 
 --
 -- Index pour la table `utilisateur`
@@ -39474,13 +39470,13 @@ ALTER TABLE `ville`
 -- AUTO_INCREMENT pour la table `besoin`
 --
 ALTER TABLE `besoin`
-  MODIFY `b_id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'L''ID du besoin.\r\nClé primaire de la table.\r\nCette valeur s''auto-incrémente.';
+  MODIFY `b_id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'L''ID du besoin.\r\nClé primaire de la table.\r\nCette valeur s''auto-incrémente.', AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `e_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'L''ID de l''évènement. Clé primaire de la table. Cette valeur s''auto-incrémente. ';
+  MODIFY `e_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'L''ID de l''évènement. Clé primaire de la table. Cette valeur s''auto-incrémente. ', AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `modif_temp`
@@ -39508,21 +39504,21 @@ ALTER TABLE `ville`
 -- Contraintes pour la table `besoin`
 --
 ALTER TABLE `besoin`
-  ADD CONSTRAINT `besoin_ibfk_1` FOREIGN KEY (`b_event`) REFERENCES `evenement` (`e_id`) on delete cascade;
+  ADD CONSTRAINT `besoin_ibfk_1` FOREIGN KEY (`b_event`) REFERENCES `evenement` (`e_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `evenement`
 --
 ALTER TABLE `evenement`
   ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`e_ville`) REFERENCES `ville` (`v_id`),
-  ADD CONSTRAINT `evenement_ibfk_2` FOREIGN KEY (`e_proprio`) REFERENCES `utilisateur` (`u_mail`) on delete cascade;
+  ADD CONSTRAINT `evenement_ibfk_2` FOREIGN KEY (`e_proprio`) REFERENCES `utilisateur` (`u_mail`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `modif_temp`
 --
 ALTER TABLE `modif_temp`
   ADD CONSTRAINT `modif_temp_ibfk_1` FOREIGN KEY (`m_notif`) REFERENCES `notification` (`n_id`),
-  ADD CONSTRAINT `modif_temp_ibfk_2` FOREIGN KEY (`n_besoin`) REFERENCES `besoin` (`b_id`) on delete cascade;
+  ADD CONSTRAINT `modif_temp_ibfk_2` FOREIGN KEY (`n_besoin`) REFERENCES `besoin` (`b_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `notification`
@@ -39530,21 +39526,21 @@ ALTER TABLE `modif_temp`
 ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`n_expediteur`) REFERENCES `utilisateur` (`u_mail`),
   ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`n_destinataire`) REFERENCES `utilisateur` (`u_mail`),
-  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`n_event`) REFERENCES `evenement` (`e_id`) on delete cascade;
+  ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`n_event`) REFERENCES `evenement` (`e_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `participe`
 --
 ALTER TABLE `participe`
-    ADD CONSTRAINT `participe_ibfk_1` FOREIGN KEY (`p_user`) REFERENCES `utilisateur` (`u_mail`),
-  ADD CONSTRAINT `participe_ibfk_2` FOREIGN KEY (`p_event`) REFERENCES `evenement` (`e_id`) on delete cascade;
+  ADD CONSTRAINT `participe_ibfk_1` FOREIGN KEY (`p_user`) REFERENCES `utilisateur` (`u_mail`),
+  ADD CONSTRAINT `participe_ibfk_2` FOREIGN KEY (`p_event`) REFERENCES `evenement` (`e_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `participe_besoin`
+-- Contraintes pour la table `participe_besoin`
 --
 ALTER TABLE `participe_besoin`
-    ADD CONSTRAINT `participe_besoin_ibfk_1` FOREIGN KEY (`pb_user`) REFERENCES `utilisateur` (`u_mail`),
-    ADD CONSTRAINT `participe_besoin_ibfk_2` FOREIGN KEY (`pb_besoin`) REFERENCES `besoin` (`b_id`) on delete cascade;
+  ADD CONSTRAINT `participe_besoin_ibfk_1` FOREIGN KEY (`pb_user`) REFERENCES `utilisateur` (`u_mail`),
+  ADD CONSTRAINT `participe_besoin_ibfk_2` FOREIGN KEY (`pb_besoin`) REFERENCES `besoin` (`b_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `souhaite`
@@ -39552,7 +39548,8 @@ ALTER TABLE `participe_besoin`
 ALTER TABLE `souhaite`
   ADD CONSTRAINT `souhaite_ibfk_1` FOREIGN KEY (`s_notif`) REFERENCES `notification` (`n_id`),
   ADD CONSTRAINT `souhaite_ibfk_2` FOREIGN KEY (`s_event`) REFERENCES `evenement` (`e_id`),
-  ADD CONSTRAINT `souhaite_ibfk_3` FOREIGN KEY (`s_besoin`) REFERENCES `besoin` (`b_id`);
+  ADD CONSTRAINT `souhaite_ibfk_3` FOREIGN KEY (`s_besoin`) REFERENCES `besoin` (`b_id`),
+  ADD CONSTRAINT `souhaite_ibfk_4` FOREIGN KEY (`s_user`) REFERENCES `utilisateur` (`u_mail`);
 
 --
 -- Contraintes pour la table `utilisateur`
