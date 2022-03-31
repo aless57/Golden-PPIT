@@ -565,18 +565,6 @@ class ControlleurEvenement
 
         $participe = participe::where([['p_user', '=', $user_email], ['p_event', '=', $id_ev ]]);
         $participe->delete();
-
-        $url_accueil = $this->container->router->pathFor('accueil');
-        $notification = new Notification();
-        $notification->n_objet = "Suggestion d'un besoin";
-        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'];
-        $notification->n_statut = "nonLue";
-        $notification->n_type = "suggestion besoin";
-        $notification->n_expediteur = $user_on_session_email;
-
-        $notification->n_destinataire = $id_proprio;
-        $notification->n_event = $id_ev;
-        $notification->save();
         $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
         return $rs->withRedirect($url_accueil);
     }
