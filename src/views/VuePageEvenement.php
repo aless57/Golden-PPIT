@@ -177,11 +177,11 @@ FIN;
         $nom = $this->tab[1];
         $nb_participants = $this->tab[9];
         $participants = $this->tab[10];
-        $url_associerBesoin = $this->container->router->pathFor('associerBesoin', ['id_ev'=> $id_ev]);
-        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev'=> $id_ev]);
-        $url_modifierBesoin = $this->container->router->pathFor('modifierBesoin', ['id_ev'=> $id_ev]);
+        $url_associerBesoin = $this->container->router->pathFor('associerBesoin', ['id_ev' => $id_ev]);
+        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev' => $id_ev]);
+        $url_modifierBesoin = $this->container->router->pathFor('modifierBesoin', ['id_ev' => $id_ev]);
 
-        $url_suppBesoin = $this->container->router->pathFor('supprimerBesoin', ['id_ev'=> $id_ev]);
+        $url_suppBesoin = $this->container->router->pathFor('supprimerBesoin', ['id_ev' => $id_ev]);
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $html = <<<FIN
         <h1 class="text-center">Les besoins de $nom</h1>
@@ -201,8 +201,9 @@ FIN;
     }
 
 
-    public function ajoutBesoin(): string {
-        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev'=> $this->tab[0]]);
+    public function ajoutBesoin(): string
+    {
+        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
         $html = <<<FIN
         <h1 class="text-center">Ajouter un besoin</h1>
         <div class="container">
@@ -259,14 +260,15 @@ FIN;
     }
 
 
-    public function associerBesoin(): string {
-        $url_enregistrerAssocierBesoin = $this->container->router->pathFor('enregistrerAssocierBesoin', ['id_ev'=> $this->tab[0]]);
-        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function($join) {
+    public function associerBesoin(): string
+    {
+        $url_enregistrerAssocierBesoin = $this->container->router->pathFor('enregistrerAssocierBesoin', ['id_ev' => $this->tab[0]]);
+        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function ($join) {
             $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
         })
             ->whereNull('participe_besoin.pb_besoin')->get();
 
-        for($i=0; $i< $besoins_non_associes->count() ; $i++){
+        for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
             $nom_besoin = $besoins_non_associes[$i]->b_objet;
             $column .= <<<FIN
                         <option> $nom_besoin </option>
@@ -311,14 +313,15 @@ FIN;
         return $html;
     }
 
-    public function supprimerBesoin():string {
+    public function supprimerBesoin(): string
+    {
         $id_ev = $this->tab[0];
         $besoins = $this->tab[1];
         $nbBesoins = $this->tab[2];
-        $url_enregistrerSupprimerBesoin = $this->container->router->pathFor('enregistrerSupprimerBesoin', ['id_ev'=> $id_ev]);
+        $url_enregistrerSupprimerBesoin = $this->container->router->pathFor('enregistrerSupprimerBesoin', ['id_ev' => $id_ev]);
         $listeBesoins = "";
 
-        for($i = 0; $i< $nbBesoins; $i++){
+        for ($i = 0; $i < $nbBesoins; $i++) {
             $besoin = $besoins[$i]->b_objet;
             $listeBesoins .= <<<FIN
                         <option> $besoin </option>
@@ -347,13 +350,14 @@ FIN;
     }
 
 
-    public function modifierBesoin(): string {
-        $url_enregistrerModifierBesoin = $this->container->router->pathFor('enregistrerModifierBesoin', ['id_ev'=> $this->tab[0]]);
+    public function modifierBesoin(): string
+    {
+        $url_enregistrerModifierBesoin = $this->container->router->pathFor('enregistrerModifierBesoin', ['id_ev' => $this->tab[0]]);
 
         $besoins = $this->tab[1];
         $nb_besoins = $this->tab[2];
 
-        for($i=0; $i< $nb_besoins ; $i++){
+        for ($i = 0; $i < $nb_besoins; $i++) {
             $nom_besoin = $besoins[$i]->b_objet;
             $column .= <<<FIN
                         <option> $nom_besoin </option>
@@ -438,15 +442,15 @@ FIN;
     public function tabBesoin($nb_participants, $participants, $id_ev): string
     {
         $row = "";
-        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function($join) {
+        $besoins_non_associes = Besoin::leftJoin('participe_besoin', function ($join) {
             $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
         })
             ->whereNull('participe_besoin.pb_besoin')->get();
 
-        if($besoins_non_associes->count()!=0){
+        if ($besoins_non_associes->count() != 0) {
             $column = "";
 
-            for($i=0; $i< $besoins_non_associes->count() ; $i++){
+            for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
                 $nom_besoin = $besoins_non_associes[$i]->b_objet;
                 $column .= <<<FIN
                         <td> $nom_besoin </td>
@@ -536,12 +540,14 @@ FIN;
                     <tbody>
                           
 FIN;
-        foreach (utilisateur::all() as $utilisateur){
+        foreach (utilisateur::all() as $utilisateur) {
             $u_nom = $utilisateur->u_nom;
             $u_prenom = $utilisateur->u_prenom;
             $u_mail = $utilisateur->u_mail;
-            $url_invit = $this->container->router->pathFor('invitEvent',['id_event' => $this->tab[0], 'expediteur' => $_SESSION['profile']['mail'], 'destinataire' => $utilisateur->u_mail]);
-            $html .= <<<FIN
+            $u_statut = $utilisateur->u_statut;
+            if ($u_statut != "supprime") {
+                $url_invit = $this->container->router->pathFor('invitEvent', ['id_event' => $this->tab[0], 'expediteur' => $_SESSION['profile']['mail'], 'destinataire' => $utilisateur->u_mail]);
+                $html .= <<<FIN
                 <tr>
                  <td> $u_nom </td>
                  <td> $u_prenom </td>
@@ -549,10 +555,10 @@ FIN;
                  <td><button class="bouton-vert" onclick="window.location.href='$url_invit'"> Inviter </button> </td>
                 </tr>      
             </div>
-
 FIN;
+            }
         }
-        $html.= "</tbody></table></div>";
+        $html .= "</tbody></table></div>";
         return $html;
     }
 
@@ -581,7 +587,7 @@ FIN;
         } else {
             $participant_s = "participant";
         }
-        if($desc== null){
+        if ($desc == null) {
             $desc = "Le propriétaire n'a pas encore saisi de description pour l'événement !";
         }
         $boutons = "";
@@ -715,10 +721,10 @@ FIN;
              
                     
 FIN;
-        foreach ($this->tab as $utilisateur){
-            $u_nom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_nom;
-            $u_prenom = utilisateur::where('u_mail','=',"$utilisateur->p_user")->first()->u_prenom;
-            $url_exclure = $this->container->router->pathFor('exclureEvenement',['p_user' => $utilisateur->p_user, 'p_event' => $utilisateur->p_event]);
+        foreach ($this->tab as $utilisateur) {
+            $u_nom = utilisateur::where('u_mail', '=', "$utilisateur->p_user")->first()->u_nom;
+            $u_prenom = utilisateur::where('u_mail', '=', "$utilisateur->p_user")->first()->u_prenom;
+            $url_exclure = $this->container->router->pathFor('exclureEvenement', ['p_user' => $utilisateur->p_user, 'p_event' => $utilisateur->p_event]);
             $html .= <<<FIN
                 <tr>
                  <td> $u_nom </td>
@@ -733,7 +739,7 @@ FIN;
 FIN;
         }
 
-        $html.= "</tbody></table></div>";
+        $html .= "</tbody></table></div>";
         return $html;
     }
 
@@ -744,7 +750,7 @@ FIN;
     public function formulaireModifEvenement(): string
     {
         $id_ev = $this->tab[0];
-        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement',['id_ev' => $id_ev]);
+        $url_enregistrerModifEvenement = $this->container->router->pathFor('enregistrerModifEvenement', ['id_ev' => $id_ev]);
         $id_ev = $this->tab[0];
         $nom = $this->tab[1];
         $date_deb = $this->tab[2];

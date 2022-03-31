@@ -82,15 +82,17 @@ class Authentification
     public static function authenticate($mail, $password): bool
     {
         $u = Utilisateur::where('u_mail', 'LIKE', $mail)->first();
-        if (gettype($u) != 'NULL') {
-            $res = password_verify($password, $u->u_mdp);
-        } else {
-            $res = false;
+        $res = false;
+        if ($u->statut != "supprime") {
+            if (gettype($u) != 'NULL') {
+                $res = password_verify($password, $u->u_mdp);
+                if ($res) {
+                    self::loadProfile($mail);
+                }
+                $_SESSION['inscriptionOK'] = true;
+                return $res;
+            }
         }
-        if ($res) {
-            self::loadProfile($mail);
-        }
-        $_SESSION['inscriptionOK'] = true;
         return $res;
     }
 

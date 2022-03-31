@@ -345,10 +345,12 @@ class ControlleurCompte
     {
         session_destroy();
         $user = Utilisateur::find($_SESSION['profile']['mail']);
-        $user->delete();
+        //$user->delete();
+        $user->u_statut = "supprime";
         setcookie("mail", '-1', time() + 60 * 60 * 24 * 30, "/");
         session_destroy();
         $_SESSION = [];
+        $user->save();
         $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);
     }
