@@ -627,7 +627,9 @@ FIN;
     {
 
         $id_ev = $this->tab[0];
-        $url_quitter = $this->container->router->pathFor('quitterEvenement');
+
+
+        $url_quitter = $this->container->router->pathFor('quitterEvenement', ['id_ev' => $id_ev]);
         $url_proposer_Un_Besoin = $this->container->router->pathFor('proposerUnBesoin', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
         $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $id_ev]);
         $url_inviter = $this->container->router->pathFor('inviterEvenement', ['id_ev' => $id_ev]);

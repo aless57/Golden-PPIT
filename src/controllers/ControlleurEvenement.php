@@ -294,6 +294,35 @@ class ControlleurEvenement
 
     /**
      * POST
+     * Proposition d'un nouveau besoin
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args [id_ev, participant]
+     * @return Response 
+     */
+    public function proposerUnBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $id_ev = $args['id_ev'];
+        $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
+        $user_on_session_email = $_SESSION['profile']['mail'];
+
+
+        $notification = new Notification();
+        $notification->n_objet = "Suggestion d'un besoin";
+        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'];
+        $notification->n_statut = "nonLue";
+        $notification->n_type = "suggestion besoin";
+        $notification->n_expediteur = $user_on_session_email;
+        
+        $notification->n_destinataire = $id_proprio; 
+        $notification->n_event = $id_ev;
+        $notification->save();
+        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+        return $rs->withRedirect($url_accueil);
+    }
+
+    /**
+     * POST
      * Modification de l'evenement dans la BDD
      * @param Request $rq
      * @param Response $rs
@@ -438,24 +467,6 @@ class ControlleurEvenement
 
     /**
      * POST
-     * Utilisateur quitte un evenement
-     * @param Request $rq
-     * @param Response $rs
-     * @param $event_id l'ID de l'utilisateur
-     * @return Response
-     */
-    public function quitterEvenement(Request $rq, Response $rs, $event_id): Response
-    {
-        $user_email = $_SESSION['profile']['mail'];
-        $participe = participe::find([$user_email, $event_id]);
-        $participe->delete();
-
-        $url_accueil = $this->container->router->pathFor('accueil');
-        return $rs->withRedirect($url_accueil);
-    }
-
-    /**
-     * POST
      * Utilisateur exclue d'un evenement
      * @param Request $rq
      * @param Response $rs
@@ -535,26 +546,28 @@ class ControlleurEvenement
         return $rs;
     }
 
-    public function proposerUnBesoin(Request $rq, Response $rs, $args): Response
+   
+    
+    /**
+     * GET
+     * Utilisateur quitte un evenement
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args [id_ev]
+     * @return Response
+     */
+    public function quitterEvenement(Request $rq, Response $rs, $args): Response
     {
+        $user_email = $_SESSION['profile']['mail'];
+        echo $user_email;
         $id_ev = $args['id_ev'];
-        $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
-        $user_on_session_email = $_SESSION['profile']['mail'];
+        echo $id_ev;
 
+        $participe = participe::where([['p_user', '=', $user_email], ['p_event', '=', $id_ev ]]);
+        $participe->delete();
 
-        $notification = new Notification();
-        $notification->n_objet = "Suggestion d'un besoin";
-        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'];
-        $notification->n_statut = "nonLue";
-        $notification->n_type = "suggestion besoin";
-        $notification->n_expediteur = $user_on_session_email;
-        
-        $notification->n_destinataire = $id_proprio; 
-        $notification->n_event = $id_ev;
-        $notification->save();
-        $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
+        $url_accueil = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($url_accueil);
-
     }
 
 

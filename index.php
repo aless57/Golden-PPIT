@@ -50,9 +50,9 @@ $app->post('/reinitialiserMDP', ControlleurCompte::class . ':resetPW')->setName(
 //Chemin evenement
 $app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('creationEvenement');
 $app->get('/evenement/{id_ev}', ControlleurEvenement::class . ':evenement')->setName('evenement');
+$app->get('/quitterEvenement/{id_ev}', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
 $app->get('/consulterEvenement', ControlleurEvenement::class . ':consulterEv')->setName('afficherListe');
 $app->post('/enregistrerEvenement', ControlleurEvenement::class . ':enregistrerEvenement')->setName('enregistrerEvenement');
-$app->get('/quitterEvenement', ControlleurEvenement::class . ':quitterEvenement')->setName('quitterEvenement');
 $app->get('/exclureEvenement/{p_user}/{p_event}', ControlleurEvenement::class . ':exclureEvenement')->setName('exclureEvenement');
 $app->get('/invitEvent/{id_event}/{expediteur}/{destinataire}', ControlleurEvenement::class . ':invitEvent')->setName('invitEvent');
 $app->get('/evenement', ControlleurEvenement::class . ':redirection')->setName('redirection');
