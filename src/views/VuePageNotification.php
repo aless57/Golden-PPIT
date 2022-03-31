@@ -85,12 +85,10 @@ FIN;
 
         }
 
-        switch ($select) {
-            case 0:
-                $content = $this->pageNotification();
-                break;
+        if ($select == 0) {
+            $content = $this->pageNotification();
         }
-        $html = <<<FIN
+        return <<<FIN
 <html lang="french">
 
 <head>
@@ -122,8 +120,6 @@ FIN;
     </footer>
 </html>
 FIN;
-
-        return $html;
     }
 
     public function pageNotification(): string
@@ -132,47 +128,67 @@ FIN;
         $objet = $this->tab[1];
         $contenu = $this->tab[2];
         $type = $this->tab[3];
-        $expediteur = $this->tab[4];
-        $destinateire = $this->tab[5];
         $nom_expediteur = $this->tab[6];
         $prenom_expediteur = $this->tab[7];
+        $id_event = $this->tab[8];
 
         $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
+        $url_rejoindre = $this->container->router->pathFor('rejoindreEvenement', ['id_not' => $id_not]);
 
-        $html = <<<FIN
+        $content = "";
+        if ($type == "invitation") {
+            $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Rejoindre</button>";
+        }
+
+        return <<<FIN
         <section class="page-evenement">
             <div class="container ">
             <div class=" details-bg">
                     <div class="img-ev">
-                        </div>
+
+                    </div>
                         
-                        <div class="info">
-                    <div class=" labels-details-not"> 
-                        <h2> Objet : </h2>
-                        <h2 class="details-not" > $objet </h2>
+                    <div class="info">
+                    <div class=" labels-details-not">
+                        <h2> Notification de type : </h2>
+                        <h2 class="details-not"> $type </h2>
                     </div>
                     <div class=" labels-details-not">
                         <h2> Expéditeur : </h2>
                         <h2 class="details-not"> $prenom_expediteur $nom_expediteur </h2>
                     </div>
-                    <div class=" labels-details-not">
-                        <h2> Notification de type : </h2>
-                        <h2 class="details-not"> $type </h2>
+
+                    <div class="labels-details-not"> 
+                        <h2> Objet : </h2>
+                        <h2 class="details-not" > $objet </h2>
                     </div>
                     
-                    <div class=" labels-details-not">
-                        <h2> Contenu : </h2>
-                        <h2 class="details-not"> $contenu </h2>
+                    <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+                    $content
+                    
+                     <?php 
+                    
+                    </div>
+
+            </div>
+            </div>
+
+            <div class="container">
+            <div class="details-bg-not-contenu">
+                        
+                    <div class="content">
+                    <div class="label-content-not">
+                        <h2> Contenu du message : </h2>
+                        <h2 class="content-not"> $contenu </h2>
                     </div>
                     </div>
 
             </div>
             </div>
-               <button class="supp" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+              
               
             </section>   
 FIN;
-        return $html;
     }
 
 

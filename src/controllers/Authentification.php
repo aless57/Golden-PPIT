@@ -41,7 +41,7 @@ class Authentification
             $u = new Utilisateur();
             $u->u_statut = "membre";
             $u->u_mail = $mail;
-            if($password == $passwordconfirm) {
+            if ($password == $passwordconfirm) {
                 $u->u_mdp = password_hash($password, PASSWORD_DEFAULT);
             } else {
                 $_SESSION['inscriptionOK'] = "mdp";
@@ -49,19 +49,19 @@ class Authentification
             }
             $u->u_nom = $nom;
             $u->u_prenom = $prenom;
-            if($date_naissance != null) {
+            if ($date_naissance != null) {
                 $u->u_naissance = $date_naissance;
             }
-            if($tel != null) {
+            if ($tel != null) {
                 $u->u_tel = $tel;
             }
-            if($photo != null) {
+            if ($photo != null) {
                 $u->u_photo = $photo;
             }
-            if($notif_mail != null) {
+            if ($notif_mail != null) {
                 $u->u_notif_mail = $notif_mail;
             }
-            if(($ville == null && $cp == null) || $id_ville != null) {
+            if (($ville == null && $cp == null) || $id_ville != null) {
                 $u->u_ville = $id_ville;
                 $u->save();
             } else {
@@ -82,15 +82,17 @@ class Authentification
     public static function authenticate($mail, $password): bool
     {
         $u = Utilisateur::where('u_mail', 'LIKE', $mail)->first();
-        if (gettype($u) != 'NULL') {
-            $res = password_verify($password, $u->u_mdp);
-        } else {
-            $res = false;
+        $res = false;
+        if ($u->u_statut != "supprime") {
+            if (gettype($u) != 'NULL') {
+                $res = password_verify($password, $u->u_mdp);
+                if ($res) {
+                    self::loadProfile($mail);
+                }
+                $_SESSION['inscriptionOK'] = true;
+                return $res;
+            }
         }
-        if ($res) {
-            self::loadProfile($mail);
-        }
-        $_SESSION['inscriptionOK'] = true;
         return $res;
     }
 

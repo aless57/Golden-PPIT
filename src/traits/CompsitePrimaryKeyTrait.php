@@ -2,13 +2,11 @@
 
 namespace goldenppit\traits;
 
-use goldenppit\models\Exception;
-
 /**Cette class est à importer dans les models ayant plusieurs clés primaires, elle permet d'éviter un bug 'illegal offset type'**/
 trait CompsitePrimaryKeyTrait
 {
 
-    public function getIncrementing()
+    public function getIncrementing(): bool
     {
         return false;
     }

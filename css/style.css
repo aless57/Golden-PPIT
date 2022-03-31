@@ -220,6 +220,24 @@ nav{
     border-radius: 10px;
     cursor:pointer;
 }
+
+.bouton-vert{
+    position: relative;
+    margin-top:2%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-style: normal;
+    width:250px;
+    height : 40px;
+    font-size: 1rem;
+    padding: 1%;
+    color: #ECECF3;
+    background: linear-gradient(180deg, #34C924 0%, #00561B 100%);
+    border: 2px solid #030233;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
 .bouton-rouge:hover{
     color:white;
 }
@@ -305,8 +323,7 @@ fieldset{
 
 }
 
-
-fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"]{
+fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"],  input[type="number"]{
     border-radius:10px;
     border: 2px solid #030233;
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
@@ -316,8 +333,59 @@ fieldset input[type="text"], input[type="password"], input[type="date"], input[t
     width : 360px;
     float : right;
     height : 40px;
-    box-shadow:1px 1px rgba(0, 0, 0, 0.25); ;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25);
 }
+
+
+.quantity {
+    display: flex;
+    width : 360px;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+    padding: 7px 10px 8px;
+    height: 40px;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25);
+
+    background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
+    border: 2px solid #030233;
+    border-radius:10px;
+
+    cursor:pointer;}
+
+.quantity.buttons_added .minus {
+    border-right: 0;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius : 0;
+}
+
+.quantity.buttons_added .plus {
+    border-left: 0;
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius : 0;
+}
+
+.quantity input[type="number"]{
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    text-align: center;
+}
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+    background: #ECECF3;}
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0; }
+.quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+    outline: none; }
 
 fieldset input.desc{
     width: 360px;
@@ -449,11 +517,11 @@ fieldset .field .input-pp{
 .alignement-centre{
     position: relative;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     margin-top : 3%;
 }
+
 button.margin-0{
     margin-top: 0;
     margin-left :0;
@@ -490,10 +558,22 @@ button.margin-0{
     right:5%;
     background-color: transparent;
 }
-.btn-supp{
-    background-color: transparent;
+.btn-supp {
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.btn-supp-not {
+    background-color: black;
     border: none;
-    cursor: pointer;
+    height: 40px;
+    padding: 5px 15px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .rightBouton{
@@ -502,22 +582,57 @@ button.margin-0{
     left: 5%;
 }
 
-
-
-.details-ev{
+.details-not {
     display: inline-block;
     margin-left: auto;
 }
-.info{
-   padding-top: 5%;
+
+
+.content {
+    padding-top: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: justify
+}
+.content-not {
+    color: #4299C8;
+}
+
+.label-content-not{
+    font-size: 125%;
+}
+
+.labels-details-not {
+    position: relative;
+    margin-top: 3%;
+    display: flex;
+    width: 60%;
+    height: auto;
+}
+
+
+.details-ev {
+    display: inline-block;
+    margin-left: auto;
+}
+.info {
+    padding-top: 3%;
+    padding-left: 30% ;
 }
 .details-bg{
     height: 400px;
     display: block;
     background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
-    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); ;
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); 
     border-radius: 10px;
+}
 
+.details-bg-not-contenu {
+    height: 400px;
+    display: block;
+    background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
+    box-shadow: 2px 2px 2px 2px #357EB7;
+    border-radius: 10px;
 }
 
 
@@ -599,7 +714,7 @@ button.margin-0{
     border: solid #030233 2px;
     width:230px;
     z-index: 1;
-
+    top: -20px;
     margin-left:3%;
 
 }
@@ -621,7 +736,7 @@ button.margin-0{
     color:#357EB7;
     background:white;
 }
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {display: flex;}
 
 
 .tabBesoin-div{
@@ -638,8 +753,10 @@ button.margin-0{
     background-color: #FFF;
     border-collapse: collapse;
     border-bottom: 2px solid #030233;
-
-
+    cursor:default;
+}
+.tabBesoin-div{
+    float: left;
 }
 tr:nth-child(even){
     background-color: #FFF;
@@ -664,9 +781,8 @@ table, td{
 
 }
 tr{
-    border-bottom: 1px solid #030233;
+    border-bottom: none;
 }
-
 
 tr:last-child{
     border-bottom: none;
@@ -678,7 +794,7 @@ td{
     text-align: center;
     padding-left : 20px;
 }
-td:hover{
+.tabBesoin-div td:hover{
     cursor:pointer;
 }
 
@@ -712,6 +828,8 @@ tr td:nth-child(1){
     padding-left: 10px;
     background-color: #DBDBE5;
     min-width : 180px;
+    border-bottom: 1px solid #030233;
+
 
 }
 
@@ -732,7 +850,7 @@ tr td:nth-child(1){
 .selected{
     background-color: #ECECF3;
     border-left: 1px solid #fd5c63 !important;
-    border-right: 1px solid #fd5c63 !important;
+    border-right: 1px solid #fd5c63;
     border-collapse: collapse;
 }
 

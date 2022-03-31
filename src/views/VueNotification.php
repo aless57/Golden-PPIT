@@ -25,7 +25,6 @@ class VueNotification
      */
     public function render(int $select): string
     {
-        $bandeau = "";
 
         $url_accueil = $this->container->router->pathFor('accueil');
         $url_formInsription = $this->container->router->pathFor('formInscription');
@@ -35,39 +34,8 @@ class VueNotification
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
         $content = "";
-        if (isset($_SESSION['profile'])) {
-            //si l'utilisateur est connecté
-            $bandeau .= <<<FIN
-            <div class="logo">
-                <a href="$url_menu" title="logo">
-                    <img src="images/logo-white.png"  alt="">
-                </a>
-            </div>
-            <div class="menu text-right">
-            
-                <ul>  
-                       <li> <a href="$url_modifierCompte"> Modifier compte </a> </li> 
-                       <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>    
-                </ul>
-            </div>
-
-FIN;
-
-        } else {
+        if (!isset($_SESSION['profile'])) {
             $select = -1;
-            $bandeau .= <<<FIN
-            <div class="logo">
-                <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png" alt="logo-accueil" >
-                </a>
-            </div>
-            <div class="menu text-right">
-                <ul>
-                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
-                </ul>
-            </div>
-FIN;
             $content = <<<FIN
     <div class ="message-erreur">
         <h1>Vous devez être connecté pour accéder à cette page !</h1>
@@ -126,7 +94,7 @@ FIN;
             }*/
         }
 
-        $html = <<<FIN
+        return <<<FIN
 <html lang="french">
 
 <head>
@@ -161,8 +129,6 @@ FIN;
     </footer>
 </html>
 FIN;
-
-        return $html;
     }
 
     /**
@@ -173,7 +139,6 @@ FIN;
     {
 
         $notifications = "";
-        $test = "";
         //var_dump($this->tab[1]);
 
 
@@ -191,11 +156,11 @@ FIN;
             <div id="$test_2" class="alignement">
                 <button id="$test_2" name="test" class="bouton-blanc" >$test envoyé par $test_3</button>
             </div>   
-                          <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
+                          <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'" alt=""/>  </button>
            <script>    
-            var notif = document.getElementById('$test_2');
+            let notif = document.getElementById('$test_2');
             
-            notif.addEventListener('click', function(notif) {
+            notif.addEventListener('click', function() {
               console.log('$url_notifs');
               window.location.href = '$url_notifs'; 
               
@@ -207,7 +172,7 @@ FIN;
 
         }
 
-        $html = <<<FIN
+        return <<<FIN
             <body>
                     <h1 class="text-center"> LES NOTIFICATIONS </h1>
                     
@@ -216,12 +181,10 @@ FIN;
                     </div>
                     
                     <script>
-                        var tab = {$this->tab[1]};
-                        console.log(tab);
+                        let tab =; {$this->tab[1]};
                     </script>
             </body>
 FIN;
-        return $html;
     }
 
 }
