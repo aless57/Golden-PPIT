@@ -354,6 +354,8 @@ FIN;
                             <option class="opt" value="default">Choisir un département</option>
                             $departements
                         </select>
+                        
+                        <input type="search" onkeyup="recherche(this.value)" id="recherche" name="recherche" placeholder="Recherche par nom">
                                 
                         </div>
                     </div>
@@ -365,10 +367,8 @@ FIN;
                     <script>
                         var tab = {$this->tab[1]};
                         var tab2 = {$this->tab[2]};
-                        console.log(tab);
                         let sel = document.getElementById("filtres");
                         sel.addEventListener('change', function() {
-                            console.log(this.value);
                             switch(this.value) {
                                 case 'A-Z':
                                     tab.sort(function(a,b) {
@@ -440,7 +440,6 @@ FIN;
                                 
                                 default :
                                     var html;
-                                    console.log("saucisse");
                                     {$this->tab[1]}.forEach(element => {
                                         html = document.getElementById(element.e_titre).cloneNode(true);
                                         document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
@@ -469,12 +468,8 @@ FIN;
                         document.getElementById("villes").addEventListener('change', function() {
                             switch(this.value) {
                                 case "default":
-                                    tab.forEach(element => {
-                                        html = document.getElementById(element.e_titre).cloneNode(true);
-                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
-                                        document.getElementById('listeEvenements').appendChild(html);
-                                        document.getElementById(element.e_titre).style = "";
-                                    })
+                                    reset();
+                                    document.getElementById('departements').disabled = false;
                                     break;
                                 default :
                                     tab.forEach(element => {
@@ -484,6 +479,8 @@ FIN;
                                             document.getElementById(element.e_titre).style = "";
                                         }
                                     });
+                                    document.getElementById('departements').disabled = true;
+                                    break;s
                             }
                             
                         });
@@ -491,12 +488,8 @@ FIN;
                         document.getElementById("departements").addEventListener('change', function() {
                             switch(this.value) {
                                 case "default":
-                                    tab.forEach(element => {
-                                        html = document.getElementById(element.e_titre).cloneNode(true);
-                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
-                                        document.getElementById('listeEvenements').appendChild(html);
-                                        document.getElementById(element.e_titre).style = "";
-                                    })
+                                    reset();
+                                    document.getElementById('villes').disabled = false;
                                     break;
                                 default :
                                     tab.forEach(element => {
@@ -506,8 +499,35 @@ FIN;
                                             document.getElementById(element.e_titre).style = "";
                                         }
                                     });
+                                    document.getElementById('villes').disabled = true;
+                                    break;
                             }
                         });
+                        
+                        function recherche(champ) {
+                            if(champ == "") {
+                               reset() ;
+                            } else {
+                                tab.forEach(element => {
+                                tmp = element.e_titre.toLowerCase();
+                                        if(!tmp.includes(champ.toLowerCase(),0)) {
+                                            document.getElementById(element.e_titre).style = "display:none";
+                                        } else {
+                                            document.getElementById(element.e_titre).style = "";
+                                        }
+                                });
+                            }
+                            
+                        }
+                           
+                        function reset() {
+                            tab.forEach(element => {
+                                        html = document.getElementById(element.e_titre).cloneNode(true);
+                                        document.getElementById('listeEvenements').removeChild(document.getElementById(element.e_titre));
+                                        document.getElementById('listeEvenements').appendChild(html);
+                                        document.getElementById(element.e_titre).style = "";
+                                    })
+                        }
                         
                         
                         
