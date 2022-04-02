@@ -594,19 +594,14 @@ class ControlleurEvenement
     public function demanderRejoindre(Request $rq, Response $rs, $args): Response
     {
         $notification = new Notification();
-        $notification->n_objet = "DemandeARejoindre";
+        $notification->n_objet = "Demande à rejoindre";
         $notification->n_contenu = "L'utilisateur " . $args['participant'] . " veut rejoindre l'événement " . $args['id_ev'];
-        $notification->n_statue = "non lue";
+        $notification->n_statut = "non lue";
         $notification->n_type = "invitation";
-        //TODO A faire
-        $notification->n_expetideur = "DemandeARejoindre";
-        $notification->n_destinataire = "DemandeARejoindre";
+        $notification->n_expediteur = $_SESSION['profile']['mail'];
+        $notification->n_destinataire = evenement::where('e_id', '=', $args['id_ev'])->first()->e_proprio;
         $notification->n_event = $args['id_ev'];
         $notification->save();
-        $souhaite = new Souhaite();
-        $souhaite->s_event = $args['id_ev'];
-        $souhaite->s_user = $args['participant'];
-        $souhaite->save();
         $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
         return $rs->withRedirect($url_accueil);
     }
