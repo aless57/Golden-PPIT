@@ -3,7 +3,6 @@
 /** @noinspection HtmlUnknownTarget */
 
 namespace goldenppit\views;
-use goldenppit\models\ville;
 
 class VueCompte
 {
@@ -226,40 +225,8 @@ FIN;
     public function formulaireInscription(): string
     {
         $url_enregistrerInscription = $this->container->router->pathFor('enregistrerInscription');
-        if (isset($_POST["search"])){
-            $dir_path = "Photos";
-            $files = scandir($dir_path);
-            $count = count($files);
-            $key = $_POST["boisson"];
-            echo "<center>";
-            echo "<table  width = '80%' border = '2px' align ='center' >";
-            echo "<th style='text-align:center' bgcolor = '#43960f' > Titre </th>"; 
-            echo "<th style='text-align:center' bgcolor = '#43960f' > Ingredients  </th>";
-            echo "<th style='text-align:center' bgcolor = '#43960f'> Photo  </th>";
-            if ($key =='all' || $key == 'ALL' || $key == 'All')
-            {
-            $sql = "select * from recettes  ";
-            }
-            else
-            {
-            $sql = "select * from recettes where titre = '$key' ";
-            }
-            $result = Ville::where('v_id', "=", $id_ville)->first()->v_nom;
-            while ($row = mysqli_fetch_row($result))
-            {
-                $index = rand(2, ($count-1));
-                $filename = $files[$index];
-                echo "<tr> <td>" .$row[1]. "</td>";
-                echo "<td>" .$row[2]. "</td>";
-                echo "<td style='text-align:center'><img src='$dir_path/$filename' alt='image'></td></tr>";
-            }
-            echo "</table> ";
-            echo "</center>";
 
-            }
         return <<<FIN
-        
-
         <h1 class="text-center">Créer un compte et gérez vos événements en toute tranquilité !</h1>
 		<div class = "container ">
 		
@@ -307,7 +274,7 @@ FIN;
 				</div>
 				
 				<div class="field"> Ville :
-				<input type="text" name="adr" placeholder="Votre ville" id="search-ville" />
+				<input type="text" name="adr" placeholder="Votre ville"/>
 				</div>
 				
 				<div class="field"> Code Postal :

@@ -137,11 +137,7 @@ FIN;
                 $content .= $this->afficherCalendrier();
                 break;
             }
-            case 4:
-            {
-                $content .= $this->nousContacter();
-                break;
-            }
+
         }
 
         $html = <<<FIN
@@ -598,39 +594,6 @@ FIN;
 
         return $html;
     }
-    public function nousContacter(): string
-    {
-        $url_nousContacter = $this->container->router->pathFor('nousContacter');
-
-        $html = <<<FIN
-<h1 class="text-center">NOUS CONTACTER</h1>
-		<div class = "container ">
-		
-		<form method="post" action="$url_nousContacter">
-			<fieldset >
-				<div class="field"> 
-				    <label> Mail * :  </label>
-				    <input type="text" name="nom" placeholder="Votre adresse mail" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required="required"/>
-                </div>
-				
-				<div class="field"> 
-				    <label> Message : </label>
-				    <input type="text" class="desc" name="desc" placeholder="Écrivez votre message "/>
-				</div>
-				
-				<span class="span text-right"> *  : Champ obligatoire !</span>
-			</fieldset>
-			
-            <div class="clearfix"/>
-            
-			<input type="submit" value="Envoyer" name="submit" class="bouton-bleu" />
-		</form>
-
-    </div>
-FIN;
-        return $html;
-    }
-
 
 
 }

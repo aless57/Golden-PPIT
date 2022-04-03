@@ -142,7 +142,7 @@ FIN;
         //var_dump($this->tab[1]);
 
 
-        for ($i = 0; $i < $this->tab[1]->count(); $i++) {
+        for ($i = 0; $i < $this->tab[0]; $i++) { //pour chaque notif
             $test = $this->tab[1][$i]->n_objet;
             $test_2 = $this->tab[1][$i]->n_id;
             $test_3 = $this->tab[1][$i]->n_expediteur;
@@ -156,11 +156,9 @@ FIN;
             <div id="$test_2" class="alignement">
                 <button id="$test_2" name="test" class="bouton-blanc" >$test envoyé par $test_3</button>
             </div>   
-                          <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'" alt=""/>  </button>
+              <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'" alt=""/>  </button>
            <script>    
-            let notif = document.getElementById('$test_2');
-            
-            notif.addEventListener('click', function() {
+              document.getElementById('$test_2').addEventListener('click', function() {
               console.log('$url_notifs');
               window.location.href = '$url_notifs'; 
               

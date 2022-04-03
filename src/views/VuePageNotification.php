@@ -162,8 +162,8 @@ FIN;
                         <h2> Objet : </h2>
                         <h2 class="details-not" > $objet </h2>
                     </div>
-                    
-                    <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
+                     <div class="labels-details-not"> 
+                    <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button></div>
                     $content
                     
                      <?php 
@@ -172,19 +172,12 @@ FIN;
 
             </div>
             </div>
+                <div class="description">
+                     <h3>Contenu du message: </h3>
 
-            <div class="container">
-            <div class="details-bg-not-contenu">
-                        
-                    <div class="content">
-                    <div class="label-content-not">
-                        <h2> Contenu du message : </h2>
-                        <h2 class="content-not"> $contenu </h2>
-                    </div>
-                    </div>
+                    <h2 class="content-not"> $contenu </h2>
 
-            </div>
-            </div>
+                </div>
               
               
             </section>   

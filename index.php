@@ -74,7 +74,7 @@ $app->get('/demanderRejoindre/{id_ev}/{participant}', ControlleurEvenement::clas
 $app->post('/enregistrerSupprimerBesoin/{id_ev}', ControlleurEvenement::class . ':enregistrerSupprimerBesoin')->setName('enregistrerSupprimerBesoin');
 $app->get('/supprimerBesoin/{id_ev}', ControlleurEvenement::class . ':supprimerBesoin')->setName('supprimerBesoin');
 $app->get('/proposerUnBesoin/{id_ev}', ControlleurEvenement::class . ':proposerUnBesoin')->setName('proposerUnBesoin');
-$app->get('/EnregistrerproposerUnBesoin/{id_ev}/{participant}', ControlleurEvenement::class . ':EnregistrerproposerUnBesoin')->setName('EnregistrerproposerUnBesoin');
+$app->post('/EnregistrerproposerUnBesoin/{id_ev}/{participant}', ControlleurEvenement::class . ':EnregistrerproposerUnBesoin')->setName('EnregistrerproposerUnBesoin');
 
 
 $app->get('/nousContacter', ControlleurEvenement::class . ':nousContacter')->setName('nousContacter');

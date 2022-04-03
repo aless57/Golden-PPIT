@@ -213,39 +213,26 @@ FIN;
         <h1 class="text-center">Suggestion d'un besoin</h1>
         <div class="container">
          
-            <form method="get" action="$url_enregistrerPropositionBesoin">
+            <form method="post" action="$url_enregistrerPropositionBesoin">
 				
-
-                <div class="field-suggest-bname">
-                    <div class="suggest-bname"> 
-				        <label> Nom * : </label> 
-                         <fieldset>
-				        <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
-                        <fieldset>
-                    </div>
+                <fieldset >
+                
+				<div class="field"> 
+				    <label> Nom * :</label>
+				    <input type="text" name="nom" placeholder="Nom du besoin" pattern="[a-ZA-Z]+" required="required"/>
                 </div>
-
-               				
 				
-				<div class="suggest-bdesc"> 
-				    <label>Description : </label>
-                    <div class="field-suggest-bdesc">
-                        <fieldset>
-				        <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
-                        </fieldset>
-                    </div>
-                </div>
-                    
-               
-				<div class="champ-ob">
-				<span> * : Champ obligatoire !</span>
-                </div>
+				
+				<div class="field"> 
+				    <label> Description : </label>
+				    <input type="text" class="desc" name="desc" placeholder="Description du besoin" />
+				</div>
+				<span class="span text-right"> * : Champ obligatoire !</span>
 
-
-			
-            <div class="clearfix"/><br>
-            
-			<br><br>
+			</fieldset>
+	
+            <div class="clearfix"/>
+       
             <input type="submit" value="ANNULER" name="submit-annuler" class="bouton-rouge-2" />
             <input type="submit" value="VALIDER" name="submit" class="bouton-bleu" />
            
@@ -727,9 +714,10 @@ FIN;
             </section>
             <section class=" desc">
             <div class="container"> 
-                <h3>Description: </h3>
+                
 
-                <div class="evenement"> 
+                <div class="description"> 
+                    <h3>Description: </h3>
                     <p> $desc </p> 
                 </div>
             </div>
@@ -862,6 +850,7 @@ FIN;
 			<input type="submit" value="Modifier" name="submit" class="bouton-bleu" />
 		</form>
 
+    </div>
     </div>
 FIN;
         return $html;

@@ -321,14 +321,20 @@ class ControlleurEvenement
     {
         
         $id_ev = $args['id_ev'];
+
+        $nom_ev = Evenement::where('e_id', '=' ,$id_ev)->first()->e_titre;
         $id_proprio = Evenement::where('e_id', '=', $id_ev)->first()->e_proprio;
         $user_on_session_email = $_SESSION['profile']['mail'];
+        $post = $rq->getParsedBody();
 
+
+        $nom_besoin = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $desc_besoin = filter_var($post['desc'], FILTER_SANITIZE_STRING);
 
         $notification = new Notification();
         $notification->n_objet = "Suggestion d'un besoin";
-        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " propose l'ajout d' un nouveau besoin pour l'évènement " . $args['id_ev'] .
-                                    "La description du besoin : ";
+        $notification->n_contenu = "L'utilisateur <strong>" . $args['participant'] . "</strong> propose l'ajout d'un nouveau besoin : <strong>". $nom_besoin . "</strong> , pour l'événement <strong>" . $nom_ev .
+                                    "</strong></br><u>La description du besoin</u> :". $desc_besoin ;
         $notification->n_statut = "nonLue";
         $notification->n_type = "suggestion besoin";
         $notification->n_expediteur = $user_on_session_email;
