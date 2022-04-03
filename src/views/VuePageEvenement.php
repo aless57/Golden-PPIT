@@ -40,6 +40,7 @@ class VuePageEvenement
         $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
+        $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
 
         $content = "";
         if (isset($_SESSION['profile'])) {
@@ -53,6 +54,7 @@ class VuePageEvenement
             <div class="menu text-right">
             
                 <ul>  
+                        <li> <a href="$url_afficherNot"> Notifications </a> </li> 
                        <li> <a href="$url_modifierCompte"> Modifier compte </a> </li> 
                        <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>    
                 </ul>
