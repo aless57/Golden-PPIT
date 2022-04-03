@@ -136,10 +136,19 @@ FIN;
 
         $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
         $url_rejoindre = $this->container->router->pathFor('rejoindreEvenement', ['id_not' => $id_not]);
+        $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', ['id_not' => $id_not]);
+
+
+
 
         $content = "";
         if ($type == "invitation") {
             $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Rejoindre</button>";
+        }
+        if ($type == "suggestion besoin"){
+
+            // BUG MARCHE PAS
+            //$content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
         }
 
         return <<<FIN
@@ -165,9 +174,9 @@ FIN;
                         <h2 class="details-not" > $objet </h2>
                     </div>
                      <div class="labels-details-not"> 
-                    <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button></div>
+                    <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
                     $content
-                    
+                    </div>
                      <?php 
                     
                     </div>

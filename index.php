@@ -82,9 +82,11 @@ $app->get('/nousContacter', ControlleurEvenement::class . ':nousContacter')->set
 
 //Chemin notification
 $app->get('/afficherNotifications', ControlleurNotification::class . ':afficherNotifications')->setName('afficherNotifications');
+$app->get('/accepterSuggestionBesoin/{id_not}', ControlleurNotification::class . ':accepterSuggestionBesoin')->setName('accepterSuggestionBesoin');
 $app->get('/consulterNotification/{id_not}', ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
 $app->get('/supprimerNotification/{id_not}', ControlleurNotification::class . ':supprimerNotification')->setName('supprimerNotification');
 $app->get('/rejoindreEvenement/{id_not}', ControlleurNotification::class . ':rejoindreEvenement')->setName('rejoindreEvenement');
+
 
 try {
     $app->run();

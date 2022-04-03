@@ -5,6 +5,7 @@ namespace goldenppit\controllers;
 use goldenppit\models\notification;
 use goldenppit\models\participe;
 use goldenppit\models\utilisateur;
+use goldenppit\models\besoin;
 use goldenppit\views\VueNotification;
 use goldenppit\views\VuePageNotification;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -72,6 +73,27 @@ class ControlleurNotification
     {
         $notif = Notification::find($args['id_not']);
         $notif->delete();
+        //TODO : remettre sur la page précedente
+        $url_accueil = $this->container->router->pathFor('accueil');
+        return $rs->withRedirect($url_accueil);
+    }
+
+    public function accepterSuggestionBesoin(Request $rq, Response $rs, $args): Response
+    {
+        $notif = Notification::find($args['id_not']);
+        $notif->delete();
+
+        $besoin = new Besoin();
+
+        $besoin->b_desc = "TESTS DESC";
+        
+
+        $besoin->b_objet = "TESTS ONJECT";
+        $besoin->b_nombre = 1;
+        $besoin->b_event = 2;
+
+        $besoin->save();
+
         //TODO : remettre sur la page précedente
         $url_accueil = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($url_accueil);
