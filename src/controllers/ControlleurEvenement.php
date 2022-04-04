@@ -502,8 +502,12 @@ class ControlleurEvenement
      */
     public function exclureEvenement(Request $rq, Response $rs, $args): Response
     {
-        $participe = participe::where([['p_user', '=', $args['p_user']], ['p_event', '=', $args['p_event']]]);
-        $participe->delete();
+        $event = Evenement::where("e_id", "=", $args['p_event'])->first();
+        $user = Utilisateur::where("u_mail", "=", $args['p_user'])->first();
+        if($user->u_mail != $event->e_proprio) {
+            $participe = participe::where([['p_user', '=', $args['p_user']], ['p_event', '=', $args['p_event']]]);
+            $participe->delete();
+        }
         $url_accueil = $this->container->router->pathFor("listeParticipant", ['id_ev' => $args['p_event']]);
         return $rs->withRedirect($url_accueil);
     }
