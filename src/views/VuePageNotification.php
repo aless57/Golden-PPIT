@@ -33,6 +33,7 @@ class VuePageNotification
 
         $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
+        $url_contact = $this->container->router->pathFor('contact');
         $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
 
         $content = "";
@@ -114,7 +115,7 @@ FIN;
 <footer>
     <div class="clearfix"></div>
         <div class="container text-center">
-                <a href="#"> Nous contacter </a>
+                <a href="$url_contact"> Nous contacter </a>
                 <a href="#"> A propos de nous </a>
                 <p> © 2022 GoldenPPIT. Tous droits réservés </p>
         </div>    

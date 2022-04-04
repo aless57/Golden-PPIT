@@ -33,6 +33,8 @@ class VueNotification
         $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
+        $url_contact = $this->container->router->pathFor('contact');
+
         $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
         $content = "";
         if (!isset($_SESSION['profile'])) {
@@ -123,7 +125,7 @@ FIN;
 <footer>
     <div class="clearfix"></div>
         <div class="container text-center">
-                <a href="#"> Nous contacter </a>
+                <a href="$url_contact"> Nous contacter </a>
                 <a href="#"> A propos de nous </a>
                 <p> © 2022 GoldenPPIT. Tous droits réservés </p>
         </div>    
@@ -154,11 +156,14 @@ FIN;
             $user_email = $_SESSION['profile']['mail'];
             if ($test_4 == $user_email) {
                 $notifications .= <<<FIN
-            
-            <div id="$test_2" class="alignement">
-                <button id="$test_2" name="test" class="bouton-blanc" >$test envoyé par $test_3</button>
+            <div class="alignement-notif">
+         
+
+            <div id="$test_2" >
+                <button id="$test_2" name="test" class="notif" > <h4>$test</h4></br> envoyé par $test_3</button>
             </div>   
-              <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'" alt=""/>  </button>
+              <button class="bouton-rouge-2" onclick="window.location.href='$url_supprimer'" > Supprimer </button>
+              </div>
            <script>    
               document.getElementById('$test_2').addEventListener('click', function() {
               console.log('$url_notifs');

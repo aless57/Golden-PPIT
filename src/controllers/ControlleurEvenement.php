@@ -336,7 +336,7 @@ class ControlleurEvenement
         $notification->n_contenu = "L'utilisateur <strong>" . $args['participant'] . "</strong> propose l'ajout d'un nouveau besoin : <strong>". $nom_besoin . "</strong> , pour l'événement <strong>" . $nom_ev .
                                     "</strong></br><u>La description du besoin</u> :". $desc_besoin ;
         $notification->n_statut = "nonLue";
-        $notification->n_type = "suggestion besoin";
+        $notification->n_type = "Suggestion";
         $notification->n_expediteur = $user_on_session_email;
 
         $notification->n_destinataire = $id_proprio;

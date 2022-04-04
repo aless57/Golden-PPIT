@@ -34,6 +34,8 @@ class VueCompte
         $url_modifierCompte = $this->container->router->pathFor('formModifierCompte');
         $url_menu = $this->container->router->pathFor('accueil');
         $url_deconnexion = $this->container->router->pathFor('deconnexion');
+        $url_contact = $this->container->router->pathFor('contact');
+
         $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
         $content = "";
 
@@ -156,7 +158,7 @@ class VueCompte
         </body> 
         <footer><div class="clearfix"></div>
             <div class="container text-center">
-                    <a href="#"> Nous contacter </a>
+                    <a href="$url_contact"> Nous contacter </a>
                     <a href="#"> A propos de nous </a>
                     <p> © 2022 GoldenPPIT. Tous droits réservés </p>
             </div>    
@@ -246,46 +248,46 @@ FIN;
                 </div>
 
                 <div class="field"> 
-				Prénom * : 
+				<label>Prénom * : </label>
 				<input type="text" name="prenom" placeholder="Votre prénom" pattern="[a-ZA-Z]+" required="required"/>
 				
 				</div>
 				
 				<div class="field"> 
-				Date de naissance :
+				<label>Date de naissance :</label>
 				<input type="date" name="naissance" placeholder="XX-XX-XXXX" />
 				</div>
 				
 				<div class="field"> 
-				Numéro de téléphone : 
+				<label>Numéro de téléphone : </label>
 				<input type="tel" name="tel" placeholder="0XXXXXXXXX"/>
 				</div>
 				
 				<div class="field"> 
-				E-mail * :
+				<label>E-mail * :</label>
 				<input type="email" name="mail" placeholder="exemple@mail.fr" required="required"/>
 				</div>
 				
 				<div class="field"> 
-				Mot de passe * :
+				<label>Mot de passe * :</label>
 				<input type="password" name="mdp" placeholder="**********" required="required"/>
 				</div>
 				
-				<div class="field"> Confirmation de mot de passe * : 
+				<div class="field"> <label>Confirmation de mot de passe * : </label>
 				<input type="password" name="mdpconfirm" placeholder="**********" required="required"/>
 				</div>
 				
-				<div class="field"> Ville :
+				<div class="field"> <label>Ville :</label>
 				<input type="text" name="adr" placeholder="Votre ville"/>
 				</div>
 				
-				<div class="field"> Code Postal :
+				<div class="field"> <label>Code Postal :</label>
 				<input type="text" name="cp" placeholder="Votre code postal" pattern="[0-9]{5}" />
                 </div>
 			
-				<div class="field"> Activer les notifications par mail  <input type="checkbox" name="notif" value="1" />
+				<div class="field"><label> Activer les notifications par mail </label> <input type="checkbox" name="notif" value="1" />
 				</div>
-				<div class="field"> Je veux devenir membre de Golden-PPIT *    
+				<div class="field"> <label>Je veux devenir membre de Golden-PPIT *  </label>
 				<input type="checkbox" name="confirminscri" required="required"/>
                 </div>
 	                <div class="text-right">

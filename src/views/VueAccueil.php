@@ -38,7 +38,7 @@ class VueAccueil
         $url_afficherEv = $this->container->router->pathFor('afficherListe');
         $url_calendrier = $this->container->router->pathFor('calendar');
         $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
-
+        $url_contact = $this->container->router->pathFor('contact');
         $content = "";
         if (isset($_SESSION['profile'])) {
             //si l'utilisateur est connecté
@@ -178,7 +178,7 @@ FIN;
 </body>
 <footer>
 <div class="container">
-                <a href="#" class="text-center"> Nous contacter </a>
+                <a href="$url_contact" class="text-center"> Nous contacter </a>
                 <a href="#" class="text-center"> A propos de nous </a>
                 <p class="text-center"> © 2022 GoldenPPIT. Tous droits réservés </p>
     </div>

@@ -10,6 +10,7 @@ use goldenppit\controllers\ControlleurCompte;
 use goldenppit\controllers\ControlleurEvenement;
 use goldenppit\controllers\ControlleurModifierCompte;
 use goldenppit\controllers\ControlleurNotification;
+use goldenppit\controllers\ControlleurContact;
 use Illuminate\Database\Capsule\Manager;
 use Slim\App;
 use Slim\Container;
@@ -77,7 +78,8 @@ $app->get('/proposerUnBesoin/{id_ev}', ControlleurEvenement::class . ':proposerU
 $app->post('/EnregistrerproposerUnBesoin/{id_ev}/{participant}', ControlleurEvenement::class . ':EnregistrerproposerUnBesoin')->setName('EnregistrerproposerUnBesoin');
 
 
-$app->get('/nousContacter', ControlleurEvenement::class . ':nousContacter')->setName('nousContacter');
+$app->get('/contact', ControlleurContact::class . ':contact')->setName('contact');
+$app->post('/envoyer', ControlleurContact::class . ':envoyerMsg')->setName('envoyer');
 
 
 //Chemin notification
