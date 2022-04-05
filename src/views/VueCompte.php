@@ -38,42 +38,7 @@ class VueCompte
 
         $url_afficherNot = $this->container->router->pathFor('afficherNotifications');
         $content = "";
-
-        if (isset($_SESSION['profile'])) {
-            //Si l'utilisateur est connecté
-            $bandeau .= <<<FIN
-            <div class="menu text-right">
-                <div class="logo">
-                <a href="$url_menu" title="logo">
-                    <img src="images/logo-white.png"  alt="logo">
-                </a>
-                </div>
-                <ul>  
-                <li> <a href="$url_afficherNot"> Notifications </a> </li> 
-                <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>  
-                <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>     
-                </ul>
-            </div>
-
-            FIN;
-
-        } else {
-            //si 'l'utilisateur n'est pas connecté
-            $bandeau .= <<<FIN
-            <div class="menu text-right">
-                <div class="logo">
-                <a href="$url_accueil" title="logo">
-                    <img src="images/logo-white.png"  alt="logo">
-                </a>
-                </div>
-                <ul>
-                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
-                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
-                </ul>
-            </div>
-            FIN;
-
-        }
+        $chemin = "";
 
         switch ($select) {
             //Erreur dans la connexion
@@ -127,9 +92,49 @@ class VueCompte
             //Affichage du formulaire de reset du mot de passe
             case 4:
             {
+                $chemin .= "../../";
                 $content .= $this->formulaireResetMDP();
                 break;
             }
+        }
+
+        $logo = $chemin . "images/logo-white.png";
+        $chemin .= "css/style.css";
+
+        if (isset($_SESSION['profile'])) {
+            //Si l'utilisateur est connecté
+            $bandeau .= <<<FIN
+            <div class="menu text-right">
+                <div class="logo">
+                <a href="$url_menu" title="logo">
+                    <img src="$logo"  alt="logo">
+                </a>
+                </div>
+                <ul>  
+                <li> <a href="$url_afficherNot"> Notifications </a> </li> 
+                <li> <a href="$url_modifierCompte"> Modifier compte </a> </li>  
+                <li> <a href ="$url_deconnexion"> Se deconnecter</a></li>     
+                </ul>
+            </div>
+
+            FIN;
+
+        } else {
+            //si 'l'utilisateur n'est pas connecté
+            $bandeau .= <<<FIN
+            <div class="menu text-right">
+                <div class="logo">
+                <a href="$url_accueil" title="logo">
+                    <img src="$logo"  alt="logo">
+                </a>
+                </div>
+                <ul>
+                    <li> <a href="$url_formConnexion"> Se connecter </a></li>
+                    <li> <a href="$url_formInsription"> S'inscrire </a> </li>      
+                </ul>
+            </div>
+            FIN;
+
         }
 
         return <<<FIN
@@ -137,7 +142,7 @@ class VueCompte
     
         <head>
             <title>GoldenPPIT</title>
-            <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href=$chemin>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         </head>
     
@@ -400,7 +405,7 @@ FIN;
 
     <div class = "container ">
             
-        <form name="connexion" method="POST" action="#">
+        <form name="connexion" method="POST" action="$url_envoyer">
             <div class="fieldset-left">
                 <div class="text-right">
 			    <p class = "p-accueil2">
@@ -409,7 +414,7 @@ FIN;
                 </div>
                 <div class="field"> 
 				    Email : 
-				    <input type="mail" name="u_mail" placeholder="$url_envoyer"/>
+				    <input type="mail" name="u_mail" placeholder=""/>
 			    </div>
 			    <div class="text-right">
 			    <p class = "p-accueil2">
@@ -444,11 +449,12 @@ FIN;
      */
     public function formulaireResetMDP(): string
     {
-        $url_envoyer = $this->container->router->pathFor('resetMDP');
+        $token = $this->tab[0];
+        $url_envoyer = $this->container->router->pathFor('resetMDP', ['token' => $token]);
         return <<<FIN
 <body>
     <h1 class="text-center">Réinitialisé votre mot de passe</h1>
-    <div class="clearfix"></div>
+    <div class="clearfix"></div>    
 
     <div class = "container ">
             
@@ -476,7 +482,7 @@ FIN;
             </div>
             
             
-            <img src="images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
+            <img src="../../images/femmeLogin.png" class="loginFemme" alt="femmeLogin">
             <div class="clearfix"></div>
             
 

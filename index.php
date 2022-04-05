@@ -45,8 +45,8 @@ $app->get('/supprimerCompte', ControlleurCompte::class . ':supprimerCompte')->se
 
 $app->get('/motDePasseOublie', ControlleurCompte::class . ':motDePasseOublie')->setName('formMotDePasseOublie');
 $app->post('/motDePasseOublie', ControlleurCompte::class . ':sendMail')->setName('envoyerLien');
-$app->get('/reinitialiserMDP', ControlleurCompte::class . ':reinitialiserMDP')->setName('formResetMDP');
-$app->post('/reinitialiserMDP', ControlleurCompte::class . ':resetPW')->setName('resetMDP');
+$app->get('/reinitialiserMDP/{token}', ControlleurCompte::class . ':reinitialiserMDP')->setName('formResetMDP');
+$app->post('/reinitialiserMDP/{token}', ControlleurCompte::class . ':resetPW')->setName('resetMDP');
 
 //Chemin evenement
 $app->get('/creationEvenement', ControlleurEvenement::class . ':creationEvenement')->setName('creationEvenement');
