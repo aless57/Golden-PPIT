@@ -13,6 +13,22 @@ class VuePageEvenement
     private $tab;
     private $container;
     private $estParticipant;
+
+    /**
+     * @return false
+     */
+    public function getEstParticipant(): bool
+    {
+        return $this->estParticipant;
+    }
+
+    /**
+     * @param false $estParticipant
+     */
+    public function setEstParticipant(bool $estParticipant): void
+    {
+        $this->estParticipant = $estParticipant;
+    }
     /**
      * VuePageEvenement constructor.
      * @param $tab
@@ -696,31 +712,33 @@ FIN;
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
-
                     </div>
-                    <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
-
             FIN;
         } else {
-            if($this->estParticipant==true){
-                $boutons .= <<<FIN
-                <button class="bouton-bleu" onclick="window.location.href='$url_proposer_Un_Besoin'">Suggérer un besoin</button>
-                <button class="bouton-bleu">Suggérer une modification</button>
-                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
-
+            $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
+            $estParticipant = false;
+            for($i = 0; $i<$nb_participants; $i++){
+                if($_SESSION['profile'] == $participants[$i]){
+                        $estParticipant = true;
+                }
+            }
+            if($estParticipant==true){
+                $boutons= <<<FIN
+                            <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
             FIN;
+
             }else{
-                $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
-
-                $boutons.=<<<FIN
-                <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
-
-            FIN;
+                $boutons .= <<<FIN
+                            <button class="bouton-bleu" onclick="window.location.href='$url_proposer_Un_Besoin'">Suggérer un besoin</button>
+                            <button class="bouton-bleu">Suggérer une modification</button>
+                        FIN;
 
             }
 
-
         }
+        $boutons .= <<<FIN
+                <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
+            FIN;
 
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
