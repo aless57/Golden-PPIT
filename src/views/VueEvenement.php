@@ -147,6 +147,7 @@ FIN;
 <html lang="french">
 
 <head>
+    <meta charset="utf-8"/>
     <title>GoldenPPIT</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="src/calendar/calendarjs.css" />
@@ -253,7 +254,6 @@ FIN;
         $departements = "";
 
         //TODO chopper les infos à partir de la bdd
-        //TODO départements
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
             $test_2 = $this->tab[1][$i]->e_id;
@@ -342,6 +342,7 @@ FIN;
                                 <option class="opt" value="lointain">Les plus lointains</option>
                             </select>
                     </div>
+
                     <div class="grid-item">
                             <div class="mes-evenements">
                             <label for="proprietaire">Mes événements</label>
@@ -380,6 +381,11 @@ FIN;
                     <script>
                         var tab = {$this->tab[1]};
                         var tab2 = {$this->tab[2]};
+                        tab.forEach(element => {
+                            if(element.e_titre.includes('&#39;')) {
+                                element.e_titre = element.e_titre.replace('&#39;', "'");
+                            }
+                        });
                         let sel = document.getElementById("filtres");
                         sel.addEventListener('change', function() {
                             switch(this.value) {
