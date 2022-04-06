@@ -165,25 +165,22 @@ FIN;
         <section class="page-evenement">
             <div class="container ">
             <div class=" details-bg">
-                    <div class="img-ev">
-
-                    </div>
-                        
+                   
                     <div class="info">
-                    <div class=" labels-details-not">
+                    <div class=" labels-details-ev">
                         <h2> Notification de type : </h2>
-                        <h2 class="details-not"> $type </h2>
+                        <h2 class="details-ev"> $type </h2>
                     </div>
-                    <div class=" labels-details-not">
+                    <div class=" labels-details-ev">
                         <h2> Expéditeur : </h2>
-                        <h2 class="details-not"> $prenom_expediteur $nom_expediteur </h2>
+                        <h2 class="details-ev"> $prenom_expediteur $nom_expediteur </h2>
                     </div>
 
-                    <div class="labels-details-not"> 
+                    <div class="labels-details-ev"> 
                         <h2> Objet : </h2>
-                        <h2 class="details-not" > $objet </h2>
+                        <h2 class="details-ev" > $objet </h2>
                     </div>
-                     <div class="labels-details-not"> 
+                     <div class="labels-details-ev"> 
                     <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
                     $content
                     </div>

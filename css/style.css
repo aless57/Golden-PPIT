@@ -46,7 +46,7 @@ h1{
     width: 80%;
     margin: 0 auto;
 }
-button.bouton-blanc{
+button.bouton-blanc, .liste-ev{
     position: relative;
     filter: drop-shadow(4px 8px 8px rgba(0, 0, 0, 0.25));
     display: flex;
@@ -87,7 +87,7 @@ button.bouton-blanc{
 
 }
 
-.bouton-blanc:hover{
+.bouton-blanc:hover {
     transition: 1s ;
     background: linear-gradient(to top right, #020024 0%, #030233 35%, #357EB7 65%, #4FB3D9 100%);
     border: none;
@@ -96,6 +96,15 @@ button.bouton-blanc{
     font-weight: 600;
     letter-spacing: 0.02em;
 }
+
+.liste-ev:hover{
+    transition: 1s ;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
 
 .clearfix{
     text-align: center;
@@ -346,7 +355,7 @@ fieldset{
 
 }
 
-fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"],  input[type="number"]{
+fieldset input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="tel"], input[type="checkbox"],  input[type="number"], #recherche{
     border-radius:10px;
     border: 2px solid #030233;
     background: linear-gradient(180deg, #ECECF3 0%, #FFFFFF 100%);
@@ -359,7 +368,34 @@ fieldset input[type="text"], input[type="password"], input[type="date"], input[t
     box-shadow:1px 1px rgba(0, 0, 0, 0.25);
 }
 
+.grid{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #030233;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow:1px 1px rgba(0, 0, 0, 0.25);
 
+}
+.grid-item{
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    font-size: 1rem;
+    text-align: center;
+    align-items: baseline;
+    justify-content: space-between;
+
+}
+.grid-item5{
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    display: flex;
+    align-items: baseline;
+    align-content: center;
+    justify-content: space-around;
+}
 .quantity {
     display: flex;
     width : 360px;
@@ -526,11 +562,12 @@ fieldset .field .input-pp{
 
 .labels-details-ev{
     position:relative;
-    left: 32%;
-    margin-top: 1%;
+    left: 3%;
     display: flex;
-    width: 60%;
+    width: 92%;
     height: auto;
+    padding: 1% 1% 0.25%;
+
 }
 
 .alignement{
@@ -566,6 +603,7 @@ fieldset .field .input-pp{
     margin-top: 10px;
 
 }
+
 
 button.margin-0{
     margin-top: 0;
@@ -606,16 +644,12 @@ button.margin-0{
     padding: 5px;
 }
 
-.leftBouton{
-    position: relative;
-    right:5%;
-    background-color: transparent;
-}
 .btn-supp {
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     border-radius: 6px;
 }
+
 
 .btn-supp-not {
     background-color: black;
@@ -636,16 +670,42 @@ button.margin-0{
 .btn-supp-not:hover{
     text-decoration: underline;
 }
-.rightBouton{
-    width: 3%;
-    position: relative;
+.leftBouton{
+    width: 5%;
+    position: absolute;
     left: 5%;
+    display: inline-block;
+    float: left;
+    align-items: center;
+    background-color: transparent;
+}
+.rightBouton{
+    width: 5%;
+    position: absolute;
+    right: -10%;
+    display: inline-block;
+    float: right;
+    align-items: center;
+    z-index: -1;
+
+}
+.transparent{
+    background: none;
+    position: absolute;
+    display:flex;
+    width : 40px ;
+    height: 50px;
+    right: 25%;
+    align-items: center;
+    border:none;
+}
+.transparent:hover{
+    cursor:pointer;
 }
 
-.details-not {
-    display: inline-block;
-    margin-left: auto;
 
+.inline{
+    display: flex;
 }
 
 
@@ -662,39 +722,25 @@ button.margin-0{
     box-shadow: none;
 }
 
-.labels-details-not {
-    position: relative;
-    margin-top: 15px;
-    display: flex;
-    width: 60%;
-    height: auto;
-    left: 32%;
-}
 
 .details-ev {
     display: inline-block;
     margin-left: auto;
+
 }
 .info {
-    padding-top: 5%;
+    padding-top: 3%;
     /*padding-left: 30% ;*/
 }
 .details-bg{
-    height: 400px;
+    height: auto;
     display: block;
+    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25);
     background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
-    box-shadow:2px 2px 2px 2px rgba(0, 0, 0, 0.25); 
+    padding-bottom: 3%;
     border-radius: 10px;
-}
 
-.details-bg-not-contenu {
-    height: 400px;
-    display: block;
-    background: linear-gradient(80deg, #ECECF3 0%, #FFFFFF 300%);
-    box-shadow: 2px 2px 2px 2px #357EB7;
-    border-radius: 10px;
 }
-
 
 .description {
     display:block;
@@ -755,7 +801,7 @@ button.margin-0{
 }
 .param-buttons .bouton-bleu{
     width:250px;
-    height : 40px;
+    height : 45px;
 }
 
 

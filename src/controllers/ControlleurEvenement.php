@@ -590,10 +590,7 @@ class ControlleurEvenement
     public function quitterEvenement(Request $rq, Response $rs, $args): Response
     {
         $user_email = $_SESSION['profile']['mail'];
-        echo $user_email;
         $id_ev = $args['id_ev'];
-        echo $id_ev;
-
         $participe = participe::where([['p_user', '=', $user_email], ['p_event', '=', $id_ev ]]);
         $participe->delete();
         $url_accueil = $this->container->router->pathFor("evenement", ['id_ev' => $args['id_ev']]);
@@ -603,9 +600,11 @@ class ControlleurEvenement
 
     public function demanderRejoindre(Request $rq, Response $rs, $args): Response
     {
+        $nom_ev = Evenement::where('e_id', '=', $args['id_ev'])->first()->e_titre;
         $notification = new Notification();
         $notification->n_objet = "Demande à rejoindre";
-        $notification->n_contenu = "L'utilisateur " . $args['participant'] . " veut rejoindre l'événement " . $args['id_ev'];
+        $notification->n_contenu = "L'utilisateur <strong>" . $args['participant'] . "</strong> souhaite rejoindre l'événement : <strong>". $nom_ev ."</strong>" ;
+
         $notification->n_statut = "non lue";
         $notification->n_type = "invitation";
         $notification->n_expediteur = $_SESSION['profile']['mail'];

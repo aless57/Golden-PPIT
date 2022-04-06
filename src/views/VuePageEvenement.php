@@ -12,7 +12,7 @@ class VuePageEvenement
 {
     private $tab;
     private $container;
-
+    private $estParticipant;
     /**
      * VuePageEvenement constructor.
      * @param $tab
@@ -22,6 +22,7 @@ class VuePageEvenement
     {
         $this->tab = $tab;
         $this->container = $container;
+        $this->estParticipant = false;
     }
 
     /**
@@ -249,7 +250,7 @@ FIN;
 
     public function ajoutBesoin(): string
     {
-        $url_enregistrerBesoin = $this->container->router->pathFor('EnregistrerproposerUnBesoin', ['id_ev' => $this->tab[0]]);
+        $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
         $html = <<<FIN
         <h1 class="text-center">Suggérer un besoin</h1>
         <div class="container">
@@ -310,27 +311,65 @@ FIN;
     public function associerBesoin(): string
     {
         $url_enregistrerAssocierBesoin = $this->container->router->pathFor('enregistrerAssocierBesoin', ['id_ev' => $this->tab[0]]);
+        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev' => $this->tab[0]]);
+        $url_evenement = $this->container->router->pathFor('evenement', ['id_ev'=> $this->tab[0]]);
         $besoins_non_associes = Besoin::leftJoin('participe_besoin', function ($join) {
             $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
         })
             ->whereNull('participe_besoin.pb_besoin')->get();
+        $column ="";
+        $column2="";
+        $select = "";
+        $endSelect="";
+        $select2 = "";
+        $endSelect2="";
+        if($besoins_non_associes->count()==0){
 
-        for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
-            $nom_besoin = $besoins_non_associes[$i]->b_objet;
-            $column .= <<<FIN
-                        <option> $nom_besoin </option>
+            $column = <<<FIN
+                    <div class="container"    >  
+                    <div class ="message-erreur">
+                        <h2>Il n'existe pas de besoins non associés dans cet événement. </h2> 
+                        <h3 class="text-center"> <a href ="$url_evenement" > Retour à la page de l'événément! </a> <a href ="$url_ajoutBesoin" > Ajouter un besoin ici ! </a> </h3>
+                    
+                    </div> 
+                    </div>
                     FIN;
-        }
 
-        $participants = $this->tab[1];
-        $nb_participants = $this->tab[2];
-
-        for ($i = 0; $i < $nb_participants; $i++) {
-            $p_mail = $participants[$i]->p_user;
-            $column2 .= <<<FIN
+        }else{
+            $select = <<<FIN
+                <select class="filtres" name="besoin_sele">
+            FIN;
+            for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
+                $nom_besoin = $besoins_non_associes[$i]->b_objet;
+                $column .= <<<FIN
+                        <option> $nom_besoin </option>
+                        
+                    FIN;
+            }
+            $endSelect = <<<FIN
+                </select>
+            FIN;
+            $participants = $this->tab[1];
+            $nb_participants = $this->tab[2];
+            $select2 = <<<FIN
+              <select class="filtres" name="participe_sele"> 
+            FIN;
+            for ($i = 0; $i < $nb_participants; $i++) {
+                $p_mail = $participants[$i]->p_user;
+                $column2 .= <<<FIN
                         <option> $p_mail </option>
                     FIN;
+            }
+            $endSelect2 = <<<FIN
+                </select>
+            FIN;
+           $button=<<<FIN
+             <input type="submit" id = "associer" value="ASSOCIER" name="submit" class="bouton-bleu" />
+            FIN ;
         }
+
+
+
 
         $html = <<<FIN
         <h1 class="text-center">Associer un besoin</h1>
@@ -338,20 +377,20 @@ FIN;
             <form method="post" action="$url_enregistrerAssocierBesoin">
 			<fieldset >
 				<div class="field"> 
-				    <select class="filtres" name="besoin_sele">
-                        $column
-                    </select>
+                    $select
+                    $column
+                    $endSelect
                 </div>
                 
                 <div class="field"> 
-				    <select class="filtres" name="participe_sele">
+				        $select2
                         $column2
-                    </select>
+                        $endSelect2
                 </div>
 
 			</fieldset>
             <div class="clearfix"/>
-			<input type="submit" value="ASSOCIER" name="submit" class="bouton-bleu" />
+            $button
 		</form>
 </div>
 </div>
@@ -657,21 +696,32 @@ FIN;
                         <span> <a href="#">Léguer l'événement</a></span>
                         <span> <a href="$url_supprimer" class="supp">Supprimer l'événement</a></span>
                       </div>
+
                     </div>
+                    <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
+
             FIN;
         } else {
-            $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
-            $boutons .= <<<FIN
-                <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
+            if($this->estParticipant==true){
+                $boutons .= <<<FIN
                 <button class="bouton-bleu" onclick="window.location.href='$url_proposer_Un_Besoin'">Suggérer un besoin</button>
                 <button class="bouton-bleu">Suggérer une modification</button>
-            FIN;
-
-        }
-        $boutons .= <<<FIN
                 <button class="bouton-rouge" onclick="window.location.href='$url_quitter'">Quitter l'événement</button>
 
             FIN;
+            }else{
+                $url_se_demanderRejoindre = $this->container->router->pathFor('demanderRejoindre', ['id_ev' => $id_ev, 'participant' => $_SESSION['profile']['mail']]);
+
+                $boutons.=<<<FIN
+                <button class="bouton-bleu" onclick="window.location.href='$url_se_demanderRejoindre'">Demander à rejoindre l'événement</button>
+
+            FIN;
+
+            }
+
+
+        }
+
         $tab = $this->tabBesoin($nb_participants, $participants, $id_ev);
         $listeParticipant = $this->container->router->pathFor('listeParticipant', ['id_ev' => $id_ev]);
         //TODO Corriger bug chelou : mb_strpos(): Argument #1 ($haystack) must be of type string, array given
@@ -682,9 +732,7 @@ FIN;
                 
             
             <div class=" details-bg">
-                    <div class="img-ev">
-                        </div>
-                        
+                   
                         <div class="info">
                     <div class=" labels-details-ev"> 
                         <h2> Nom de l'événement : </h2>
@@ -788,6 +836,9 @@ FIN;
             </div>
 
 FIN;
+            if($_SESSION['profile']== $utilisateur->p_user){
+                $this->estParticipant = true;
+            }
         }
 
         $html .= "</tbody></table></div>";
