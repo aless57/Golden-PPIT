@@ -308,8 +308,7 @@ FIN;
                 <div id="$test" class="alignement-centre">                    
                     <button id="$test_2" name="test" class="liste-ev margin-0" > $test  
                         <img src="images/black-cat.png" class="leftBouton" alt="NotOwner">
-                        <button onclick="window.location.href='$url_supprimer'" class="transparent"> 
-                    </button>
+                        
                 </div>   
             <script>    
                 var event = document.getElementById('$test_2');
