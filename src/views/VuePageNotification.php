@@ -135,9 +135,10 @@ FIN;
         $prenom_expediteur = $this->tab[7];
         $id_event = $this->tab[8];
 
+            
+        
         $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
         $url_rejoindre = $this->container->router->pathFor('rejoindreEvenement', ['id_not' => $id_not]);
-        $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', ['id_not' => $id_not]);
 
 
 
@@ -146,10 +147,18 @@ FIN;
         if ($type == "invitation") {
             $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Rejoindre</button>";
         }
-        if ($type == "suggestion besoin"){
+        if ($type == "Suggestion"){
 
-            // BUG MARCHE PAS
-            //$content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
+
+            preg_match('/(La description du besoin)/', $contenu, $match, PREG_OFFSET_CAPTURE);
+            $b_desc = substr($contenu,$match[0][1] + strlen('La description du besoin</u> :'));
+
+            
+            preg_match('/(\()/', $objet, $match, PREG_OFFSET_CAPTURE);
+            $b_objet = substr($objet,$match[0][1] +1, -1); // + 1 - 1 Les deux parenthèses
+
+            $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', [ 'id_not' => $id_not, 'b_event' => $id_event, 'b_objet' => $b_objet, 'b_desc' => $b_desc ]);
+            $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
         }
 
         return <<<FIN

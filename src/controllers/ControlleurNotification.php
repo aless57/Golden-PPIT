@@ -6,6 +6,7 @@ use goldenppit\models\notification;
 use goldenppit\models\participe;
 use goldenppit\models\utilisateur;
 use goldenppit\models\besoin;
+use goldenppit\models\evenement;
 use goldenppit\views\VueNotification;
 use goldenppit\views\VuePageNotification;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -80,17 +81,16 @@ class ControlleurNotification
 
     public function accepterSuggestionBesoin(Request $rq, Response $rs, $args): Response
     {
-        $notif = Notification::find($args['id_not']);
-        $notif->delete();
+        //$notif = Notification::find($args['id_not']);
+        //$notif->delete();
 
-        $besoin = new Besoin();
+        $besoin = new besoin();
+        print_r($args);
 
-        $besoin->b_desc = "TESTS DESC";
-        
-
-        $besoin->b_objet = "TESTS ONJECT";
+        $besoin->b_desc = $args['b_desc'];
+        $besoin->b_objet = $args['b_objet'];
+        $besoin->b_event = $args['b_event'];
         $besoin->b_nombre = 1;
-        $besoin->b_event = 2;
 
         $besoin->save();
 

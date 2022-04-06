@@ -332,7 +332,7 @@ class ControlleurEvenement
         $desc_besoin = filter_var($post['desc'], FILTER_SANITIZE_STRING);
 
         $notification = new Notification();
-        $notification->n_objet = "Suggestion d'un besoin";
+        $notification->n_objet = "Suggestion d'un besoin (" . $nom_besoin . ")";
         $notification->n_contenu = "L'utilisateur <strong>" . $args['participant'] . "</strong> propose l'ajout d'un nouveau besoin : <strong>". $nom_besoin . "</strong> , pour l'événement <strong>" . $nom_ev .
                                     "</strong></br><u>La description du besoin</u> :". $desc_besoin ;
         $notification->n_statut = "nonLue";
