@@ -260,10 +260,10 @@ class ControlleurCompte
      */
     public function enregistrerModif(Request $rq, Response $rs, $args): Response
     {
-        $infoUser = Utilisateur::where("mail", "=", $_SESSION['profile']['mail'])->first();
+        $infoUser = Utilisateur::where("u_mail", "=", $_SESSION['profile']['mail'])->first();
         $post = $rq->getParsedBody();
         $nouveauMail = filter_var($post['mail']);
-        $nbNouveauMail = Utilisateur::where("mail", "=", $nouveauMail)->count();
+        $nbNouveauMail = Utilisateur::where("u_mail", "=", $nouveauMail)->count();
         if ($nbNouveauMail > 0 && $nouveauMail != $infoUser->email) {
             $vue = new VueCompte($infoUser->toArray(), $this->container);
             $rs->getBody()->write($vue->render(9));
@@ -402,8 +402,8 @@ class ControlleurCompte
      */
     public function resetPW(Request $rq, Response $rs, $args): Response
     {
-        if (isset($_POST['newPassWord']) && isset($_GET['token'])) {
-            $hpw = password_hash($_POST['newPassWord'], PASSWORD_DEFAULT);
+        if (isset($_POST['u_mdp']) && isset($_GET['token'])) {
+            $hpw = password_hash($_POST['u_mdp'], PASSWORD_DEFAULT);
             $user = Utilisateur::where('token', '=', $_GET['token'])->first();
             $user->u_mdp = $hpw;
             $user->u_token = NULL;
