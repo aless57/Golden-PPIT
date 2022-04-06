@@ -53,7 +53,7 @@ class ControlleurNotification
         $event_id = Notification::where('n_id', '=', $id_not)->first()->n_event;
         //On veut afficher le nom et le prénom et pas le mail sur la notification.
         $nom_expediteur = Utilisateur::where('u_mail', '=', $mail_expediteur)->first()->u_nom;
-        $prenom_expediteur = Utilisateur::where('u_mail', '=', $nom_expediteur)->first()->u_prenom;
+        $prenom_expediteur = Utilisateur::where('u_mail', '=', $mail_expediteur)->first()->u_prenom;
 
         //récupérer les champs ici et les mettre entre les crochets
         $vue = new VuePageNotification([$id_not, $objet, $contenu, $type, $mail_expediteur, $mail_destinataire, $nom_expediteur, $prenom_expediteur, $event_id], $this->container);
