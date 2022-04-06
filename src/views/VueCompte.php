@@ -83,6 +83,10 @@ class VueCompte
                 $content .= $this->formulaireModifierCompte();
                 break;
             }
+            case 10:
+            {
+                $content .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"fa fa-times\" aria-hidden=\"true\"></i> Une erreur est survenue - Le mail n'est pas connu!</div>";
+            }
             //Affichage du formulaire du mot de passe oublié
             case 3:
             {

@@ -377,15 +377,22 @@ class ControlleurCompte
                     $user->save();
                     echo "E-mail envoyé";
                 } else {
-                    echo "Une erreur est survenue - Lors de l'envoie du mail";
+                    $vue = new VueCompte([], $this->container);
+                    $rs->getBody()->write($vue->render(3));
+                    return $rs;
                 }
             } else {
-                echo "Une erreur est survenue - Le mail n'est pas connu";
+                $vue = new VueCompte([], $this->container);
+                $rs->getBody()->write($vue->render(10));
+                return $rs;
+                
             }
+        }else{
+            $vue = new VueCompte([], $this->container);
+            $rs->getBody()->write($vue->render(3));
+            return $rs;
         }
-        $vue = new VueCompte([], $this->container);
-        $rs->getBody()->write($vue->render(3));
-        return $rs;
+        
     }
 
     /**
