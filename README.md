@@ -11,7 +11,7 @@ driver=mysql
 username=root
 password=
 host=localhost
-database=mywishlist
+database=goldenppit
 charset=utf8
 collation=utf8_unicode_ci
 ```
