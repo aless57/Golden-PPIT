@@ -356,15 +356,7 @@ FIN;
               <div class="field"> <label>Date de naissance :</label> <input type="date" name="naissance" placeholder="" value="$naissance" />
               </div>
               <div class="field"> <label>Numéro de téléphone : </label><input type="tel" name="tel" placeholder="" value="$telephone" />
-              </div>
-              <div class="field"> <label>Mot de passe actuel * : </label><input type="password" name="mdp" placeholder="**********" required="required" />
-              </div>
-              <div class="field"> <label>Nouveau mot de passe : </label><input type="password" name="mdp" placeholder="**********" required="required" />
-              </div>
-              <div class="field"> <label>Confirmation du mot de passe :</label> <input type="password" name="mdpconfirm" placeholder="**********" required="required" />
-              </div>
-              <div class="field"> <label>Ville :</label> <input type="text" name="adr" placeholder="" value="$ville" />
-              </div>            
+              </div>        
               <div class="field"> <label>Activer les notifications par mail :</label> 
                 $checked
               </div>
