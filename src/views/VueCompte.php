@@ -467,12 +467,12 @@ FIN;
                 </div>
                 <div class="field"> 
 				    Mot de passe :
-				    <input type="password" name="u_mdp" placeholder=""/>
+				    <input type="password" name="u_mdp" placeholder="" REQUIRED/>
 			    </div>
 			
 			    <div class="field"> 
 				    Confirmation du mot de passe : 
-				    <input type="password" name="u_mdpconfirm" placeholder=""/>
+				    <input type="password" name="u_mdpconfirm" placeholder="" REQUIRED/>
 			    </div>
 			    <div class="text-right">
 			    <input class="bouton-bleu" type="submit" value="Valider" >

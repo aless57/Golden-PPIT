@@ -402,13 +402,11 @@ class ControlleurCompte
      */
     public function resetPW(Request $rq, Response $rs, $args): Response
     {
-        if (isset($_POST['u_mdp']) && isset($_GET['token'])) {
-            $hpw = password_hash($_POST['u_mdp'], PASSWORD_DEFAULT);
-            $user = Utilisateur::where('token', '=', $_GET['token'])->first();
-            $user->u_mdp = $hpw;
+        $user = Utilisateur::where('u_token', '=', $args['token'])->first();
+        if ($_POST['u_mdp'] == $_POST['u_mdpconfirm']) {
+            $user->u_mdp = password_hash($_POST['u_mdp'], PASSWORD_DEFAULT);
             $user->u_token = NULL;
             $user->save();
-            echo "Mot de passe modifié";
         }
         $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);
