@@ -81,8 +81,8 @@ class ControlleurNotification
 
     public function accepterSuggestionBesoin(Request $rq, Response $rs, $args): Response
     {
-        //$notif = Notification::find($args['id_not']);
-        //$notif->delete();
+        $notif = Notification::find($args['id_not']);
+        $notif->delete();
 
         $besoin = new besoin();
         print_r($args);
