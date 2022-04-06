@@ -381,7 +381,7 @@ FIN;
                         var tab = {$this->tab[1]};
                         var tab2 = {$this->tab[2]};
                         tab.forEach(element => {
-                            if(element.e_titre.includes('&#39;')) {
+                            while(element.e_titre.includes('&#39;')){
                                 element.e_titre = element.e_titre.replace('&#39;', "'");
                             }
                         });
