@@ -534,21 +534,26 @@ FIN;
 
         if ($besoins_non_associes->count() != 0) {
             $column = "";
-
+            $incr = 0;
             for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
-                $nom_besoin = $besoins_non_associes[$i]->b_objet;
-                $column .= <<<FIN
-                        <td> $nom_besoin </td>
-                    FIN;
+                if($besoins_non_associes[$i]->b_event == $id_ev){
+                    $nom_besoin = $besoins_non_associes[$i]->b_objet;
+                    $column .= <<<FIN
+                            <td> $nom_besoin </td>
+                        FIN;
+                    $incr++;
+                }   
             }
-
-            $row .= <<<Fin
-                    <tr>
-                       <td> Besoins non associés: </td>
-                       
-                      $column
-                    </tr>
-                Fin;
+            if($incr>0){
+                $row .= <<<Fin
+                <tr>
+                   <td> Besoins non associés: </td>
+                   
+                  $column
+                </tr>
+            Fin;
+            }
+            
         }
         for ($i = 0; $i < $nb_participants; $i++) {
             $column = "";
