@@ -108,12 +108,20 @@ class ControlleurNotification
      */
     public function rejoindreEvenement(Request $rq, Response $rs, $args): Response
     {
-        $user = Utilisateur::find($_SESSION['profile']['mail']);
+
         $id_not = $args['id_not'];
 
         //Ajout de l'utilisateur dans l'évenement auquel il a été invité
         $id_event = Notification::where('n_id', '=', $id_not)->first()->n_event;
-
+        $type_notif = Notification::where('n_id', '=', $id_not)->first()->n_type;
+        $exp_notif =  Notification::where('n_id', '=', $id_not)->first()->n_expediteur;
+        if($type_notif == "invitation"){
+            $user = Utilisateur::find($_SESSION['profile']['mail']);
+        }else if($type_notif=="demande"){
+            $user = Utilisateur::find($exp_notif);
+        }
+        var_dump($user);
+        var_dump($type_notif);
         $participant = new participe();
         $participant->p_user = $user->u_mail;
         $participant->p_event = $id_event;

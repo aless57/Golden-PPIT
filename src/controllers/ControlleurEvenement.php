@@ -606,7 +606,7 @@ class ControlleurEvenement
         $notification->n_contenu = "L'utilisateur <strong>" . $args['participant'] . "</strong> souhaite rejoindre l'événement : <strong>". $nom_ev ."</strong>" ;
 
         $notification->n_statut = "non lue";
-        $notification->n_type = "invitation";
+        $notification->n_type = "demande";
         $notification->n_expediteur = $_SESSION['profile']['mail'];
         $notification->n_destinataire = evenement::where('e_id', '=', $args['id_ev'])->first()->e_proprio;
         $notification->n_event = $args['id_ev'];

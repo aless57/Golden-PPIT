@@ -161,6 +161,10 @@ FIN;
             $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
         }
 
+        if($type == "demande"){
+            $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Accepter</button>";
+        }
+
         return <<<FIN
         <section class="page-evenement">
             <div class="container ">
