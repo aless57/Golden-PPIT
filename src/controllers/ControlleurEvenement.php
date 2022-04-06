@@ -145,6 +145,7 @@ class ControlleurEvenement
         $post = $rq->getParsedBody();
 
         $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $nom = str_replace("&#39;","'",$nom);
         $debut = filter_var($post['deb'], FILTER_SANITIZE_STRING);
         $archiv = filter_var($post['archiv'], FILTER_SANITIZE_STRING);
         $supprAuto = filter_var($post['supprauto'], FILTER_SANITIZE_STRING);

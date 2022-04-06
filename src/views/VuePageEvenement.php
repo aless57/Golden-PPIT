@@ -339,11 +339,13 @@ FIN;
                 <select class="filtres" name="besoin_sele">
             FIN;
             for ($i = 0; $i < $besoins_non_associes->count(); $i++) {
-                $nom_besoin = $besoins_non_associes[$i]->b_objet;
-                $column .= <<<FIN
-                        <option> $nom_besoin </option>
+                if($besoins_non_associes[$i]->b_event == $this->tab[0]){
+                    $nom_besoin = $besoins_non_associes[$i]->b_objet;
+                    $column .= <<<FIN
+                         <option> $nom_besoin </option>
                         
                     FIN;
+                }
             }
             $endSelect = <<<FIN
                 </select>
