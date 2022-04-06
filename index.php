@@ -87,7 +87,7 @@ $app->get('/afficherNotifications', ControlleurNotification::class . ':afficherN
 $app->get('/consulterNotification/{id_not}', ControlleurNotification::class . ':consulterNotification')->setName('consulterNotification');
 $app->get('/supprimerNotification/{id_not}', ControlleurNotification::class . ':supprimerNotification')->setName('supprimerNotification');
 $app->get('/rejoindreEvenement/{id_not}', ControlleurNotification::class . ':rejoindreEvenement')->setName('rejoindreEvenement');
-$app->get('/accepterSuggestionBesoin/{id_not}/{b_event}/{b_objet}/{b_desc}', ControlleurNotification::class . ':accepterSuggestionBesoin')->setName('accepterSuggestionBesoin');
+$app->get('/accepterSuggestionBesoin/{id_not}', ControlleurNotification::class . ':accepterSuggestionBesoin')->setName('accepterSuggestionBesoin');
 
 
 
