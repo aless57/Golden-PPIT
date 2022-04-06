@@ -311,8 +311,8 @@ FIN;
     public function associerBesoin(): string
     {
         $url_enregistrerAssocierBesoin = $this->container->router->pathFor('enregistrerAssocierBesoin', ['id_ev' => $this->tab[0]]);
-        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev' => $id_ev]);
-
+        $url_ajoutBesoin = $this->container->router->pathFor('ajout_besoin', ['id_ev' => $this->tab[0]]);
+        $url_evenement = $this->container->router->pathFor('evenement', ['id_ev'=> $this->tab[0]]);
         $besoins_non_associes = Besoin::leftJoin('participe_besoin', function ($join) {
             $join->on('besoin.b_id', '=', 'participe_besoin.pb_besoin');
         })
@@ -329,7 +329,8 @@ FIN;
                     <div class="container"    >  
                     <div class ="message-erreur">
                         <h2>Il n'existe pas de besoins non associés dans cet événement. </h2> 
-                        <h3 class="text-center"> <a href ="$url_ajoutBesoin" > Ajoutez un besoin ici ! </a> </h3>
+                        <h3 class="text-center"> <a href ="$url_evenement" > Retour à la page de l'événément! </a> <a href ="$url_ajoutBesoin" > Ajouter un besoin ici ! </a> </h3>
+                    
                     </div> 
                     </div>
                     FIN;
