@@ -251,7 +251,7 @@ FIN;
     {
         $url_enregistrerBesoin = $this->container->router->pathFor('enregistrerBesoin', ['id_ev' => $this->tab[0]]);
         $html = <<<FIN
-        <h1 class="text-center">Suggérer un besoin</h1>
+        <h1 class="text-center">Ajouter un besoin</h1>
         <div class="container">
             <form method="post" action="$url_enregistrerBesoin">
 			<fieldset >
