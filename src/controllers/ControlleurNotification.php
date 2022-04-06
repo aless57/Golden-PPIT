@@ -82,17 +82,30 @@ class ControlleurNotification
     public function accepterSuggestionBesoin(Request $rq, Response $rs, $args): Response
     {
         $notif = Notification::find($args['id_not']);
-        $notif->delete();
+        
+
+        $nom_besoin;
+        $desc_besoin;
+
+        $res = explode("<strong>",$notif->n_contenu);
+        $res = explode("</strong>", $res[2]);
+
+        $nom_besoin = $res[0];
+
+        $res = explode("</u>", $notif->n_contenu);
+        $res = explode(":", $res[1]);
+        $desc_besoin = $res[1];
 
         $besoin = new besoin();
-        print_r($args);
 
-        $besoin->b_desc = $args['b_desc'];
-        $besoin->b_objet = $args['b_objet'];
-        $besoin->b_event = $args['b_event'];
+         
+        $besoin->b_objet = $nom_besoin;
+        $besoin->b_desc = $desc_besoin;
+        $besoin->b_event = $notif->n_event;
         $besoin->b_nombre = 1;
 
         $besoin->save();
+        $notif->delete();
 
         //TODO : remettre sur la page précedente
         $url_accueil = $this->container->router->pathFor('accueil');

@@ -148,16 +148,7 @@ FIN;
             $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Rejoindre</button>";
         }
         if ($type == "Suggestion"){
-
-
-            preg_match('/(La description du besoin)/', $contenu, $match, PREG_OFFSET_CAPTURE);
-            $b_desc = substr($contenu,$match[0][1] + strlen('La description du besoin</u> :'));
-
-            
-            preg_match('/(\()/', $objet, $match, PREG_OFFSET_CAPTURE);
-            $b_objet = substr($objet,$match[0][1] +1, -1); // + 1 - 1 Les deux parenthèses
-
-            $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', [ 'id_not' => $id_not, 'b_event' => $id_event, 'b_objet' => $b_objet, 'b_desc' => $b_desc ]);
+            $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', [ 'id_not' => $id_not]);
             $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
         }
 
