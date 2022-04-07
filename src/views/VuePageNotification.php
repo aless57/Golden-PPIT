@@ -135,9 +135,10 @@ FIN;
         $prenom_expediteur = $this->tab[7];
         $id_event = $this->tab[8];
 
+            
+        
         $url_supprimer = $this->container->router->pathFor('supprimerNotification', ['id_not' => $id_not]);
         $url_rejoindre = $this->container->router->pathFor('rejoindreEvenement', ['id_not' => $id_not]);
-        $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', ['id_not' => $id_not]);
 
 
 
@@ -146,35 +147,35 @@ FIN;
         if ($type == "invitation") {
             $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Rejoindre</button>";
         }
-        if ($type == "suggestion besoin"){
+        if ($type == "Suggestion"){
+            $url_accepterBesoin = $this->container->router->pathFor('accepterSuggestionBesoin', [ 'id_not' => $id_not]);
+            $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
+        }
 
-            // BUG MARCHE PAS
-            //$content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_accepterBesoin'\"/>Ajouter</button>";
+        if($type == "demande"){
+            $content .= "<button class=\"btn-supp-not\" onclick=\"window.location.href='$url_rejoindre'\"/>Accepter</button>";
         }
 
         return <<<FIN
         <section class="page-evenement">
             <div class="container ">
             <div class=" details-bg">
-                    <div class="img-ev">
-
-                    </div>
-                        
+                   
                     <div class="info">
-                    <div class=" labels-details-not">
+                    <div class=" labels-details-ev">
                         <h2> Notification de type : </h2>
-                        <h2 class="details-not"> $type </h2>
+                        <h2 class="details-ev"> $type </h2>
                     </div>
-                    <div class=" labels-details-not">
+                    <div class=" labels-details-ev">
                         <h2> Expéditeur : </h2>
-                        <h2 class="details-not"> $prenom_expediteur $nom_expediteur </h2>
+                        <h2 class="details-ev"> $prenom_expediteur $nom_expediteur </h2>
                     </div>
 
-                    <div class="labels-details-not"> 
+                    <div class="labels-details-ev"> 
                         <h2> Objet : </h2>
-                        <h2 class="details-not" > $objet </h2>
+                        <h2 class="details-ev" > $objet </h2>
                     </div>
-                     <div class="labels-details-not"> 
+                     <div class="labels-details-ev"> 
                     <button class="btn-supp-not" onclick="window.location.href='$url_supprimer'"/>Supprimer</button>
                     $content
                     </div>

@@ -23,11 +23,7 @@ class ControlleurCompteTest extends TestCase
 
     public function testModifierCompte()
     {
-        // TODO Vérifier mot de passe.
-        // TODO Vérifier les champs facultatifs.
-        // TODO Vérifier la ville.
-        // TODO Ajouter le code postal.
-        // TODO En cours
+        // TODO Pas fait
     }
 
     public function testDeconnexion()
@@ -39,13 +35,14 @@ class ControlleurCompteTest extends TestCase
 
     public function testChangerMotDePasse()
     {
-        //TODO Tests encore non-effectués manuellement, nécessite la mise en ligne.
+        // Tests effectués manuellement.
+        // Cette fonction est une fonction d'affichage inutile de la tester avec un test unitaire.
         $this->assertTrue(true);
     }
 
     public function testReinitialiserMDP()
     {
-        //TODO Tests encore non-effectués manuellement, nécessite la mise en ligne.
+        //TODO Ne fonctionne pas
         $this->assertTrue(true);
     }
 

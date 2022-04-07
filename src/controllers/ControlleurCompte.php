@@ -260,27 +260,23 @@ class ControlleurCompte
      */
     public function enregistrerModif(Request $rq, Response $rs, $args): Response
     {
-        $infoUser = Utilisateur::where("mail", "=", $_SESSION['profile']['mail'])->first();
+        $infoUser = Utilisateur::where("u_mail", "=", $_SESSION['profile']['mail'])->first();
         $post = $rq->getParsedBody();
-        $nouveauMail = filter_var($post['mail']);
-        $nbNouveauMail = Utilisateur::where("mail", "=", $nouveauMail)->count();
-        if ($nbNouveauMail > 0 && $nouveauMail != $infoUser->email) {
-            $vue = new VueCompte($infoUser->toArray(), $this->container);
-            $rs->getBody()->write($vue->render(9));
-        } else {
+        if (($post['nom']) != null) {
             $infoUser->u_nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
-            $infoUser->u_prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING);
-            $infoUser->u_login = filter_var($post['login'], FILTER_SANITIZE_STRING);
-            $infoUser->u_mail = filter_var($post['mail'], FILTER_SANITIZE_STRING);
-            $infoUser->u_sexe = filter_var($post['sexe'], FILTER_SANITIZE_STRING);
-            $infoUser->u_naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
-            $infoUser->u_tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
-            $infoUser->save();
-            $vue = new VueCompte($infoUser->toArray(), $this->container);
-            $_SESSION['profile']['mail'] = $nouveauMail;
-            $rs->getBody()->write($vue->render(7));
         }
-        return $rs;
+        if (($post['prenom']) != null) {
+            $infoUser->u_prenom = filter_var($post['prenom'], FILTER_SANITIZE_STRING);
+        }
+        if (($post['naissance']) != null) {
+            $infoUser->u_naissance = filter_var($post['naissance'], FILTER_SANITIZE_STRING);
+        }
+        if (($post['tel']) != null) {
+            $infoUser->u_tel = filter_var($post['tel'], FILTER_SANITIZE_STRING);
+        }
+        $infoUser->save();
+        $url_accueil = $this->container->router->pathFor("accueil");
+        return $rs->withRedirect($url_accueil);
     }
 
     /**
@@ -367,9 +363,9 @@ class ControlleurCompte
     {
         if (isset($_POST['u_mail'])) {
             $mail = $_POST['u_mail'];
-            if(utilisateur::where('u_mail', '=', $mail)->count() >= 1){
+            if (utilisateur::where('u_mail', '=', $mail)->count() >= 1) {
                 $token = uniqid();
-                $url = "https://goldenppit.social/reinitialiserMDP/".$token;
+                $url = "https://goldenppit.social/reinitialiserMDP/" . $token;
 
                 $subject = 'Mot de passe oublié';
                 $message = "Bonjour, voici votre lien pour la reinitialisation du mot de passe : $url";
@@ -381,15 +377,22 @@ class ControlleurCompte
                     $user->save();
                     echo "E-mail envoyé";
                 } else {
-                    echo "Une erreur est survenue - Lors de l'envoie du mail";
+                    $vue = new VueCompte([], $this->container);
+                    $rs->getBody()->write($vue->render(3));
+                    return $rs;
                 }
-            }else{
-                echo "Une erreur est survenue - Le mail n'est pas connu";
+            } else {
+                $vue = new VueCompte([], $this->container);
+                $rs->getBody()->write($vue->render(10));
+                return $rs;
+                
             }
+        }else{
+            $vue = new VueCompte([], $this->container);
+            $rs->getBody()->write($vue->render(3));
+            return $rs;
         }
-        $vue = new VueCompte([], $this->container);
-        $rs->getBody()->write($vue->render(3));
-        return $rs;
+        
     }
 
     /**
@@ -402,13 +405,11 @@ class ControlleurCompte
      */
     public function resetPW(Request $rq, Response $rs, $args): Response
     {
-        if (isset($_POST['newPassWord']) && isset($_GET['token'])) {
-            $hpw = password_hash($_POST['newPassWord'], PASSWORD_DEFAULT);
-            $user = Utilisateur::where('token', '=', $_GET['token'])->first();
-            $user->u_mdp = $hpw;
+        $user = Utilisateur::where('u_token', '=', $args['token'])->first();
+        if ($_POST['u_mdp'] == $_POST['u_mdpconfirm']) {
+            $user->u_mdp = password_hash($_POST['u_mdp'], PASSWORD_DEFAULT);
             $user->u_token = NULL;
             $user->save();
-            echo "Mot de passe modifié";
         }
         $url_accueil = $this->container->router->pathFor('racine');
         return $rs->withRedirect($url_accueil);

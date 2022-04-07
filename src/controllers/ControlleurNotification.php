@@ -6,6 +6,7 @@ use goldenppit\models\notification;
 use goldenppit\models\participe;
 use goldenppit\models\utilisateur;
 use goldenppit\models\besoin;
+use goldenppit\models\evenement;
 use goldenppit\views\VueNotification;
 use goldenppit\views\VuePageNotification;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -53,7 +54,7 @@ class ControlleurNotification
         $event_id = Notification::where('n_id', '=', $id_not)->first()->n_event;
         //On veut afficher le nom et le prénom et pas le mail sur la notification.
         $nom_expediteur = Utilisateur::where('u_mail', '=', $mail_expediteur)->first()->u_nom;
-        $prenom_expediteur = Utilisateur::where('u_mail', '=', $nom_expediteur)->first()->u_prenom;
+        $prenom_expediteur = Utilisateur::where('u_mail', '=', $mail_expediteur)->first()->u_prenom;
 
         //récupérer les champs ici et les mettre entre les crochets
         $vue = new VuePageNotification([$id_not, $objet, $contenu, $type, $mail_expediteur, $mail_destinataire, $nom_expediteur, $prenom_expediteur, $event_id], $this->container);
@@ -81,18 +82,30 @@ class ControlleurNotification
     public function accepterSuggestionBesoin(Request $rq, Response $rs, $args): Response
     {
         $notif = Notification::find($args['id_not']);
-        $notif->delete();
-
-        $besoin = new Besoin();
-
-        $besoin->b_desc = "TESTS DESC";
         
 
-        $besoin->b_objet = "TESTS ONJECT";
+        $nom_besoin;
+        $desc_besoin;
+
+        $res = explode("<strong>",$notif->n_contenu);
+        $res = explode("</strong>", $res[2]);
+
+        $nom_besoin = $res[0];
+
+        $res = explode("</u>", $notif->n_contenu);
+        $res = explode(":", $res[1]);
+        $desc_besoin = $res[1];
+
+        $besoin = new besoin();
+
+         
+        $besoin->b_objet = $nom_besoin;
+        $besoin->b_desc = $desc_besoin;
+        $besoin->b_event = $notif->n_event;
         $besoin->b_nombre = 1;
-        $besoin->b_event = 2;
 
         $besoin->save();
+        $notif->delete();
 
         //TODO : remettre sur la page précedente
         $url_accueil = $this->container->router->pathFor('accueil');
@@ -108,12 +121,20 @@ class ControlleurNotification
      */
     public function rejoindreEvenement(Request $rq, Response $rs, $args): Response
     {
-        $user = Utilisateur::find($_SESSION['profile']['mail']);
+
         $id_not = $args['id_not'];
 
         //Ajout de l'utilisateur dans l'évenement auquel il a été invité
         $id_event = Notification::where('n_id', '=', $id_not)->first()->n_event;
-
+        $type_notif = Notification::where('n_id', '=', $id_not)->first()->n_type;
+        $exp_notif =  Notification::where('n_id', '=', $id_not)->first()->n_expediteur;
+        if($type_notif == "invitation"){
+            $user = Utilisateur::find($_SESSION['profile']['mail']);
+        }else if($type_notif=="demande"){
+            $user = Utilisateur::find($exp_notif);
+        }
+        var_dump($user);
+        var_dump($type_notif);
         $participant = new participe();
         $participant->p_user = $user->u_mail;
         $participant->p_event = $id_event;

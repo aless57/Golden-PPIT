@@ -147,6 +147,7 @@ FIN;
 <html lang="french">
 
 <head>
+    <meta charset="utf-8"/>
     <title>GoldenPPIT</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="src/calendar/calendarjs.css" />
@@ -244,16 +245,15 @@ FIN;
     {
 
         $evenements = "";
-        $test = "";
+        $html = "";
 
-        $villes ="";
+        $villes = "";
         $tabVilles = [];
 
         $tabDepartements = [];
-        $departements="";
+        $departements = "";
 
         //TODO chopper les infos à partir de la bdd
-        //TODO départements
         for ($i = 0; $i < $this->tab[1]->count(); $i++) {
             $test = $this->tab[1][$i]->e_titre;
             $test_2 = $this->tab[1][$i]->e_id;
@@ -261,7 +261,7 @@ FIN;
             $url_supprimer = $this->container->router->pathFor('supprimerEvenement', ['id_ev' => $this->tab[1][$i]->e_id]);
             $codeVille = $this->tab[1][$i]->e_ville;
             $ville = $this->tab[2][$codeVille]->v_nom;
-            if(!in_array($ville, $tabVilles)) {
+            if (!in_array($ville, $tabVilles)) {
                 $villes .= <<<FIN
                 <option class="opt" value="$codeVille">$ville</option>
                 
@@ -269,7 +269,7 @@ FIN;
                 array_push($tabVilles, $ville);
             }
             $departement = $this->tab[2][$codeVille]->v_dep;
-            if(!in_array($departement, $tabDepartements)) {
+            if (!in_array($departement, $tabDepartements)) {
                 $departements .= <<<FIN
                 <option class="opt" value="$departement">$departement</option>
                 
@@ -278,16 +278,18 @@ FIN;
             }
 
 
-
-            if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']){
-                    $evenements .= <<<FIN
+            if ($this->tab[1][$i]->e_proprio == $_SESSION['profile']['mail']) {
+                $evenements .= <<<FIN
                 
                 <div id="$test" class="alignement-centre">
-                   <img src="images/favourite.png" class="rightBouton">
-                    <button id="$test_2" name="test" class="bouton-blanc margin-0" >$test</button>
-                    <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
+                    <button id="$test_2" name="test" class="liste-ev margin-0" > $test  
+                        <img src="images/favourite.png" class="leftBouton" alt="owner"/> 
+                        <button onclick="window.location.href='$url_supprimer'" class="transparent"> 
+                        <img src="images/exit.png"  alt="delete"/> </button>
+                    </button>
+
                 </div>   
-                
+
                <script>    
                 var event = document.getElementById('$test_2');
                 
@@ -303,10 +305,10 @@ FIN;
             } else {
                 $evenements .= <<<FIN
             
-                <div id="$test" class="alignement-centre">
-                   <img src="images/black-cat.png" class="rightBouton">
-                    <button id="$test_2" name="test" class="bouton-blanc margin-0" >$test</button>
-                    <button class="btn-supp"> <img src="images/exit.png" class="leftBouton" onclick="window.location.href='$url_supprimer'"/>  </button>
+                <div id="$test" class="alignement-centre">                    
+                    <button id="$test_2" name="test" class="liste-ev margin-0" > $test  
+                        <img src="images/black-cat.png" class="leftBouton" alt="NotOwner">
+                        
                 </div>   
             <script>    
                 var event = document.getElementById('$test_2');
@@ -322,12 +324,15 @@ FIN;
             }
         }
 
-        $html = <<<FIN
+
+        $html=<<<FIN
             <body>
                     <h1 class="text-center"> LES ÉVÉNEMENTS </h1>
                     
                     <div class="container">
-                        <div class="alignement-centre ">
+                    <div class = "grid"> 
+                   
+                        <div class="grid-item">
                             <select id="filtres"  class="filtres" name="filtres">
                                 <option class="opt" value="">Choisir un filtre</option>
                                 <option class="opt" value="A-Z">A-Z</option>
@@ -335,37 +340,51 @@ FIN;
                                 <option class="opt" value="recent">Les plus récents</option>
                                 <option class="opt" value="lointain">Les plus lointains</option>
                             </select>
-                    
-                      <div class="mes-evenements">
+                    </div>
+
+                    <div class="grid-item">
+                            <div class="mes-evenements">
                             <label for="proprietaire">Mes événements</label>
                                 <input type="checkbox" id="proprietaire" name="proprietaire">
                                 
-                             
-                        </div>
+                           </div>  
+                    </div>
+                    <div class="grid-item">
                         <label for="villes">Par villes :</label>
                         <select id="villes" class="filtres" name="villes">
                             <option class="opt" value="default">Choisir une ville</option>
                             $villes
                         </select>
-                        
+                        </div>
+                    <div class="grid-item">
+
                         <label for="departements">Par départements :</label>
                         <select id="departements" class="filtres" name="departements">
                             <option class="opt" value="default">Choisir un département</option>
                             $departements
                         </select>
-                        
-                        <input type="search" onkeyup="recherche(this.value)" id="recherche" name="recherche" placeholder="Recherche par nom">
-                                
                         </div>
+                    <div class="grid-item5">
+                        <input type="search" onkeyup="recherche(this.value)" id="recherche" name="recherche" placeholder="Recherche par nom">
+                        </div>   
+                        
                     </div>
-
+                    
+                    </div>
+                    
                     <div id="listeEvenements" class = "container">
                         $evenements
                     </div>
-                    
+                                        </div>
+
                     <script>
                         var tab = {$this->tab[1]};
                         var tab2 = {$this->tab[2]};
+                        tab.forEach(element => {
+                            while(element.e_titre.includes('&#39;')){
+                                element.e_titre = element.e_titre.replace('&#39;', "'");
+                            }
+                        });
                         let sel = document.getElementById("filtres");
                         sel.addEventListener('change', function() {
                             switch(this.value) {
@@ -534,7 +553,7 @@ FIN;
                     
             </body>
             
-       FIN;
+FIN;
         return $html;
     }
 
